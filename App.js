@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { View, Text, Image, Button, StyleSheet, Dimensions } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './source/screen/home'; //홈페이지
 import Search from './source/screen/search'; //검색
@@ -10,50 +10,51 @@ import Gps from './source/screen/gps'; //내비게이션
 import Notice from './source/screen/notice'; //공지 사항
 import Building09 from './source/screen/building09'; //9번 건물
 import Building56 from './source/screen/building56'; //56번 건물
+import TestScreen from './source/screen/test'; // 테스트 스크린 추가
 
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 
-const SchoolMapScreen = () => {
+const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName = 'Homepage'
+        initialRouteName="Homepage"
         screenOptions={{
-          headerStyle: {width: windowWidth, backgroundColor: '#ffffff'},
+          headerStyle: { width: windowWidth, backgroundColor: '#ffffff' },
           headerTitleAlign: 'center',
         }}
       >
         <Stack.Screen
-          name = 'Homepage'
-          component = {Home}
-          options = {{
+          name="Homepage"
+          component={Home}
+          options={{
             headerTitleAlign: 'center',
             headerLeft: () => (
-              <View style = {style.leftContainer}>
-                  <Image
-                    style = {style.headerImage}
-                    source = {require('./source/image/symbol.jpg')}
-              />
+              <View style={style.leftContainer}>
+                <Image
+                  style={style.headerImage}
+                  source={require('./source/image/symbol.jpg')}
+                />
               </View>
             ),
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text style = {style.headerText}>HAI GPS</Text>
+              <View style={style.titleContainer}>
+                <Text style={style.headerText}>HAI GPS</Text>
               </View>
             ),
           }}
         />
         <Stack.Screen
-          name = 'Searchpage'
-          component = {Search}
-          options = {{
+          name="Searchpage"
+          component={Search}
+          options={{
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text 
-                  numberOfLines={1} 
-                  ellipsizeMode='tail'
-                  style = {style.headerText}
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
                 >
                   검색
                 </Text>
@@ -62,15 +63,15 @@ const SchoolMapScreen = () => {
           }}
         />
         <Stack.Screen
-          name = 'Schedulepage'
-          component = {Schedule}
-          options = {{
+          name="Schedulepage"
+          component={Schedule}
+          options={{
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text 
-                  numberOfLines={1} 
-                  ellipsizeMode='tail'
-                  style = {style.headerText}
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
                 >
                   시간표
                 </Text>
@@ -79,15 +80,15 @@ const SchoolMapScreen = () => {
           }}
         />
         <Stack.Screen
-          name = 'Gpspage'
-          component = {Gps}
-          options = {{
+          name="Gpspage"
+          component={Gps}
+          options={{
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text 
-                  numberOfLines={1} 
-                  ellipsizeMode='tail'
-                  style = {style.headerText}
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
                 >
                   내비게이션
                 </Text>
@@ -96,15 +97,15 @@ const SchoolMapScreen = () => {
           }}
         />
         <Stack.Screen
-          name = 'Noticepage'
-          component = {Notice}
-          options = {{
+          name="Noticepage"
+          component={Notice}
+          options={{
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text 
-                  numberOfLines={1} 
-                  ellipsizeMode='tail'
-                  style = {style.headerText}
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
                 >
                   공지 사항
                 </Text>
@@ -113,15 +114,15 @@ const SchoolMapScreen = () => {
           }}
         />
         <Stack.Screen
-          name = 'College of Engineering'
-          component = {Building09}
-          options = {{
+          name="College of Engineering"
+          component={Building09}
+          options={{
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text 
-                  numberOfLines={1} 
-                  ellipsizeMode='tail'
-                  style = {style.headerText}
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
                 >
                   공과대학
                 </Text>
@@ -130,17 +131,34 @@ const SchoolMapScreen = () => {
           }}
         />
         <Stack.Screen
-          name = '56th Anniversary Memorial Hall'
-          component = {Building56}
-          options = {{
+          name="56th Anniversary Memorial Hall"
+          component={Building56}
+          options={{
             headerTitle: () => (
-              <View style = {style.titleContainer}>
-                <Text 
-                  numberOfLines={1} 
-                  ellipsizeMode='tail'
-                  style = {style.headerText}
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
                 >
                   56주년 기념관
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen // 새로운 화면 추가
+          name="TestScreen"
+          component={TestScreen}
+          options={{
+            headerTitle: () => (
+              <View style={style.titleContainer}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={style.headerText}
+                >
+                  Test Screen
                 </Text>
               </View>
             ),
@@ -151,7 +169,7 @@ const SchoolMapScreen = () => {
   );
 };
 
-export default SchoolMapScreen;
+export default App;
 
 const style = StyleSheet.create({
   leftContainer: {

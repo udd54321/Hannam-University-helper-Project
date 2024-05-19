@@ -5,7 +5,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const Schedule = ({navigation}) => {
+const Notice = ({navigation}) => {
     return (
         <SafeAreaProvider>
             <SafeAreaView style = {style.container}>
@@ -17,7 +17,7 @@ const Schedule = ({navigation}) => {
     );
   };
   
-  export default Schedule;
+  export default Notice;
 
   const style = StyleSheet.create({
     container: {
@@ -25,3 +25,4 @@ const Schedule = ({navigation}) => {
         height: windowHeight, 
     },
   });
+

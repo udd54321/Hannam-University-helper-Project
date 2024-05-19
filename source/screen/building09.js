@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import Bottombar from '../component/bottomBar'; //하단 버튼 바
 
@@ -11,6 +12,7 @@ const Building09 = ({navigation}) => {
     return (
         <SafeAreaProvider>
             <SafeAreaView style = {style.container}>
+            <GestureHandlerRootView>
                 <ScrollView style = {style.outerContainer} contentContainerStyle = {style.innerContainer}>
                     <TouchableOpacity
                         style = {style.floor}
@@ -153,7 +155,8 @@ const Building09 = ({navigation}) => {
                         </View>
                     </TouchableOpacity>
                 </ScrollView>
-                <Bottombar n = {navigation}/>
+                <Bottombar n = {{navigation}}/>
+            </GestureHandlerRootView>
             </SafeAreaView>
         </SafeAreaProvider>
     );

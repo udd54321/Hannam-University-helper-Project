@@ -1,33 +1,56 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+import React, {useState} from 'react';
+import {View, Image, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import {GestureHandlerRootView, GestureDetector, Gesture} from 'react-native-gesture-handler';
 import Animated, {useSharedValue, useAnimatedStyle} from 'react-native-reanimated';
+
+import Gps from '../screen/gps'; //내비게이션
+import Notice from '../screen/notice'; //공지 사항
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+function clamp(val, min, max) {
+    return Math.min(Math.max(val, min), max);
+  }
+
 const Bottombar = ({n}) => {
     const positionY = useSharedValue(0);
+    const prevPositionY = useSharedValue(0);
     const panGesture = Gesture.Pan()
-    .onUpdate((e) => {
-        positionY += (e.translationY / 10);
-    });
-    const animatedStyle = useAnimatedStyle(() => ({
+    .minDistance(1)
+    .onStart(() => {
+      prevPositionY.value = positionY.value;
+    })
+    .onUpdate((event) => {
+      positionY.value = clamp(
+        prevPositionY.value + event.translationY, -windowHeight * 0.75, windowHeight * 0.05
+      );
+    })
+    .runOnJS(true);
+    const animatedStyles = useAnimatedStyle(() => ({
         transform: [
-            {translateY: positionY.value},
-        ]
-    }))
-    const pan = Gesture.Pan();
+          { translateY: positionY.value },
+        ],
+    }));
 
-    const pressHome = () => n.navigate('Homepage');
-    const pressGps = () => n.navigate('Gpspage');
-    const pressNotice = () => n.navigate('Noticepage');
-
+    const pressHome = () => {n.navigate('Homepage');}
+    const [selectedView, setSelectedView] = useState('');
+    const SelectedView = () => {
+        switch(selectedView){
+            case 'a':
+                return <Gps/>
+            case 'b':
+                return <Notice/>
+            default:
+                return <Gps/>
+        }
+    }
+    
     return (
         <GestureHandlerRootView style = {style.bottomContainer}>
-            <GestureDetector gesture = {pan}>
-                <Animated.View style = {style.bottomView}>
-
+            <GestureDetector gesture = {panGesture}>
+                <Animated.View style = {[style.bottomView, animatedStyles]}>
+                    {SelectedView()}
                 </Animated.View>
             </GestureDetector>
             <View style = {style.bottomBar}>
@@ -42,7 +65,7 @@ const Bottombar = ({n}) => {
                 </TouchableOpacity>
                 <TouchableOpacity 
                     style = {style.bottomButton}
-                    onPress = {(pressGps)}
+                    onPress = {() => setSelectedView('a')}
                 >
                     <Image
                         style = {style.bottomImage}
@@ -51,7 +74,7 @@ const Bottombar = ({n}) => {
                 </TouchableOpacity>
                 <TouchableOpacity 
                     style = {style.bottomButton}
-                    onPress = {(pressNotice)}
+                    onPress = {() => setSelectedView('b')}
                 >
                     <Image
                         style = {style.bottomImage}
@@ -68,29 +91,30 @@ const Bottombar = ({n}) => {
   const style = StyleSheet.create({
     bottomContainer: {
         width: windowWidth,
-        height: windowHeight * 0.3,
-        backgroundColor: 'blue',
+        height: windowHeight * 0.15,
     },
     bottomView: {
         width: windowWidth,
-        height: windowHeight * 0.1,
+        height: windowHeight,
+        backgroundColor: 'grey',
+        bottom: windowHeight * 0.1,
     },
     bottomBar: {
         backgroundColor: '#ffffff',
         width: windowWidth,
-        height: windowHeight * 0.15,
+        height: windowHeight * 0.065,
+        position: 'absolute',
         flexDirection: 'row',
-        backgroundColor: 'red',
     },
     bottomButton: {
         flex: 1,
-        height: '50%',
+        height: '100%',
         alignItems: 'center',
     },
     bottomImage: {
         flex: 1,
         resizeMode: 'contain',
-        width: '35%',
+        width: '100%',
         height: 'auto',
     },
   });
