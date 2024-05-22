@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Image, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import {GestureHandlerRootView, GestureDetector, Gesture} from 'react-native-gesture-handler';
 import Animated, {useSharedValue, useAnimatedStyle} from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 
 import Gps from '../screen/gps'; //내비게이션
 import Notice from '../screen/notice'; //공지 사항
@@ -13,7 +14,7 @@ function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
   }
 
-const Bottombar = ({n}) => {
+const Bottombar = () => {
     const positionY = useSharedValue(0);
     const prevPositionY = useSharedValue(0);
     const panGesture = Gesture.Pan()
@@ -23,7 +24,7 @@ const Bottombar = ({n}) => {
     })
     .onUpdate((event) => {
       positionY.value = clamp(
-        prevPositionY.value + event.translationY, -windowHeight * 0.75, windowHeight * 0.05
+        prevPositionY.value + event.translationY, -windowHeight * 0.8, windowHeight * 0.01
       );
     })
     .runOnJS(true);
@@ -33,7 +34,8 @@ const Bottombar = ({n}) => {
         ],
     }));
 
-    const pressHome = () => {n.navigate('Homepage');}
+    const navigation = useNavigation();
+    const pressHome = () => navigation.navigate('Homepage');
     const [selectedView, setSelectedView] = useState('');
     const SelectedView = () => {
         switch(selectedView){
@@ -97,7 +99,7 @@ const Bottombar = ({n}) => {
         width: windowWidth,
         height: windowHeight,
         backgroundColor: 'grey',
-        bottom: windowHeight * 0.1,
+        bottom: windowHeight * 0.05,
     },
     bottomBar: {
         backgroundColor: '#ffffff',
@@ -105,6 +107,7 @@ const Bottombar = ({n}) => {
         height: windowHeight * 0.065,
         position: 'absolute',
         flexDirection: 'row',
+        top: 15,
     },
     bottomButton: {
         flex: 1,
