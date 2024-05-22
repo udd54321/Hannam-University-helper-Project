@@ -1,5 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, FlatList, Alert } from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  FlatList,
+  Alert,
+} from 'react-native';
 
 const TestScreen = () => {
   const [title, setTitle] = useState('');
@@ -12,10 +20,13 @@ const TestScreen = () => {
       fetch('http://18.188.109.230:3000/posts')
         .then(response => response.json())
         .then(data => {
-          const isAtBottom = flatListRef.current && flatListRef.current.scrollHeight - flatListRef.current.scrollTop === flatListRef.current.clientHeight;
+          const isAtBottom =
+            flatListRef.current &&
+            flatListRef.current.scrollHeight - flatListRef.current.scrollTop ===
+              flatListRef.current.clientHeight;
           setPosts(data);
           if (isAtBottom) {
-            flatListRef.current.scrollToEnd({ animated: true });
+            flatListRef.current.scrollToEnd({animated: true});
           }
         })
         .catch(error => console.error('Error fetching posts:', error));
@@ -56,7 +67,7 @@ const TestScreen = () => {
             .then(response => response.json())
             .then(data => {
               setPosts(data);
-              flatListRef.current.scrollToEnd({ animated: true });
+              flatListRef.current.scrollToEnd({animated: true});
             })
             .catch(error => console.error('Error fetching posts:', error));
         } else {
@@ -69,7 +80,7 @@ const TestScreen = () => {
       });
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <View style={styles.bubble}>
       <Text style={styles.title}>{item.Title}</Text>
       <Text style={styles.contents}>{item.Contents}</Text>
@@ -100,7 +111,9 @@ const TestScreen = () => {
         renderItem={renderItem}
         keyExtractor={item => item.No.toString()}
         style={styles.list}
-        onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
+        onContentSizeChange={() =>
+          flatListRef.current.scrollToEnd({animated: true})
+        }
       />
     </View>
   );

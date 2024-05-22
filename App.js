@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RecoilRoot } from 'recoil';
-import { Provider as PaperProvider } from 'react-native-paper';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {RecoilRoot} from 'recoil';
+import {Provider as PaperProvider} from 'react-native-paper';
 
 import Home from './source/screen/home'; // 홈페이지
 import Search from './source/screen/search'; // 검색
-import Schedule from './source/screen/schedule'; // 시간표
+import timetable from './source/screen/timetable'; // 시간표
 import Gps from './source/screen/gps'; // 내비게이션
 import Notice from './source/screen/notice'; // 공지 사항
 import Building09 from './source/screen/building09'; // 9번 건물
@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const HeaderTitle = React.memo(({ text }) => (
+const HeaderTitle = React.memo(({text}) => (
   <View style={style.titleContainer}>
     <Text numberOfLines={1} ellipsizeMode="tail" style={style.headerText}>
       {text}
@@ -34,10 +34,9 @@ const App = () => {
           <Stack.Navigator
             initialRouteName="Homepage"
             screenOptions={{
-              headerStyle: { width: windowWidth, backgroundColor: '#ffffff' },
+              headerStyle: {width: windowWidth, backgroundColor: '#ffffff'},
               headerTitleAlign: 'center',
-            }}
-          >
+            }}>
             <Stack.Screen
               name="Homepage"
               component={Home}
@@ -67,7 +66,7 @@ const App = () => {
             />
             <Stack.Screen
               name="Schedulepage"
-              component={Schedule}
+              component={timetable}
               options={{
                 headerTitle: () => <HeaderTitle text="시간표" />,
               }}

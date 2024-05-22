@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
 
-const Home = ({ navigation }) => {
+const Home = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text>Welcome to HAI GPS!</Text>

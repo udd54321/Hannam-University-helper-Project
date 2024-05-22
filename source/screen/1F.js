@@ -1,9 +1,15 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 
-const FirstFloorScreen = ({ navigation }) => {
-
-  const showInfoAlert = (room) => {
+const FirstFloorScreen = ({navigation}) => {
+  const showInfoAlert = room => {
     let additionalText = '';
     if (room === '090816') {
       additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
@@ -11,16 +17,12 @@ const FirstFloorScreen = ({ navigation }) => {
       additionalText = '\ng';
     }
 
-    Alert.alert(
-      '알림',
-      `${room} 강의실입니다. ${additionalText}`,
-      [
-        {
-          text: '확인',
-          onPress: () => console.log('확인 버튼이 눌렸습니다.')
-        }
-      ]
-    );
+    Alert.alert('알림', `${room} 강의실입니다. ${additionalText}`, [
+      {
+        text: '확인',
+        onPress: () => console.log('확인 버튼이 눌렸습니다.'),
+      },
+    ]);
   };
 
   return (
@@ -31,14 +33,12 @@ const FirstFloorScreen = ({ navigation }) => {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => showInfoAlert('090816')}
-      >
+        onPress={() => showInfoAlert('090816')}>
         <Text style={styles.buttonText}>090816</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, { top: '60%' }]}
-        onPress={() => showInfoAlert('090817')}
-      >
+        style={[styles.button, {top: '60%'}]}
+        onPress={() => showInfoAlert('090817')}>
         <Text style={styles.buttonText}>090817</Text>
       </TouchableOpacity>
     </View>
