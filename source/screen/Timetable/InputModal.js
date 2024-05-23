@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import {Picker} from '@react-native-picker/picker';
 import {timeTableState} from '../store/store';
 import 'react-native-get-random-values';
 import {v4 as uuidv1} from 'uuid';
+import Slider from '@react-native-community/slider';
 
 const timeOptions = new Array(12).fill(null).map((e, i) => ({
   value: i + 9,
@@ -43,6 +44,27 @@ const InputModal = ({
   } = useForm();
   const [timeTableData, setTimeTableData] = useRecoilState(timeTableState);
 
+  const hexToRgb = hex => {
+    const bigint = parseInt(hex.slice(1), 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return {r, g, b};
+  };
+
+  const rgbToHex = (r, g, b) => {
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b)
+      .toString(16)
+      .slice(1)
+      .toUpperCase()}`;
+  };
+
+  const initialColor = hexToRgb(colorData);
+  const [r, setR] = useState(initialColor.r);
+  const [g, setG] = useState(initialColor.g);
+  const [b, setB] = useState(initialColor.b);
+  const [selectedColor, setSelectedColor] = useState(colorData);
+
   useEffect(() => {
     if (showModal) {
       reset({
@@ -52,6 +74,11 @@ const InputModal = ({
         endTime: endTimeData,
         lectureColor: colorData,
       });
+      const initialColor = hexToRgb(colorData);
+      setR(initialColor.r);
+      setG(initialColor.g);
+      setB(initialColor.b);
+      setSelectedColor(colorData);
     }
   }, [
     showModal,
@@ -63,9 +90,13 @@ const InputModal = ({
     colorData,
   ]);
 
+  useEffect(() => {
+    setSelectedColor(rgbToHex(r, g, b));
+  }, [r, g, b]);
+
   const onSubmit = useCallback(
     data => {
-      const {lectureName, day, startTime, endTime, lectureColor} = data;
+      const {lectureName, day, startTime, endTime} = data;
       let valid = true;
       for (let i = 0; i < timeTableData[day].length; i++) {
         if (
@@ -85,7 +116,7 @@ const InputModal = ({
         start: startTime,
         end: endTime,
         name: lectureName,
-        color: lectureColor,
+        color: selectedColor,
         id: uuidv1(),
       };
 
@@ -96,12 +127,12 @@ const InputModal = ({
 
       handleClose();
     },
-    [timeTableData, setTimeTableData, handleClose],
+    [timeTableData, setTimeTableData, handleClose, selectedColor],
   );
 
   const onEdit = useCallback(
     data => {
-      const {lectureName, day, startTime, endTime, lectureColor} = data;
+      const {lectureName, day, startTime, endTime} = data;
       let valid = true;
 
       for (let i = 0; i < timeTableData[day].length; i++) {
@@ -138,7 +169,7 @@ const InputModal = ({
           end: endTime,
           id: idNum,
           name: lectureName,
-          color: lectureColor,
+          color: selectedColor,
         },
       ];
 
@@ -149,8 +180,25 @@ const InputModal = ({
 
       handleClose();
     },
-    [timeTableData, setTimeTableData, handleClose, idNum, dayData],
+    [
+      timeTableData,
+      setTimeTableData,
+      handleClose,
+      idNum,
+      dayData,
+      selectedColor,
+    ],
   );
+
+  const onDelete = useCallback(() => {
+    setTimeTableData(prevState => {
+      const updatedDay = prevState[dayData].filter(
+        lecture => lecture.id !== idNum,
+      );
+      return {...prevState, [dayData]: updatedDay};
+    });
+    handleClose();
+  }, [setTimeTableData, handleClose, idNum, dayData]);
 
   return (
     <Portal>
@@ -268,27 +316,65 @@ const InputModal = ({
 
             <View style={styles.colorPickerContainer}>
               <Text>시간표 색상:</Text>
-              <Controller
-                control={control}
-                name="lectureColor"
-                render={({field: {onChange, value}}) => (
-                  <TextInput
-                    style={styles.colorPicker}
-                    onChangeText={onChange}
-                    value={value}
-                    placeholder="#FFFFFF"
-                  />
-                )}
+              <View style={styles.sliderContainer}>
+                <Text>R</Text>
+                <Slider
+                  value={r}
+                  onValueChange={setR}
+                  minimumValue={0}
+                  maximumValue={255}
+                  step={1}
+                  thumbTintColor="#f00"
+                  minimumTrackTintColor="#f00"
+                  style={styles.slider}
+                />
+                <Text>{r}</Text>
+              </View>
+              <View style={styles.sliderContainer}>
+                <Text>G</Text>
+                <Slider
+                  value={g}
+                  onValueChange={setG}
+                  minimumValue={0}
+                  maximumValue={255}
+                  step={1}
+                  thumbTintColor="#0f0"
+                  minimumTrackTintColor="#0f0"
+                  style={styles.slider}
+                />
+                <Text>{g}</Text>
+              </View>
+              <View style={styles.sliderContainer}>
+                <Text>B</Text>
+                <Slider
+                  value={b}
+                  onValueChange={setB}
+                  minimumValue={0}
+                  maximumValue={255}
+                  step={1}
+                  thumbTintColor="#00f"
+                  minimumTrackTintColor="#00f"
+                  style={styles.slider}
+                />
+                <Text>{b}</Text>
+              </View>
+              <View
+                style={[styles.colorPreview, {backgroundColor: selectedColor}]}
               />
             </View>
           </ScrollView>
+          <Dialog.Actions>
+            {idNum && (
+              <Button onPress={onDelete} color="red">
+                삭제
+              </Button>
+            )}
+            <Button onPress={handleClose}>취소</Button>
+            <Button onPress={handleSubmit(idNum ? onEdit : onSubmit)}>
+              입력
+            </Button>
+          </Dialog.Actions>
         </Dialog.Content>
-        <Dialog.Actions>
-          <Button onPress={handleClose}>취소</Button>
-          <Button onPress={handleSubmit(idNum ? onEdit : onSubmit)}>
-            입력
-          </Button>
-        </Dialog.Actions>
       </Dialog>
     </Portal>
   );
@@ -321,16 +407,24 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   colorPickerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginVertical: 10,
   },
-  colorPicker: {
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-    padding: 8,
-    marginLeft: 10,
-    width: 100,
+  sliderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  slider: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  colorPreview: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#000',
+    marginTop: 10,
   },
 });
 

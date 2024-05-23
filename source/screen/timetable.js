@@ -1,17 +1,37 @@
-import React, {useCallback, useState} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import React, {useCallback, useState, useEffect} from 'react';
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import {DataTable, Button, Portal, Provider} from 'react-native-paper';
 import TimeTableRow from './Timetable/TimeTableRow';
 import InputModal from './Timetable/InputModal';
 import {timeTableState} from './store/store';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const hourData = Array.from({length: 11}, (_, i) => i + 9);
 
 const Schedulepage = () => {
-  const timeTableData = useRecoilValue(timeTableState);
+  const [timeTableData, setTimeTableData] = useRecoilState(timeTableState);
   const [showModal, setShowModal] = useState(false);
   const [editInfo, setEditInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // 데이터 로드가 완료되면 로딩 상태를 해제
+    const loadData = async () => {
+      const storedData = await AsyncStorage.getItem('timeTable');
+      if (storedData) {
+        setTimeTableData(JSON.parse(storedData));
+      }
+      setLoading(false);
+    };
+    loadData();
+  }, []);
 
   const handleClose = useCallback(() => {
     setShowModal(false);
@@ -35,6 +55,16 @@ const Schedulepage = () => {
     },
     [timeTableData],
   );
+
+  if (loading) {
+    return (
+      <Provider>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      </Provider>
+    );
+  }
 
   return (
     <Provider>
@@ -78,6 +108,11 @@ const Schedulepage = () => {
 };
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     padding: 20,
     backgroundColor: '#fff',

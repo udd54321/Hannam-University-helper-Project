@@ -6,7 +6,7 @@ import {RecoilRoot} from 'recoil';
 import {Provider as PaperProvider} from 'react-native-paper';
 
 import Home from './source/screen/home'; // 홈페이지
-import Search from './source/screen/search'; // 검색
+import ScheduleSearch from './source/screen/ScheduleSearch'; // 검색
 import timetable from './source/screen/timetable'; // 시간표
 import Gps from './source/screen/gps'; // 내비게이션
 import Notice from './source/screen/notice'; // 공지 사항
@@ -59,7 +59,7 @@ const App = () => {
             />
             <Stack.Screen
               name="Searchpage"
-              component={Search}
+              component={ScheduleSearch}
               options={{
                 headerTitle: () => <HeaderTitle text="검색" />,
               }}
