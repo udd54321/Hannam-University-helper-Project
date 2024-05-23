@@ -58,7 +58,7 @@ const App = () => {
               }}
             />
             <Stack.Screen
-              name="Searchpage"
+              name="ScheduleSearch"
               component={ScheduleSearch}
               options={{
                 headerTitle: () => <HeaderTitle text="검색" />,

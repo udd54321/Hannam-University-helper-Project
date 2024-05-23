@@ -108,7 +108,7 @@ const subjects = [
   },
 ];
 
-const ScheduleSearch = () => {
+const Schedule = () => {
   const [query, setQuery] = useState('');
   const [filteredSubjects, setFilteredSubjects] = useState(subjects);
 
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScheduleSearch;
+export default Schedule;
