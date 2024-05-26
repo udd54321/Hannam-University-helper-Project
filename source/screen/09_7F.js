@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Image,
@@ -7,9 +7,10 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import GilScreen from './gil';  // gil.js import 추가
 
-const SeventhFloorScreen = () => {
+const NinthFloorScreen = () => {
   const navigation = useNavigation();
   const [currentImage] = useState(require('../../source/image/공대7층.png'));
 
@@ -18,14 +19,14 @@ const SeventhFloorScreen = () => {
     if (room === '090717') {
       additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
     } else if (room === '090716') {
-      additionalText = '\ng';
+      additionalText = '\n기타 정보';
     }
 
     Alert.alert('알림', `${room} 강의실입니다. ${additionalText}`, [
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('NavigationScreen');
+          navigation.navigate('Gil', { roomId: room }); // navigation.navigate 사용
         },
       },
       {
@@ -39,81 +40,31 @@ const SeventhFloorScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      <TouchableOpacity
-        style={[styles.button, {top: '7.5%', left: '26.9%'}]}
-        onPress={() => showInfoAlert('090716')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '7.5%', left: '34.9%'}]}
-        onPress={() => showInfoAlert('090715')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '7.5%', left: '78.2%'}]}
-        onPress={() => showInfoAlert('090712')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '7.5%', left: '86.55%'}]}
-        onPress={() => showInfoAlert('090711')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '86.55%'}]}
-        onPress={() => showInfoAlert('090710')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '78.2%'}]}
-        onPress={() => showInfoAlert('090709')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '69.6%'}]}
-        onPress={() => showInfoAlert('090708')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '61.2%'}]}
-        onPress={() => showInfoAlert('090707')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '52.7%'}]}
-        onPress={() => showInfoAlert('090706')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '43.9%'}]}
-        onPress={() => showInfoAlert('090705')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '35.2%'}]}
-        onPress={() => showInfoAlert('090704')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '26.6%'}]}
-        onPress={() => showInfoAlert('090703')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '18.1%'}]}
-        onPress={() => showInfoAlert('090702')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '26.5%', left: '9%'}]}
-        onPress={() => showInfoAlert('090701')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, {top: '7.5%', left: '18%'}]}
-        onPress={() => showInfoAlert('090717')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>090801</Text>
-      </TouchableOpacity>
+      {[
+        { id: '090716', top: '7.5%', left: '26.9%' },
+        { id: '090715', top: '7.5%', left: '34.9%' },
+        { id: '090712', top: '7.5%', left: '78.2%' },
+        { id: '090711', top: '7.5%', left: '86.55%' },
+        { id: '090710', top: '26.5%', left: '86.55%' },
+        { id: '090709', top: '26.5%', left: '78.2%' },
+        { id: '090708', top: '26.5%', left: '69.6%' },
+        { id: '090707', top: '26.5%', left: '61.2%' },
+        { id: '090706', top: '26.5%', left: '52.7%' },
+        { id: '090705', top: '26.5%', left: '43.9%' },
+        { id: '090704', top: '26.5%', left: '35.2%' },
+        { id: '090703', top: '26.5%', left: '26.6%' },
+        { id: '090702', top: '26.5%', left: '18.1%' },
+        { id: '090701', top: '26.5%', left: '9%' },
+        { id: '090717', top: '7.5%', left: '18%' },
+      ].map(room => (
+        <TouchableOpacity
+          key={room.id}
+          style={[styles.button, { top: room.top, left: room.left }]}
+          onPress={() => showInfoAlert(room.id)}
+        >
+          <Text style={[styles.buttonText, { fontSize: 8 }]}>{room.id}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
@@ -125,9 +76,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    marginTop: -350,
-    width: 400,
-    height: 400,
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1, // 이미지의 비율을 유지
     resizeMode: 'contain',
   },
   button: {
@@ -139,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SeventhFloorScreen;
+export default NinthFloorScreen;

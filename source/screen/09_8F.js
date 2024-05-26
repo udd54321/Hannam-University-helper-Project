@@ -25,7 +25,7 @@ const EighthFloorScreen = () => {
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('NavigationScreen');
+          navigation.navigate('home');
         },
       },
       {

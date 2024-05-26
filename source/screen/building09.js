@@ -24,7 +24,7 @@ import NinthFloorScreen from './09_9F';
 import TenthFloorScreen from './09_10F';
 import ElevenFloorScreen from './09_11F';
 import TwelvethFloorScreen from './09_12F';
-import NavigationScreen from './길안내 페이지';
+import GilScreen from './gil'; // Import the Gil screen
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -40,7 +40,6 @@ const Building09 = () => {
           component={Building09Main}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name="1FScreen"
           component={FirstFloorScreen}
@@ -82,11 +81,6 @@ const Building09 = () => {
           options={{title: '8층'}}
         />
         <Stack.Screen
-          name="NavigationScreen"
-          component={NavigationScreen}
-          options={{title: '길안내'}}
-        />
-        <Stack.Screen
           name="9FScreen"
           component={NinthFloorScreen}
           options={{title: '9층'}}
@@ -104,12 +98,18 @@ const Building09 = () => {
         <Stack.Screen
           name="12FScreen"
           component={TwelvethFloorScreen}
-          options={{title: '12층'}}
+          options={{ title: '12층' }}
+        />
+        <Stack.Screen
+          name="Gil"
+          component={GilScreen}
+          options={{ title: '길 안내' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
 const Building09Main = ({navigation}) => {
   return (
     <SafeAreaProvider>

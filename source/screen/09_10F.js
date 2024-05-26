@@ -9,15 +9,15 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-const TenthFloorScreen = () => {
+const NinthFloorScreen = () => {
   const navigation = useNavigation();
   const [currentImage] = useState(require('../../source/image/공대9층.png'));
 
   const showInfoAlert = room => {
     let additionalText = '';
-    if (room === '091015') {
+    if (room === '090915') {
       additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
-    } else if (room === '091014') {
+    } else if (room === '090914') {
       additionalText = '\ng';
     }
 
@@ -42,68 +42,68 @@ const TenthFloorScreen = () => {
 
       <TouchableOpacity
         style={[styles.button, {top: '10%', left: '19.8%'}]}
-        onPress={() => showInfoAlert('091015')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>0901015</Text>
+        onPress={() => showInfoAlert('090915')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090915</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '10%', left: '33.3%'}]}
-        onPress={() => showInfoAlert('091014')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091014</Text>
+        onPress={() => showInfoAlert('090914')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090914</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '10%', left: '79.55%'}]}
-        onPress={() => showInfoAlert('091011')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091011</Text>
+        onPress={() => showInfoAlert('090911')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090911</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '86.55%'}]}
-        onPress={() => showInfoAlert('091010')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091010</Text>
+        onPress={() => showInfoAlert('090910')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090910</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '77.3%'}]}
-        onPress={() => showInfoAlert('091009')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091009</Text>
+        onPress={() => showInfoAlert('090909')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090909</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, {top: '29%', left: '69%'}]}
-        onPress={() => showInfoAlert('091008')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091008</Text>
+        style={[styles.button, {top: '29%', left: '68%'}]}
+        onPress={() => showInfoAlert('090908')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090908</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '59.5%'}]}
-        onPress={() => showInfoAlert('091007')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091007</Text>
+        onPress={() => showInfoAlert('090907')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090907</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '50.7%'}]}
-        onPress={() => showInfoAlert('091006')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091006</Text>
+        onPress={() => showInfoAlert('090906')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090906</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '41.8%'}]}
-        onPress={() => showInfoAlert('091005')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091005</Text>
+        onPress={() => showInfoAlert('090905')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090905</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '32.8%'}]}
-        onPress={() => showInfoAlert('091004')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091004</Text>
+        onPress={() => showInfoAlert('090904')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090904</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '24.2%'}]}
-        onPress={() => showInfoAlert('091003')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091003</Text>
+        onPress={() => showInfoAlert('090903')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090903</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '15.5%'}]}
-        onPress={() => showInfoAlert('091002')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091002</Text>
+        onPress={() => showInfoAlert('090902')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090901</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.button, {top: '29%', left: '6.7%'}]}
-        onPress={() => showInfoAlert('091001')}>
-        <Text style={[styles.buttonText, {fontSize: 8}]}>091001</Text>
+        onPress={() => showInfoAlert('090901')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090901</Text>
       </TouchableOpacity>
     </View>
   );
@@ -130,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TenthFloorScreen;
+export default NinthFloorScreen;

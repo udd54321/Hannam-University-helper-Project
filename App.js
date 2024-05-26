@@ -1,26 +1,29 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {RecoilRoot} from 'recoil';
-import {Provider as PaperProvider} from 'react-native-paper';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RecoilRoot } from 'recoil';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
-import Home from './source/screen/home'; // 홈페이지
-import ScheduleSearch from './source/screen/ScheduleSearch'; // 검색
-import timetable from './source/screen/timetable'; // 시간표
-import Gps from './source/screen/gps'; // 내비게이션
-import Notice from './source/screen/notice'; // 공지 사항
-import Building09 from './source/screen/building09'; // 9번 건물
-import Building56 from './source/screen/building56'; // 56번 건물
-import TestScreen from './source/screen/test'; // 테스트 스크린 추가
+
+import Home from './source/screen/home'; // Homepage
+import ScheduleSearch from './source/screen/ScheduleSearch'; // Search
+import Timetable from './source/screen/timetable'; // Timetable
+import Gps from './source/screen/gps'; // Navigation
+import Notice from './source/screen/notice'; // Notices
+import Building09 from './source/screen/building09'; // Building 9
+import Building56 from './source/screen/building56'; // Building 56
+import TestScreen from './source/screen/test'; // Test screen
 
 const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const HeaderTitle = React.memo(({text}) => (
-  <View style={style.titleContainer}>
-    <Text numberOfLines={1} ellipsizeMode="tail" style={style.headerText}>
+const HeaderTitle = React.memo(({ text }) => (
+  <View style={styles.titleContainer}>
+    <Text numberOfLines={1} ellipsizeMode="tail" style={styles.headerText}>
       {text}
     </Text>
   </View>
@@ -34,7 +37,7 @@ const App = () => {
           <Stack.Navigator
             initialRouteName="Homepage"
             screenOptions={{
-              headerStyle: {width: windowWidth, backgroundColor: '#ffffff'},
+              headerStyle: { width: windowWidth, backgroundColor: '#ffffff' },
               headerTitleAlign: 'center',
             }}>
             <Stack.Screen
@@ -43,16 +46,16 @@ const App = () => {
               options={{
                 headerTitleAlign: 'center',
                 headerLeft: () => (
-                  <View style={style.leftContainer}>
+                  <View style={styles.leftContainer}>
                     <Image
-                      style={style.headerImage}
-                      source={require('./source/image/symbol.jpg')}
+                      style={styles.headerImage}
+                      source={require('./source/image/symbol.png')}
                     />
                   </View>
                 ),
                 headerTitle: () => (
-                  <View style={style.titleContainer}>
-                    <Text style={style.headerText}>HAI GPS</Text>
+                  <View style={styles.titleContainer}>
+                    <Text style={styles.headerText}>HAI GPS</Text>
                   </View>
                 ),
               }}
@@ -66,7 +69,7 @@ const App = () => {
             />
             <Stack.Screen
               name="Schedulepage"
-              component={timetable}
+              component={Timetable}
               options={{
                 headerTitle: () => <HeaderTitle text="시간표" />,
               }}
@@ -99,7 +102,7 @@ const App = () => {
                 headerTitle: () => <HeaderTitle text="56주년 기념관" />,
               }}
             />
-            <Stack.Screen // 새로운 화면 추가
+            <Stack.Screen
               name="TestScreen"
               component={TestScreen}
               options={{
@@ -115,7 +118,7 @@ const App = () => {
 
 export default App;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   leftContainer: {
     width: windowWidth * 0.1,
     height: 50,
