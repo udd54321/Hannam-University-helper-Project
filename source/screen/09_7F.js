@@ -6,13 +6,14 @@ import {
   Alert,
   StyleSheet,
   Text,
+  Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import GilScreen from './gil';  // gil.js import 추가
+import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
 
 const NinthFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(require('../../source/image/공대7층.png'));
+  const [currentImage] = useState(floors['7F'].image);
 
   const showInfoAlert = room => {
     let additionalText = '';
@@ -26,7 +27,7 @@ const NinthFloorScreen = () => {
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', { roomId: room }); // navigation.navigate 사용
+          navigation.navigate('Gil', { roomId: room, startFloor: '7F', goalFloor: '7F' }); // startFloor와 goalFloor 전달
         },
       },
       {
@@ -40,31 +41,18 @@ const NinthFloorScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      {[
-        { id: '090716', top: '7.5%', left: '26.9%' },
-        { id: '090715', top: '7.5%', left: '34.9%' },
-        { id: '090712', top: '7.5%', left: '78.2%' },
-        { id: '090711', top: '7.5%', left: '86.55%' },
-        { id: '090710', top: '26.5%', left: '86.55%' },
-        { id: '090709', top: '26.5%', left: '78.2%' },
-        { id: '090708', top: '26.5%', left: '69.6%' },
-        { id: '090707', top: '26.5%', left: '61.2%' },
-        { id: '090706', top: '26.5%', left: '52.7%' },
-        { id: '090705', top: '26.5%', left: '43.9%' },
-        { id: '090704', top: '26.5%', left: '35.2%' },
-        { id: '090703', top: '26.5%', left: '26.6%' },
-        { id: '090702', top: '26.5%', left: '18.1%' },
-        { id: '090701', top: '26.5%', left: '9%' },
-        { id: '090717', top: '7.5%', left: '18%' },
-      ].map(room => (
-        <TouchableOpacity
-          key={room.id}
-          style={[styles.button, { top: room.top, left: room.left }]}
-          onPress={() => showInfoAlert(room.id)}
-        >
-          <Text style={[styles.buttonText, { fontSize: 8 }]}>{room.id}</Text>
-        </TouchableOpacity>
-      ))}
+      {Object.keys(floors['7F'].rooms).map(roomId => {
+        const room = floors['7F'].rooms[roomId];
+        return (
+          <TouchableOpacity
+            key={roomId}
+            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
+            onPress={() => showInfoAlert(roomId)}
+          >
+            <Text style={[styles.buttonText, { fontSize: 8 }]}>{roomId}</Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

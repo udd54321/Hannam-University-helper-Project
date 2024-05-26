@@ -2,47 +2,46 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import Svg, { Line, Circle } from 'react-native-svg';
-
-const rooms = {
-  '090716': { x: 150, y: 100 },
-  '090715': { x: 250, y: 100 },
-  '090712': { x: 500, y: 100 },
-  '090711': { x: 600, y: 100 },
-  '090710': { x: 600, y: 200 },
-  '090709': { x: 500, y: 200 },
-  '090708': { x: 400, y: 200 },
-  '090707': { x: 300, y: 200 },
-  '090706': { x: 250, y: 200 },
-  '090705': { x: 600, y: 300 },
-  '090704': { x: 500, y: 300 },
-  '090703': { x: 400, y: 300 },
-  '090702': { x: 300, y: 300 },
-  '090701': { x: 250, y: 300 },
-  '090717': { x: 300, y: 100 },
-};
+import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
 
 const Gil = () => {
   const route = useRoute();
-  const { roomId } = route.params;
+  const { roomId, startFloor, goalFloor } = route.params;
   const [path, setPath] = useState([]);
+  const [currentImage, setCurrentImage] = useState(floors[startFloor].image);
 
   useEffect(() => {
     const calculatePath = () => {
       const start = { x: 50, y: 350 }; // 고정된 출발 위치
-      const goal = rooms[roomId];
-      const newPath = calculateAStarPath(start, goal);
+      const goal = floors[goalFloor].rooms[roomId];
+      const newPath = calculateAStarPath(start, goal, startFloor, goalFloor);
       setPath(newPath);
     };
 
     calculatePath();
-  }, [roomId]);
+  }, [roomId, startFloor, goalFloor]);
 
-  const calculateAStarPath = (start, goal) => {
-    return [
-      { x: start.x, y: start.y },
-      { x: start.x, y: goal.y },
-      { x: goal.x, y: goal.y },
-    ];
+  const calculateAStarPath = (start, goal, startFloor, goalFloor) => {
+    let path = [];
+
+    if (startFloor === goalFloor) {
+      path = [
+        { x: start.x, y: start.y },
+        { x: start.x, y: goal.y },
+        { x: goal.x, y: goal.y },
+      ];
+    } else {
+      // 여기에서 여러 층을 이동하는 경로 계산
+      const stairs = { x: 100, y: 100 }; // 임시 계단 위치
+      path = [
+        { x: start.x, y: start.y },
+        { x: stairs.x, y: stairs.y },
+        { x: stairs.x, y: stairs.y },
+        { x: goal.x, y: goal.y },
+      ];
+    }
+
+    return path;
   };
 
   const windowWidth = Dimensions.get('window').width;
@@ -51,7 +50,7 @@ const Gil = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>길 안내를 시작</Text>
-      <Image source={require('../../source/image/공대7층.png')} style={styles.map} />
+      <Image source={currentImage} style={styles.map} />
       <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
         {path.map((point, index) => (
           index < path.length - 1 && (
