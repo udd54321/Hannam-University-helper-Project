@@ -102,12 +102,13 @@ const style = StyleSheet.create({
   bottomContainer: {
     width: windowWidth,
     height: windowHeight * 0.15,
+    backgroundColor: 'red',
   },
   bottomView: {
     width: windowWidth,
     height: windowHeight,
     position: 'absolute',
-    bottom: -windowHeight * 0.8,
+    bottom: -windowHeight,
   },
   bottomBar: {
     backgroundColor: '#ffffff',

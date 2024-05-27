@@ -49,7 +49,7 @@ const App = () => {
                   <View style={styles.leftContainer}>
                     <Image
                       style={styles.headerImage}
-                      source={require('./source/image/symbol.png')}
+                      source={require('./source/image/campusSymbol.jpg')}
                     />
                   </View>
                 ),
