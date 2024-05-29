@@ -98,12 +98,12 @@ const Building09 = () => {
         <Stack.Screen
           name="12FScreen"
           component={TwelvethFloorScreen}
-          options={{ title: '12층' }}
+          options={{title: '12층'}}
         />
         <Stack.Screen
           name="Gil"
           component={GilScreen}
-          options={{ title: '길 안내' }}
+          options={{title: '길 안내'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

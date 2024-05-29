@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RecoilRoot } from 'recoil';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
-
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {RecoilRoot} from 'recoil';
+import {Provider as PaperProvider} from 'react-native-paper';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
 import Home from './source/screen/home'; // Homepage
 import ScheduleSearch from './source/screen/ScheduleSearch'; // Search
@@ -21,7 +20,7 @@ const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const HeaderTitle = React.memo(({ text }) => (
+const HeaderTitle = React.memo(({text}) => (
   <View style={styles.titleContainer}>
     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.headerText}>
       {text}
@@ -37,7 +36,7 @@ const App = () => {
           <Stack.Navigator
             initialRouteName="Homepage"
             screenOptions={{
-              headerStyle: { width: windowWidth, backgroundColor: '#ffffff' },
+              headerStyle: {width: windowWidth, backgroundColor: '#ffffff'},
               headerTitleAlign: 'center',
             }}>
             <Stack.Screen
