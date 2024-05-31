@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Image,
@@ -6,28 +6,24 @@ import {
   Alert,
   StyleSheet,
   Text,
-  Dimensions,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
+import {useNavigation} from '@react-navigation/native';
 
 const TwelvethFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['12F'].image);
+  const [currentImage] = useState(require('../../source/image/공대12층.png'));
 
   const showInfoAlert = room => {
     let additionalText = '';
     if (room === '091201') {
-      additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
-    } else if (room === '091115') {
-      additionalText = '\n기타 정보';
+      additionalText = '\n';
     }
 
     Alert.alert('알림', `${room} 강의실입니다. ${additionalText}`, [
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '12F', goalFloor: '12F' }); // startFloor와 goalFloor 전달
+          navigation.navigate('NavigationScreen');
         },
       },
       {
@@ -41,18 +37,12 @@ const TwelvethFloorScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['12F'].rooms).map(roomId => {
-        const room = floors['12F'].rooms[roomId];
-        return (
-          <TouchableOpacity
-            key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
-          >
-            <Text style={[styles.buttonText, { fontSize: 8 }]}>{roomId}</Text>
-          </TouchableOpacity>
-        );
-      })}
+
+      <TouchableOpacity
+        style={[styles.button, {top: '23%', left: '44.8%'}]}
+        onPress={() => showInfoAlert('091201')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>091201</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,10 +54,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    marginTop: -330,
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1, // 이미지의 비율을 유지
+    marginTop: -350,
+    width: 400,
+    height: 400,
     resizeMode: 'contain',
   },
   button: {

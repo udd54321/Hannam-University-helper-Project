@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Image,
@@ -8,10 +8,10 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
+import {useNavigation} from '@react-navigation/native';
+import floors from './engineeringFloor'; // engineeringFloor.js 파일 참조
 
-const SeventhFloorScreen = () => {
+const NinthFloorScreen = () => {
   const navigation = useNavigation();
   const [currentImage] = useState(floors['7F'].image);
 
@@ -27,7 +27,11 @@ const SeventhFloorScreen = () => {
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '7F', goalFloor: '7F' }); // startFloor와 goalFloor 전달
+          navigation.navigate('Gil', {
+            roomId: room,
+            startFloor: '7F',
+            goalFloor: '7F',
+          }); // startFloor와 goalFloor 전달
         },
       },
       {
@@ -46,10 +50,9 @@ const SeventhFloorScreen = () => {
         return (
           <TouchableOpacity
             key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
-          >
-            <Text style={[styles.buttonText, { fontSize: 8 }]}>{roomId}</Text>
+            style={[styles.button, {top: `${room.y}%`, left: `${room.x}%`}]}
+            onPress={() => showInfoAlert(roomId)}>
+            <Text style={[styles.buttonText, {fontSize: 8}]}>{roomId}</Text>
           </TouchableOpacity>
         );
       })}
@@ -64,7 +67,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    marginTop: -330,
     width: '100%',
     height: undefined,
     aspectRatio: 1, // 이미지의 비율을 유지
@@ -79,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SeventhFloorScreen;
+export default NinthFloorScreen;

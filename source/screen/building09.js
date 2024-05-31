@@ -14,20 +14,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import Bottombar from '../component/bottomBar'; // 하단 버튼 바
-
-import B1Screen from './09Floors/building09_B1';
-import FirstFloorScreen from './09Floors/1F';
-import SecondFloorScreen from './09Floors/2F';
-import ThirdFloorScreen from './09Floors/09_3F';
-import FourthFloorScreen from './09Floors/09_4F';
-import FifthFloorScreen from './09Floors/09_5F';
-import SixthFloorScreen from './09Floors/09_6F';
-import SeventhFloorScreen from './09Floors/09_7F';
-import EighthFloorScreen from './09Floors/09_8F';
-import NinthFloorScreen from './09Floors/09_9F';
-import TenthFloorScreen from './09Floors/09_10F';
-import ElevenFloorScreen from './09Floors/09_11F';
-import TwelvethFloorScreen from './09Floors/09_12F';
+import B1Screen from './building09_B1';
+import FirstFloorScreen from './1F';
+import SecondFloorScreen from './2F';
+import ThirdFloorScreen from './09_3F';
+import FourthFloorScreen from './09_4F';
+import FifthFloorScreen from './09_5F';
+import SixthFloorScreen from './09_6F';
+import SeventhFloorScreen from './09_7F';
+import EighthFloorScreen from './09_8F';
+import NinthFloorScreen from './09_9F';
+import TenthFloorScreen from './09_10F';
+import ElevenFloorScreen from './09_11F';
+import TwelvethFloorScreen from './09_12F';
 import GilScreen from './gil'; // Import the Gil screen
 
 const windowWidth = Dimensions.get('window').width;
@@ -107,12 +106,12 @@ const Building09 = () => {
         <Stack.Screen
           name="12FScreen"
           component={TwelvethFloorScreen}
-          options={{ title: '12층' }}
+          options={{title: '12층'}}
         />
         <Stack.Screen
           name="Gil"
           component={GilScreen}
-          options={{ title: '길 안내' }}
+          options={{title: '길 안내'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -127,75 +126,74 @@ const Building09Main = ({navigation}) => {
           <ScrollView
             style={styles.outerContainer}
             contentContainerStyle={styles.innerContainer}>
-            <FloorButton 
+            <FloorButton
               floor="B1"
               details="열람실, 전공실험실(기계공학과, 건축공학전공)"
-              navigation={navigation} 
+              navigation={navigation}
             />
-            <FloorButton 
+            <FloorButton
               floor="1F"
               details="학과사무실(기계공학과, 토목환경공학전공), 프린스홀, 강의실, 전공실험실(토목환경공학전공)"
-              navigation={navigation} 
+              navigation={navigation}
             />
             <FloorButton
               floor="2F"
               details="학과사무실(컴퓨터공학과), 강의실, 전공실험실(기계공학과, 멀티미디어공학과, 컴퓨터공학과, 토목환경공학전공)"
               navigation={navigation}
             />
-            <FloorButton 
-              floor="3F" 
-              details="공과대학(학장실, 부속실), 학과사무실(전기전자공학과), 강의실, 공용PC실, 전공실험실(전기전자공학과, 컴퓨터공학과, 토목환경공학전공)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="3F"
+              details="공과대학(학장실, 부속실), 학과사무실(전기전자공학과), 강의실, 공용PC실, 전공실험실(전기전자공학과, 컴퓨터공학과, 토목환경공학전공)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="4F" 
-              details="학과사무실(산업경영공학과, 정보통신공학과), 강의실, 전공실험실(산업경영공학과, 정보통신공학과)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="4F"
+              details="학과사무실(산업경영공학과, 정보통신공학과), 강의실, 전공실험실(산업경영공학과, 정보통신공학과)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="5F" 
-              details="학과사무실(건축공학전공), 공학교육혁신센터, 취/창업상담실, 디자인씽킹스튜디오, 강의실, 전공실험실(건축공학전공, 멀티미디어공학과, 컴퓨터공학과, 정보통신공학과)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="5F"
+              details="학과사무실(건축공학전공), 공학교육혁신센터, 취/창업상담실, 디자인씽킹스튜디오, 강의실, 전공실험실(건축공학전공, 멀티미디어공학과, 컴퓨터공학과, 정보통신공학과)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="6F" 
-              details="학과사무실(멀티미디어공학과), 교수연구실, 전공실험실(멀티미디어공학과, 산업경영공학과, 컴퓨터공학과)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="6F"
+              details="학과사무실(멀티미디어공학과), 교수연구실, 전공실험실(멀티미디어공학과, 산업경영공학과, 컴퓨터공학과)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="7F" 
-              details="교수연구실, 전공실험실(컴퓨터공학과)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="7F"
+              details="교수연구실, 전공실험실(컴퓨터공학과)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="8F" 
-              details="교수연구실, 전공실험실(전기전자공학과)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="8F"
+              details="교수연구실, 전공실험실(전기전자공학과)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="9F" 
-              details="교수연구실, 전공실험실(정보통신공학과)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="9F"
+              details="교수연구실, 전공실험실(정보통신공학과)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="10F" 
-              details="교수연구실, 전공실험실(토목환경공학전공)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="10F"
+              details="교수연구실, 전공실험실(토목환경공학전공)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="11F" 
-              details="교수연구실, 전공실험실(건축공학전공)" 
-              navigation={navigation} 
+            <FloorButton
+              floor="11F"
+              details="교수연구실, 전공실험실(건축공학전공)"
+              navigation={navigation}
             />
-            <FloorButton 
-              floor="12F" 
-              details="산학협력홀" 
-              navigation={navigation} 
+            <FloorButton
+              floor="12F"
+              details="산학협력홀"
+              navigation={navigation}
             />
           </ScrollView>
           <Bottombar />
         </GestureHandlerRootView>
-
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -205,7 +203,7 @@ const FloorButton = ({floor, details, navigation}) => {
   let screenName = `${floor}Screen`; // 스크린 이름 동적으로 설정
 
   return (
-    <View style = {styles.floorContainer}>
+    <View style={styles.floorContainer}>
       <TouchableOpacity
         style={styles.floor}
         onPress={() => navigation.navigate(screenName)} // 스크린 이름 변경
@@ -214,12 +212,12 @@ const FloorButton = ({floor, details, navigation}) => {
           <Text style={styles.numberText}>{floor}</Text>
         </View>
         <View style={styles.floorInfo}>
-          <Text numberOfLines={2} style={styles.infoText}>{details}</Text>
+          <Text numberOfLines={2} style={styles.infoText}>
+            {details}
+          </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity 
-        style = {styles.floorMoreInfo}
-      >
+      <TouchableOpacity style={styles.floorMoreInfo}>
         <Image
           style={styles.floorMoreInfoImage}
           source={require('../image/info.jpg')}

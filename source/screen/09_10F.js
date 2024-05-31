@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Image,
@@ -6,28 +6,26 @@ import {
   Alert,
   StyleSheet,
   Text,
-  Dimensions,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
+import {useNavigation} from '@react-navigation/native';
 
-const TenthFloorScreen = () => {
+const NinthFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['10F'].image);
+  const [currentImage] = useState(require('../../source/image/공대9층.png'));
 
   const showInfoAlert = room => {
     let additionalText = '';
-    if (room === '091016') {
+    if (room === '090915') {
       additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
-    } else if (room === '091015') {
-      additionalText = '\n기타 정보';
+    } else if (room === '090914') {
+      additionalText = '\ng';
     }
 
     Alert.alert('알림', `${room} 강의실입니다. ${additionalText}`, [
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '10F', goalFloor: '10F' }); // startFloor와 goalFloor 전달
+          navigation.navigate('NavigationScreen');
         },
       },
       {
@@ -41,18 +39,72 @@ const TenthFloorScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['10F'].rooms).map(roomId => {
-        const room = floors['10F'].rooms[roomId];
-        return (
-          <TouchableOpacity
-            key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
-          >
-            <Text style={[styles.buttonText, { fontSize: 8 }]}>{roomId}</Text>
-          </TouchableOpacity>
-        );
-      })}
+
+      <TouchableOpacity
+        style={[styles.button, {top: '10%', left: '19.8%'}]}
+        onPress={() => showInfoAlert('090915')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090915</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '10%', left: '33.3%'}]}
+        onPress={() => showInfoAlert('090914')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090914</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '10%', left: '79.55%'}]}
+        onPress={() => showInfoAlert('090911')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090911</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '86.55%'}]}
+        onPress={() => showInfoAlert('090910')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090910</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '77.3%'}]}
+        onPress={() => showInfoAlert('090909')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090909</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '68%'}]}
+        onPress={() => showInfoAlert('090908')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090908</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '59.5%'}]}
+        onPress={() => showInfoAlert('090907')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090907</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '50.7%'}]}
+        onPress={() => showInfoAlert('090906')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090906</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '41.8%'}]}
+        onPress={() => showInfoAlert('090905')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090905</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '32.8%'}]}
+        onPress={() => showInfoAlert('090904')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090904</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '24.2%'}]}
+        onPress={() => showInfoAlert('090903')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090903</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '15.5%'}]}
+        onPress={() => showInfoAlert('090902')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090901</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, {top: '29%', left: '6.7%'}]}
+        onPress={() => showInfoAlert('090901')}>
+        <Text style={[styles.buttonText, {fontSize: 8}]}>090901</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,10 +116,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    marginTop: -330,
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1, // 이미지의 비율을 유지
+    marginTop: -350,
+    width: 400,
+    height: 400,
     resizeMode: 'contain',
   },
   button: {
@@ -79,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TenthFloorScreen;
+export default NinthFloorScreen;
