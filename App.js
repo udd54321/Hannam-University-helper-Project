@@ -14,6 +14,8 @@ import Gps from './source/screen/gps'; // Navigation
 import Notice from './source/screen/notice'; // Notices
 import Building09 from './source/screen/building09'; // Building 9
 import Building56 from './source/screen/building56'; // Building 56
+import Building02 from './source/screen/building02'; // Building 02
+import Building06 from './source/screen/building06'; // Building 06
 import TestScreen from './source/screen/test'; // Test screen
 
 const Stack = createNativeStackNavigator();
@@ -99,6 +101,20 @@ const App = () => {
               component={Building56}
               options={{
                 headerTitle: () => <HeaderTitle text="56주년 기념관" />,
+              }}
+            />
+            <Stack.Screen
+              name="02"
+              component={Building02}
+              options={{
+                headerTitle: () => <HeaderTitle text="탈메이지 기념관" />,
+              }}
+            />
+            <Stack.Screen
+              name="06"
+              component={Building06}
+              options={{
+                headerTitle: () => <HeaderTitle text="계의돈 기념관" />,
               }}
             />
             <Stack.Screen

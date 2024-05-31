@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-//UIcons by <a href="https://www.flaticon.com/uicons">Flaticon</a> 하단 버튼 이미지 출처
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import Bottombar from '../component/bottomBar'; //하단 버튼 바
@@ -21,8 +20,9 @@ const Home = ({navigation}) => {
   const pressSearch = () => navigation.navigate('ScheduleSearch');
   const pressSchedule = () => navigation.navigate('Schedulepage');
   const pressButton09 = () => navigation.navigate('College of Engineering');
-  const pressButton56 = () =>
-    navigation.navigate('56th Anniversary Memorial Hall');
+  const pressButton56 = () =>navigation.navigate('56th Anniversary Memorial Hall');
+  const pressButton02 = () =>navigation.navigate('02');
+  const pressButton06 = () =>navigation.navigate('06');
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -68,6 +68,24 @@ const Home = ({navigation}) => {
               />
               <Text numberOfLines={2} style={style.buildingText}>
                 56주년 기념관
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={style.building} onPress={pressButton02}>
+              <Image
+                style={style.buildingImage}
+                source={require('../image/building56.jpg')}
+              />
+              <Text numberOfLines={2} style={style.buildingText}>
+                탈메이지 기념관
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={style.building} onPress={pressButton06}>
+              <Image
+                style={style.buildingImage}
+                source={require('../image/building56.jpg')}
+              />
+              <Text numberOfLines={2} style={style.buildingText}>
+                계의돈 기념관
               </Text>
             </TouchableOpacity>
           </ScrollView>

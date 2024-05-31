@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Image,
@@ -8,18 +8,18 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import floors from './engineeringFloor'; // engineeringFloor.js 파일 참조
+import { useNavigation } from '@react-navigation/native';
+import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
 
 const NinthFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['7F'].image);
+  const [currentImage] = useState(floors['9F'].image);
 
   const showInfoAlert = room => {
     let additionalText = '';
-    if (room === '090717') {
+    if (room === '090916') {
       additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
-    } else if (room === '090716') {
+    } else if (room === '090915') {
       additionalText = '\n기타 정보';
     }
 
@@ -27,11 +27,7 @@ const NinthFloorScreen = () => {
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', {
-            roomId: room,
-            startFloor: '7F',
-            goalFloor: '7F',
-          }); // startFloor와 goalFloor 전달
+          navigation.navigate('Gil', { roomId: room, startFloor: '9F', goalFloor: '9F' }); // startFloor와 goalFloor 전달
         },
       },
       {
@@ -45,14 +41,15 @@ const NinthFloorScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['7F'].rooms).map(roomId => {
-        const room = floors['7F'].rooms[roomId];
+      {Object.keys(floors['9F'].rooms).map(roomId => {
+        const room = floors['9F'].rooms[roomId];
         return (
           <TouchableOpacity
             key={roomId}
-            style={[styles.button, {top: `${room.y}%`, left: `${room.x}%`}]}
-            onPress={() => showInfoAlert(roomId)}>
-            <Text style={[styles.buttonText, {fontSize: 8}]}>{roomId}</Text>
+            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
+            onPress={() => showInfoAlert(roomId)}
+          >
+            <Text style={[styles.buttonText, { fontSize: 8 }]}>{roomId}</Text>
           </TouchableOpacity>
         );
       })}
@@ -67,6 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
+    marginTop: -330,
     width: '100%',
     height: undefined,
     aspectRatio: 1, // 이미지의 비율을 유지
