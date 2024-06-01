@@ -12,7 +12,7 @@ import floors from './engineeringFloor';
 
 const FourthFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['4F'].image);
+  const [currentImage] = useState(floors['5F'].image);
 
   const showInfoAlert = (room) => {
     let additionalText = '';
@@ -26,7 +26,7 @@ const FourthFloorScreen = () => {
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '4F', goalFloor: '4F' }); // startFloor와 goalFloor 전달
+          navigation.navigate('Gil', { roomId: room, startFloor: '5F', goalFloor: '5F' }); // startFloor와 goalFloor 전달
         },
       },
       {
@@ -40,9 +40,11 @@ const FourthFloorScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['4F'].rooms).map((roomId) => {
-        const room = floors['4F'].rooms[roomId];
-        const isRotated = [ '090407','090404', '090406','090416','090416-A','090417','090418','090317','090423','090423-A'].includes(roomId);
+      {Object.keys(floors['5F'].rooms).map((roomId) => {
+        const room = floors['5F'].rooms[roomId];
+        const isRotated = [ '090503', '090503-A', '090504', '090505', '090506', '090507', '090508', '090509', '090510', '090511', '090512', '090513',
+          '090514', '090515', '090515-A', '090522-A', '090523'
+        ].includes(roomId);
         return (
           <TouchableOpacity
             key={roomId}

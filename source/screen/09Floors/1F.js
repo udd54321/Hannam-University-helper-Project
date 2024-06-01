@@ -17,7 +17,6 @@ const windowHeight = Dimensions.get('window').height;
 
 const FirstFloorScreen = ({navigation}) => {
  
-
   const [currentImage] = useState(floors['1F'].image);
 
   const showInfoAlert = (room) => {
@@ -70,10 +69,8 @@ const FirstFloorScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-
     width: windowWidth,
     height: windowHeight,
-    
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -98,4 +95,3 @@ const styles = StyleSheet.create({
 });
 
 export default FirstFloorScreen;
-
