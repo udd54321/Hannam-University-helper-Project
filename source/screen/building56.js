@@ -1,75 +1,161 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
+  Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Modal,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import Bottombar from '../component/bottomBar'; //하단 버튼 바
+import Bottombar from '../component/bottomBar'; // 하단 버튼 바
+
+import FirstFloorScreen from './09Floors/1F';
+import SecondFloorScreen from './09Floors/2F';
+import GilScreen from './gil'; // Import the Gil screen
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const Building56 = ({navigation}) => {
+const Stack = createStackNavigator();
+
+const Building56 = () => {
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Building56Main"
+          component={Building56Main}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="1FScreen"
+          component={FirstFloorScreen}
+          options={{title: '1층'}}
+        />
+        <Stack.Screen
+          name="2FScreen"
+          component={SecondFloorScreen}
+          options={{title: '2층'}}
+        />
+        <Stack.Screen
+          name="Gil"
+          component={GilScreen}
+          options={{ title: '길 안내' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Building56Main = ({navigation}) => {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={style.container}>
+      <SafeAreaView style={styles.container}>
         <GestureHandlerRootView>
           <ScrollView
-            style={style.outerContainer}
-            contentContainerStyle={style.innerContainer}
-          >
-            <TouchableOpacity style={style.floor}>
-              <View style={style.floorNumber}>
-                <Text style={style.numberText}>1F</Text>
-              </View>
-              <View style={style.floorInfo}>
-                <Text style={style.infoText}>?</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.floor}>
-              <View style={style.floorNumber}>
-                <Text style={style.numberText}>2F</Text>
-              </View>
-              <View style={style.floorInfo}>
-                <Text style={style.infoText}>??</Text>
-              </View>
-            </TouchableOpacity>
+            style={styles.outerContainer}
+            contentContainerStyle={styles.innerContainer}>
+            <FloorButton 
+              floor="1F"
+              details="56-1"
+              navigation={navigation} 
+            />
+            <FloorButton 
+              floor="2F"
+              details="56-2"
+              navigation={navigation} 
+            />
           </ScrollView>
-        <Bottombar />
+          <Bottombar />
         </GestureHandlerRootView>
+
       </SafeAreaView>
     </SafeAreaProvider>
   );
 };
 
-export default Building56;
+const FloorButton = ({floor, details, navigation}) => {
+  let screenName = `${floor}Screen`; // 스크린 이름 동적으로 설정
+  const [modalVisible, setModalVisible] = useState(false);
 
-const style = StyleSheet.create({
+  return (
+    <View style = {styles.floorContainer}>
+      <TouchableOpacity
+        style={styles.floor}
+        onPress={() => navigation.navigate(screenName)} // 스크린 이름 변경
+      >
+        <View style={styles.floorNumber}>
+          <Text style={styles.numberText}>{floor}</Text>
+        </View>
+        <View style={styles.floorInfo}>
+          <Text numberOfLines={1} style={styles.infoText}>{details}</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style = {styles.floorMoreInfo}
+        onPress = {() => setModalVisible(true)}
+      >
+        <Image
+          style={styles.floorMoreInfoImage}
+          source={require('../image/info.jpg')}
+        />
+      </TouchableOpacity>
+      <Modal
+        animationType='fade'
+        visible={modalVisible}
+        transparent={true}
+      >
+        <View style = {styles.modalContainer}>
+          <Text style = {styles.modalText}>{details}</Text>
+          <TouchableOpacity
+            style = {styles.modalClose}
+            onPress={() => setModalVisible(false)}
+          >
+            <Text style = {styles.modalCloseText}>닫기</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: '#ffffff',
   },
   outerContainer: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginBottom: 40,
+    marginBottom: 200,
   },
   innerContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
   },
-  floor: {
+  floorContainer: {
     width: windowWidth,
     height: windowHeight * 0.1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+    gap: 10,
+  },
+  floor: {
+    width: windowWidth * 0.8,
+    height: windowHeight * 0.1,
+    flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
   },
@@ -88,7 +174,7 @@ const style = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   numberText: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 'bold',
     color: '#a52a2a',
     textAlign: 'center',
@@ -98,4 +184,38 @@ const style = StyleSheet.create({
     color: '#000000',
     textAlign: 'center',
   },
+  floorMoreInfo: {
+    width: windowWidth * 0.07,
+    height: windowHeight * 0.05,
+  },
+  floorMoreInfoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  modalContainer: {
+    width: '70%',
+    height: '25%',
+    backgroundColor: '#faebd7',
+    marginTop: 250,
+    marginLeft: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 15,
+    color: '#000000',
+  },
+  modalClose: {
+    width: '25%',
+    height: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalCloseText: {
+    fontSize: 15,
+    color: '#000000',
+  },
 });
+
+export default Building56;

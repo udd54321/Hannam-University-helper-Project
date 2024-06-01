@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+    height: windowHeight,
   },
   zoomButtons: {
     position: 'absolute',

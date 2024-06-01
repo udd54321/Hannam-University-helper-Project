@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   },
   bottomSheetOverlay: {
     ...StyleSheet.absoluteFillObject,
+    height: windowHeight,
   },
   bottomBar: {
     backgroundColor: '#ffffff',

@@ -117,11 +117,12 @@ const style = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: '#ffffff',
   },
   outerContainer: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginBottom: 40,
+    marginBottom: 200,
   },
   innerContainer: {
     flexDirection: 'row',

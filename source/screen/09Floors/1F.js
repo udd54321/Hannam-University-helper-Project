@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import floors from './engineeringFloor'
-import Bottombar2 from '../../component/bottomBar2'; //하단 버튼 바
+import Bottombar from '../../component/bottomBar'; //하단 버튼 바
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -62,7 +62,7 @@ const FirstFloorScreen = ({navigation}) => {
         );
       })}
 
-      <Bottombar2 />
+      <Bottombar />
 
     </View>
   );

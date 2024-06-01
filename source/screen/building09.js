@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Modal,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -203,6 +204,7 @@ const Building09Main = ({navigation}) => {
 
 const FloorButton = ({floor, details, navigation}) => {
   let screenName = `${floor}Screen`; // 스크린 이름 동적으로 설정
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style = {styles.floorContainer}>
@@ -214,17 +216,33 @@ const FloorButton = ({floor, details, navigation}) => {
           <Text style={styles.numberText}>{floor}</Text>
         </View>
         <View style={styles.floorInfo}>
-          <Text numberOfLines={2} style={styles.infoText}>{details}</Text>
+          <Text numberOfLines={1} style={styles.infoText}>{details}</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity 
         style = {styles.floorMoreInfo}
+        onPress = {() => setModalVisible(true)}
       >
         <Image
           style={styles.floorMoreInfoImage}
           source={require('../image/info.jpg')}
         />
       </TouchableOpacity>
+      <Modal
+        animationType='fade'
+        visible={modalVisible}
+        transparent={true}
+      >
+        <View style = {styles.modalContainer}>
+          <Text style = {styles.modalText}>{details}</Text>
+          <TouchableOpacity
+            style = {styles.modalClose}
+            onPress={() => setModalVisible(false)}
+          >
+            <Text style = {styles.modalCloseText}>닫기</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -233,11 +251,12 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: '#ffffff',
   },
   outerContainer: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginBottom: 40,
+    marginBottom: 200,
   },
   innerContainer: {
     flexDirection: 'column',
@@ -294,6 +313,29 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
+  },
+  modalContainer: {
+    width: '70%',
+    height: '25%',
+    backgroundColor: '#faebd7',
+    marginTop: 250,
+    marginLeft: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 15,
+    color: '#000000',
+  },
+  modalClose: {
+    width: '25%',
+    height: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalCloseText: {
+    fontSize: 15,
+    color: '#000000',
   },
 });
 

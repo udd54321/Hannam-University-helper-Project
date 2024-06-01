@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Modal,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -75,22 +76,22 @@ const Building02Main = ({navigation}) => {
             contentContainerStyle={styles.innerContainer}>
             <FloorButton 
               floor="1F"
-              details="학과사무실(기계공학과, 토목환경공학전공), 프린스홀, 강의실, 전공실험실(토목환경공학전공)"
+              details="탈메이지1층"
               navigation={navigation} 
             />
             <FloorButton
               floor="2F"
-              details="학과사무실(컴퓨터공학과), 강의실, 전공실험실(기계공학과, 멀티미디어공학과, 컴퓨터공학과, 토목환경공학전공)"
+              details="탈메이지2층"
               navigation={navigation}
             />
             <FloorButton 
               floor="3F" 
-              details="공과대학(학장실, 부속실), 학과사무실(전기전자공학과), 강의실, 공용PC실, 전공실험실(전기전자공학과, 컴퓨터공학과, 토목환경공학전공)" 
+              details="탈메이지3층" 
               navigation={navigation} 
             />
             <FloorButton 
               floor="4F" 
-              details="학과사무실(산업경영공학과, 정보통신공학과), 강의실, 전공실험실(산업경영공학과, 정보통신공학과)" 
+              details="탈메이지4층" 
               navigation={navigation} 
             />
           </ScrollView>
@@ -103,6 +104,7 @@ const Building02Main = ({navigation}) => {
 
 const FloorButton = ({floor, details, navigation}) => {
   let screenName = `${floor}Screen`; // 스크린 이름 동적으로 설정
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style = {styles.floorContainer}>
@@ -119,12 +121,28 @@ const FloorButton = ({floor, details, navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity 
         style = {styles.floorMoreInfo}
+        onPress = {() => setModalVisible(true)}
       >
         <Image
           style={styles.floorMoreInfoImage}
           source={require('../image/info.jpg')}
         />
       </TouchableOpacity>
+      <Modal
+        animationType='fade'
+        visible={modalVisible}
+        transparent={true}
+      >
+        <View style = {styles.modalContainer}>
+          <Text style = {styles.modalText}>{details}</Text>
+          <TouchableOpacity
+            style = {styles.modalClose}
+            onPress={() => setModalVisible(false)}
+          >
+            <Text style = {styles.modalCloseText}>닫기</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -135,11 +153,12 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: '#ffffff',
   },
   outerContainer: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginBottom: 40,
+    marginBottom: 200,
   },
   innerContainer: {
     flexDirection: 'column',
@@ -196,5 +215,28 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
+  },
+  modalContainer: {
+    width: '70%',
+    height: '25%',
+    backgroundColor: '#faebd7',
+    marginTop: 250,
+    marginLeft: 50,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 15,
+    color: '#000000',
+  },
+  modalClose: {
+    width: '25%',
+    height: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalCloseText: {
+    fontSize: 15,
+    color: '#000000',
   },
 });
