@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  Modal,
+  Alert,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -202,9 +202,17 @@ const Building09Main = ({navigation}) => {
   );
 };
 
+const showInfoAlert = ({details}) => {
+  Alert.alert('세부 내용', `${details}`, [
+    {
+      text: '닫기',
+      style: 'cancel',
+    },
+  ]);
+};
+
 const FloorButton = ({floor, details, navigation}) => {
   let screenName = `${floor}Screen`; // 스크린 이름 동적으로 설정
-  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style = {styles.floorContainer}>
@@ -221,28 +229,13 @@ const FloorButton = ({floor, details, navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity 
         style = {styles.floorMoreInfo}
-        onPress = {() => setModalVisible(true)}
+        onPress = {() => showInfoAlert({details})}
       >
         <Image
           style={styles.floorMoreInfoImage}
           source={require('../image/info.jpg')}
         />
       </TouchableOpacity>
-      <Modal
-        animationType='fade'
-        visible={modalVisible}
-        transparent={true}
-      >
-        <View style = {styles.modalContainer}>
-          <Text style = {styles.modalText}>{details}</Text>
-          <TouchableOpacity
-            style = {styles.modalClose}
-            onPress={() => setModalVisible(false)}
-          >
-            <Text style = {styles.modalCloseText}>닫기</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
     </View>
   );
 };
@@ -313,29 +306,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
-  },
-  modalContainer: {
-    width: '70%',
-    height: '25%',
-    backgroundColor: '#faebd7',
-    marginTop: 250,
-    marginLeft: 50,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  modalText: {
-    fontSize: 15,
-    color: '#000000',
-  },
-  modalClose: {
-    width: '25%',
-    height: '20%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalCloseText: {
-    fontSize: 15,
-    color: '#000000',
   },
 });
 
