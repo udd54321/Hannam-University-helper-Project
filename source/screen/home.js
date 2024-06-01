@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,23 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Home = ({navigation}) => {
+  const [firstPress, setFristPress] = useState(true);
   const pressSearch = () => navigation.navigate('ScheduleSearch');
-  const pressSchedule = () => navigation.navigate('Schedulepage');
+  const pressSchedule = () => {
+    if(firstPress) {
+      navigation.navigate('Schedulepage');
+      setTimeout(() => {
+        navigation.navigate('Homepage');
+      }, 300);
+      setTimeout(() => {
+        navigation.navigate('Schedulepage');
+      }, 300);
+      setFristPress(false);
+    }
+    else {
+      navigation.navigate('Schedulepage');
+    }
+  };
   const pressButton09 = () => navigation.navigate('College of Engineering');
   const pressButton56 = () =>navigation.navigate('56th Anniversary Memorial Hall');
   const pressButton02 = () =>navigation.navigate('02');
