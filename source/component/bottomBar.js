@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
+import {NavigationContainer} from '@react-navigation/native';
 
+import Home from '../screen/home';
 import Gps from '../screen/gps'; // 내비게이션
 import Notice from '../screen/notice'; // 공지 사항
 
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.09,
     position: 'absolute',
     flexDirection: 'row',
-    bottom: 1,
+    bottom: 50,
   },
   bottomButton: {
     flex: 1,

@@ -1,6 +1,6 @@
 import React , { useState } from 'react';
 import {
-  View,
+  ScrollView,
   Text,
   Image,
   TouchableOpacity,
@@ -8,6 +8,7 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import floors from './engineeringFloor'
 import Bottombar from '../../component/bottomBar'; //하단 버튼 바
@@ -43,27 +44,38 @@ const FirstFloorScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['1F'].rooms).map((roomId) => {
-        const room = floors['1F'].rooms[roomId];
-        const isRotated = ['090103', '090104', '090105','090112','090113','090121','090124','090125'].includes(roomId);
-        return (
-          <TouchableOpacity
-            key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
-          >
-            <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
-              {roomId}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+      <ScrollView 
+        style={styles.outerContainer}
+        contentContainerStyle={styles.innerContainer}
+      >
+      <ScrollView
+        style={styles.outerContainer}
+        contentContainerStyle={styles.innerContainer}
+        horizontal = {true}
+      >
+        <Image style={styles.headerImage} source={currentImage} />
+        {Object.keys(floors['1F'].rooms).map((roomId) => {
+          const room = floors['1F'].rooms[roomId];
+          const isRotated = ['090103', '090104', '090105','090112','090113','090121','090124','090125'].includes(roomId);
+          return (
+            <TouchableOpacity
+              key={roomId}
+              style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
+              onPress={() => showInfoAlert(roomId)}
+            >
+              <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
+                {roomId}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+      </ScrollView>
       <Bottombar />
-
-    </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
@@ -71,15 +83,17 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  outerContainer: {
+    flex: 1,
+  },
+  innerContainer: {
+    flexDirection: 'column',
   },
   headerImage: {
-    marginTop: -350,
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1, // 이미지의 비율을 유지
+    height: windowHeight,
     resizeMode: 'contain',
+    bottom: 100,
   },
   
   button: {
