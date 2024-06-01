@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React , { useState } from 'react';
 import {
-  View,
+  ScrollView,
+  Text,
   Image,
   TouchableOpacity,
-  Alert,
   StyleSheet,
-  Text,
+  Alert,
   Dimensions,
 } from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
 import Bottombar from '../../component/bottomBar'; //하단 버튼 바
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const EleventhFloorScreen = () => {
   const navigation = useNavigation();
@@ -40,7 +44,17 @@ const EleventhFloorScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+      <ScrollView 
+        style={styles.outerContainer}
+        contentContainerStyle={styles.innerContainer}
+      >
+      <ScrollView
+        style={styles.outerContainer}
+        contentContainerStyle={styles.innerContainer}
+        horizontal = {true}
+      >
       <Image style={styles.headerImage} source={currentImage} />
       {Object.keys(floors['11F'].rooms).map(roomId => {
         const room = floors['11F'].rooms[roomId];
@@ -54,30 +68,42 @@ const EleventhFloorScreen = () => {
           </TouchableOpacity>
         );
       })}
+      </ScrollView>
+      </ScrollView>
       <Bottombar />
-    </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    width: windowWidth,
+    height: windowHeight,
+  },
+  outerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  innerContainer: {
+    flexDirection: 'column',
   },
   headerImage: {
-    marginTop: -330,
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1, // 이미지의 비율을 유지
-    resizeMode: 'contain',
+    width: windowWidth * 1.5,
+    height: windowHeight * 1.5,
+    resizeMode: 'stretch',
+    aspectRatio: 1,
+    marginBottom: 200,
   },
+  
   button: {
     position: 'absolute',
   },
   buttonText: {
     fontWeight: 'bold',
     color: 'blue',
+  },
+  rotatedText: {
+    transform: [{ rotate: '90deg' }],
   },
 });
 

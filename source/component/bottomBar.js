@@ -11,7 +11,6 @@ import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {NavigationContainer} from '@react-navigation/native';
 
-import Home from '../screen/home';
 import Gps from '../screen/gps'; // 내비게이션
 import Notice from '../screen/notice'; // 공지 사항
 

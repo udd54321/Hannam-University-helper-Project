@@ -10,14 +10,15 @@ import {
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
+import { useNavigation } from '@react-navigation/native';
 import floors from './engineeringFloor'
 import Bottombar from '../../component/bottomBar'; //하단 버튼 바
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const FirstFloorScreen = ({navigation}) => {
- 
+const FirstFloorScreen = () => {
+  const navigation = useNavigation();
   const [currentImage] = useState(floors['1F'].image);
 
   const showInfoAlert = (room) => {
