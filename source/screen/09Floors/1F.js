@@ -91,9 +91,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   headerImage: {
-    height: windowHeight,
-    resizeMode: 'contain',
-    bottom: 100,
+    width: windowWidth * 1.5,
+    height: windowHeight * 1.5,
+    resizeMode: 'stretch',
+    aspectRatio: 1,
+    marginBottom: 200,
   },
   
   button: {
