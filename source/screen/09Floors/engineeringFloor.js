@@ -21,6 +21,15 @@ const floors = {
    
 
     },
+    hallway: [
+          { x: 10, y: 20 },
+          { x: 30, y: 20 },
+          // Add more hallway coordinates as needed
+        ],
+        staircases: {
+          'S1': { x: 5, y: 20 },
+          'S2': { x: 50, y: 20 },
+        },
   },
   '2F': {
     image: require('../../image/공대2층.png'),
@@ -45,6 +54,15 @@ const floors = {
       
       // 다른 방 좌표
     },
+    hallway: [
+            { x: 5, y: 22 },
+            { x: 30, y: 22 },
+            // Add more hallway coordinates as needed
+          ],
+          staircases: {
+            'S1': { x: 10, y: 22 },
+            'S2': { x: 60, y: 22 },
+          },
   },
   '3F': {
     image: require('../../image/공대3층.png'),
