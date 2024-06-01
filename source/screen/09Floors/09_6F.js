@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import floors from './engineeringFloor'; 
+import Bottombar from '../../component/bottomBar'; //하단 버튼 바
 
 const SixthFloorScreen = () => {
   const navigation = useNavigation();
@@ -55,6 +56,7 @@ const SixthFloorScreen = () => {
           </TouchableOpacity>
         );
       })}
+      <Bottombar />
     </View>
   );
 };

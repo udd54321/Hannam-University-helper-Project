@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
+import Bottombar from '../../component/bottomBar'; //하단 버튼 바
 
 const NinthFloorScreen = () => {
   const navigation = useNavigation();
@@ -53,6 +54,7 @@ const NinthFloorScreen = () => {
           </TouchableOpacity>
         );
       })}
+      <Bottombar />
     </View>
   );
 };

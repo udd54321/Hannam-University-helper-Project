@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import floors from './building06Floor'; 
+import Bottombar from '../../component/bottomBar'; //하단 버튼 바
 
 const ThirdFloorScreen = () => {
   const navigation = useNavigation();
@@ -127,6 +128,7 @@ const ThirdFloorScreen = () => {
           </TouchableOpacity>
         );
       })}
+      <Bottombar />
     </View>
   );
 };

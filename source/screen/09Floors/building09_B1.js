@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
+import Bottombar from '../../component/bottomBar'; //하단 버튼 바
+
 const B1Screen = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
