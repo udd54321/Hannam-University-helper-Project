@@ -38,6 +38,7 @@ const Home = ({navigation}) => {
   const pressButton56 = () =>navigation.navigate('56th Anniversary Memorial Hall');
   const pressButton02 = () =>navigation.navigate('02');
   const pressButton06 = () =>navigation.navigate('06');
+  const pressButton04 = () =>navigation.navigate('04');
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -101,6 +102,15 @@ const Home = ({navigation}) => {
               />
               <Text numberOfLines={2} style={style.buildingText}>
                 계의돈 기념관
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={style.building} onPress={pressButton04}>
+              <Image
+                style={style.buildingImage}
+                source={require('../image/building56.jpg')}
+              />
+              <Text numberOfLines={2} style={style.buildingText}>
+                문과 대학
               </Text>
             </TouchableOpacity>
           </ScrollView>
