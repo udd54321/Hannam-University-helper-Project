@@ -19,7 +19,6 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [posts, setPosts] = useState([]);
   const flatListRef = useRef(null);
@@ -31,30 +30,32 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
   }, [selectedRoom]);
 
   useEffect(() => {
-    const fetchPosts = () => {
-      fetch('http://18.188.109.230:3000/posts')
-        .then(response => response.json())
-        .then(data => {
-          setPosts(data);
-        })
-        .catch(error => console.error('Error fetching posts:', error));
-    };
+    if (selectedRoom) {
+      const fetchPosts = () => {
+        const floor = selectedRoom.slice(0, 2); // Extract the floor from the room ID (assuming room IDs are in the format 1F01, 2F01, etc.)
+        fetch(`http://18.188.109.230:3000/posts/${floor}`)
+          .then(response => response.json())
+          .then(data => {
+            setPosts(data.filter(post => post.RoomId === parseInt(selectedRoom, 10)));
+          })
+          .catch(error => console.error('Error fetching posts:', error));
+      };
 
-    fetchPosts();
-
-    const interval = setInterval(fetchPosts, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+      fetchPosts();
+      const interval = setInterval(fetchPosts, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [selectedRoom]);
 
   const handleAddPost = () => {
+    const floor = selectedRoom.slice(0, 2); // Extract the floor from the room ID
     const post = {
-      Title: title,
-      Time: new Date().toISOString().slice(0, 19).replace('T', ' '),
-      Contents: contents,
+      Descrition: contents,
+      Data: new Date().toISOString().slice(0, 19).replace('T', ' '),
+      RoomId: parseInt(selectedRoom, 10),
     };
 
-    fetch('http://18.188.109.230:3000/add-post', {
+    fetch(`http://18.188.109.230:3000/add-post/${floor}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,12 +66,11 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
       .then(data => {
         if (data.message === '글이 성공적으로 추가되었습니다.') {
           Alert.alert('Success', '글이 성공적으로 추가되었습니다.');
-          setTitle('');
           setContents('');
-          fetch('http://18.188.109.230:3000/posts')
+          fetch(`http://18.188.109.230:3000/posts/${floor}`)
             .then(response => response.json())
             .then(data => {
-              setPosts(data);
+              setPosts(data.filter(post => post.RoomId === parseInt(selectedRoom, 10)));
               flatListRef.current.scrollToEnd({ animated: true });
             })
             .catch(error => console.error('Error fetching posts:', error));
@@ -86,13 +86,12 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
 
   const renderItem = ({ item }) => (
     <View style={styles.bubble}>
-      <Text style={styles.title}>{item.Title}</Text>
-      <Text style={styles.contents}>{item.Contents}</Text>
-      <Text style={styles.time}>{item.Time}</Text>
+      <Text style={styles.contents}>{item.Descrition}</Text>
+      <Text style={styles.time}>{item.Data}</Text>
     </View>
   );
 
-  const handleSheetChanges = useCallback(index => {
+  const handleSheetChanges = useCallback((index) => {
     setIsBottomSheetOpen(index !== 0);
   }, []);
 
@@ -141,13 +140,7 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
                 <View style={styles.inputContainer}>
                   <TextInput
                     style={styles.input}
-                    placeholder="Title"
-                    value={title}
-                    onChangeText={setTitle}
-                  />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Contents"
+                    placeholder="Enter your message"
                     value={contents}
                     onChangeText={setContents}
                     multiline
@@ -160,7 +153,7 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
                   ref={flatListRef}
                   data={posts}
                   renderItem={renderItem}
-                  keyExtractor={item => item.No.toString()}
+                  keyExtractor={item => item.Num.toString()}
                   style={styles.list}
                   onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
                 />
@@ -234,10 +227,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#e1ffc7',
     borderRadius: 10,
     marginBottom: 8,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   contents: {
     fontSize: 16,

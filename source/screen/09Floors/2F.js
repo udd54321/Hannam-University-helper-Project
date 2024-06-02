@@ -1,80 +1,92 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   Text,
   Image,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Dimensions,
 } from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import floors from './engineeringFloor'
-import Bottombar from '../../component/bottomBar'; //하단 버튼 바
+import floors from './engineeringFloor';
+import ClassInfoBottomBar from '../../component/ClassInfoBottomBar';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const SecondFloorScreen = () => {
+const ThirdFloorScreen = () => {
   const navigation = useNavigation();
   const [currentImage] = useState(floors['2F'].image);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [startRoom, setStartRoom] = useState(null);
 
   const showInfoAlert = (room) => {
-    let additionalText = '';
-    if (room === '090201') {
-      additionalText = '\n';
-    } else if (room === '090202') {
-      additionalText = '\n';
-    }
+    setSelectedRoom(room);
+    setStartRoom(room);
+  };
 
-    Alert.alert('알림', `${room} 강의실입니다. ${additionalText}`, [
-      {
-        text: '길 안내를 시작하시겠습니까?',
-        onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '2F', goalFloor: '2F' }); // startFloor와 goalFloor 전달
-        },
-      },
-      {
-        text: '아니오',
-        onPress: () => console.log('아니오 버튼이 눌렸습니다.'),
-        style: 'cancel',
-      },
-    ]);
+  const setStartPointer = (room) => {
+    navigation.navigate('Gil', { roomId: room, startFloor: '2F', goalFloor: '2F' }); // startFloor와 goalFloor 전달
+  };
+
+  const setArrivalPointer = (room) => {
+    navigation.navigate('Gil', { roomId: room, startFloor: '2F', goalFloor: '2F' });
   };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={styles.outerContainer}
-        contentContainerStyle={styles.innerContainer}
-      >
-      <ScrollView
-        style={styles.outerContainer}
-        contentContainerStyle={styles.innerContainer}
-        horizontal = {true}
-      >
-      <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['2F'].rooms).map((roomId) => {
-        const room = floors['2F'].rooms[roomId];
-        const isRotated = [ '090203','090204', '090205','090212','090213','090220','090223','090225'].includes(roomId);
-        return (
-          <TouchableOpacity
-            key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
+        <ScrollView
+          style={styles.outerContainer}
+          contentContainerStyle={styles.innerContainer}
+        >
+          <ScrollView
+            style={styles.outerContainer}
+            contentContainerStyle={styles.innerContainer}
+            horizontal={true}
           >
-            <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
-              {roomId}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-      </ScrollView>
-      </ScrollView>
-      <Bottombar />
+            <Image style={styles.headerImage} source={currentImage} />
+            {Object.keys(floors['2F'].rooms).map((roomId) => {
+              const room = floors['2F'].rooms[roomId];
+              const isRotated = [
+                '090201',
+                '090201-A',
+                '090201-A',
+                '090202',
+                '090202-A',
+                '090203',
+                '090204',
+                '090205',
+                '090206',
+                '090209',
+                '090210',
+                '090211',
+                '090212',
+                '090213',
+                '090214',
+                '090215'
+              ].includes(roomId);
+              return (
+                <TouchableOpacity
+                  key={roomId}
+                  style={[styles.button, { top: `${room.y - 1}%`, left: `${room.x}%` }]} // Move slightly higher
+                  onPress={() => showInfoAlert(roomId)}
+                >
+                  <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
+                    {roomId}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </ScrollView>
+        <ClassInfoBottomBar
+          selectedRoom={selectedRoom}
+          startRoom={startRoom}
+          setStartPointer={setStartPointer}
+          setArrivalPointer={setArrivalPointer}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -98,7 +110,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     marginBottom: 200,
   },
-  
   button: {
     position: 'absolute',
   },
@@ -111,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SecondFloorScreen;
+export default ThirdFloorScreen;

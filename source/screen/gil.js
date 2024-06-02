@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import Svg, { Line, Circle } from 'react-native-svg';
-import floors from './09Floors/engineeringFloor';  // Reference to engineeringFloor.js
+import Svg, { Line, Circle, Text as SvgText } from 'react-native-svg';
+import floors from './09Floors/engineeringFloor';
 
 const Gil = () => {
   const route = useRoute();
@@ -10,6 +10,7 @@ const Gil = () => {
   const { roomId, startFloor: initialStartFloor, goalFloor: initialGoalFloor } = route.params;
 
   const [path, setPath] = useState([]);
+  const [hallwaysOnFloor, setHallwaysOnFloor] = useState([]);
   const [currentImage, setCurrentImage] = useState(null);
   const [destinationImage, setDestinationImage] = useState(null);
   const [startFloor, setStartFloor] = useState(initialStartFloor);
@@ -29,8 +30,8 @@ const Gil = () => {
         return;
       }
 
-      const newPath = calculateDijkstraPath(start, goal, startFloor, goalFloor);
-      setPath(newPath);
+      const { path } = calculateDijkstraPath(start, goal, startFloor, goalFloor);
+      setPath(path);
     };
 
     calculatePath();
@@ -49,6 +50,10 @@ const Gil = () => {
     if (goalImage && startFloor !== goalFloor) {
       setDestinationImage(goalImage);
     }
+
+    if (floors[startFloor]) {
+      setHallwaysOnFloor(floors[startFloor].hallway);
+    }
   }, [startFloor, goalFloor]);
 
   const calculateDijkstraPath = (start, goal, startFloor, goalFloor) => {
@@ -58,11 +63,11 @@ const Gil = () => {
       const image = floors[startFloor]?.image;
       if (!image) {
         console.error(`Image not found for floor ${startFloor}`);
-        return [];
+        return { path: [] };
       }
       setCurrentImage(image);
 
-      path = findShortestPath(start, goal, startFloor);
+      path = findShortestPathWithHallways(start, goal, startFloor);
     } else {
       const startImage = floors[startFloor]?.image;
       const goalImage = floors[goalFloor]?.image;
@@ -71,26 +76,26 @@ const Gil = () => {
 
       if (!startImage) {
         console.error(`Image not found for floor ${startFloor}`);
-        return [];
+        return { path: [] };
       }
       if (!goalImage) {
         console.error(`Image not found for floor ${goalFloor}`);
-        return [];
+        return { path: [] };
       }
       if (!stairsStart) {
         console.error(`Stairs not found for floor ${startFloor}`);
-        return [];
+        return { path: [] };
       }
       if (!stairsGoal) {
         console.error(`Stairs not found for floor ${goalFloor}`);
-        return [];
+        return { path: [] };
       }
 
       setCurrentImage(startImage);
       setDestinationImage(goalImage);
 
-      const pathToStairs = findShortestPath(start, stairsStart, startFloor);
-      const pathFromStairs = findShortestPath(stairsGoal, goal, goalFloor);
+      const pathToStairs = findShortestPathWithHallways(start, stairsStart, startFloor);
+      const pathFromStairs = findShortestPathWithHallways(stairsGoal, goal, goalFloor);
 
       path = [
         ...pathToStairs,
@@ -100,11 +105,11 @@ const Gil = () => {
       ];
     }
 
-    return path;
+    return { path };
   };
 
-  const findShortestPath = (start, goal, floor) => {
-    const graph = buildGraph(floor);
+  const findShortestPathWithHallways = (start, goal, floor) => {
+    const graph = buildGraphWithHallways(start, goal, floor);
     const distances = {};
     const previous = {};
     const queue = [];
@@ -153,25 +158,30 @@ const Gil = () => {
     return pathWithCoordinates;
   };
 
-  const buildGraph = (floor) => {
+  const buildGraphWithHallways = (start, goal, floor) => {
     const graph = {};
 
     const rooms = floors[floor].rooms;
     const hallways = floors[floor].hallway;
     const staircases = floors[floor].staircases;
 
-    const allNodes = [...Object.values(rooms), ...hallways, ...Object.values(staircases)];
+    const allNodes = [
+      ...Object.values(rooms),
+      ...hallways,
+      ...Object.values(staircases)
+    ];
 
     allNodes.forEach((node, index) => {
       const key = `${node.x},${node.y}`;
       graph[key] = {};
-      allNodes.forEach((otherNode, otherIndex) => {
-        if (index !== otherIndex) {
+      if (node.connections) {
+        node.connections.forEach((connectionIndex) => {
+          const otherNode = hallways[connectionIndex];
           const otherKey = `${otherNode.x},${otherNode.y}`;
           const distance = Math.hypot(node.x - otherNode.x, node.y - otherNode.y);
           graph[key][otherKey] = distance;
-        }
-      });
+        });
+      }
     });
 
     return graph;
@@ -219,6 +229,71 @@ const Gil = () => {
     return { x: coordinate.x * xScale, y: coordinate.y * yScale };
   };
 
+  const findNearestHallway = (point, hallways) => {
+    let minDistance = Infinity;
+    let nearestHallway = null;
+
+    hallways.forEach(hallway => {
+      const distance = Math.hypot(point.x - hallway.x, point.y - hallway.y);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestHallway = hallway;
+      }
+    });
+
+    return nearestHallway;
+  };
+
+  const getHallwayConnections = (hallways) => {
+    const connections = [];
+    hallways.forEach((hallway) => {
+      hallway.connections.forEach((connectionIndex) => {
+        connections.push([hallway, hallways[connectionIndex]]);
+      });
+    });
+    return connections;
+  };
+
+  const drawGreenLineToNearestHallway = (room, hallways) => {
+    const nearestHallway = findNearestHallway(room, hallways);
+    if (nearestHallway) {
+      return (
+        <Line
+          x1={scaleCoordinates(room, { width: windowWidth, height: windowHeight }).x}
+          y1={scaleCoordinates(room, { width: windowWidth, height: windowHeight }).y}
+          x2={scaleCoordinates(nearestHallway, { width: windowWidth, height: windowHeight }).x}
+          y2={scaleCoordinates(nearestHallway, { width: windowWidth, height: windowHeight }).y}
+          stroke="green"
+          strokeWidth="2"
+        />
+      );
+    }
+    return null;
+  };
+
+  const drawBlueLinesThroughHallways = (startHallway, goalHallway, hallways) => {
+    const path = findShortestPathWithHallways(startHallway, goalHallway, startFloor);
+    return path.map((node, index) => {
+      if (index === path.length - 1) return null;
+      return (
+        <Line
+          key={`blue-line-${index}`}
+          x1={scaleCoordinates(node, { width: windowWidth, height: windowHeight }).x}
+          y1={scaleCoordinates(node, { width: windowWidth, height: windowHeight }).y}
+          x2={scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }).x}
+          y2={scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }).y}
+          stroke="blue"
+          strokeWidth="2"
+        />
+      );
+    });
+  };
+
+  const filterConnectedHallways = (hallways, path) => {
+    const pathSet = new Set(path.map(node => `${node.x},${node.y}`));
+    return hallways.filter(hallway => pathSet.has(`${hallway.x},${hallway.y}`));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -245,27 +320,38 @@ const Gil = () => {
           <View style={styles.floorContainer}>
             <Image source={currentImage} style={styles.map} />
             <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
-              {path.map((point, index) => {
-                const scaledPoint = scaleCoordinates(point, { width: windowWidth, height: windowHeight });
-                const nextPoint = path[index + 1] ? scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }) : null;
+              <Circle
+                cx={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
+                cy={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
+                r="5"
+                fill="red"
+              />
+              <Circle
+                cx={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
+                cy={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
+                r="5"
+                fill="red"
+              />
+              {filterConnectedHallways(hallwaysOnFloor, path).map((hallway, index) => {
+                const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
                 return (
-                  nextPoint && (
-                    <Line
-                      key={`line-${index}`}
-                      x1={scaledPoint.x}
-                      y1={scaledPoint.y}
-                      x2={nextPoint.x}
-                      y2={nextPoint.y}
-                      stroke="red"
-                      strokeWidth="2"
-                    />
-                  )
+                  <React.Fragment key={`hallway-${index}`}>
+                    <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
+                    <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
+                      {`(${hallway.x}, ${hallway.y})`}
+                    </SvgText>
+                  </React.Fragment>
                 );
               })}
-              {path.map((point, index) => {
-                const scaledPoint = scaleCoordinates(point, { width: windowWidth, height: windowHeight });
-                return <Circle key={`circle-${index}`} cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="red" />;
-              })}
+              {/* Connect hallways to rooms with green lines */}
+              {drawGreenLineToNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
+              {drawGreenLineToNearestHallway(floors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor)}
+              {/* Connect hallways between start and goal with blue lines */}
+              {drawBlueLinesThroughHallways(
+                findNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
+                findNearestHallway(floors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor),
+                hallwaysOnFloor
+              )}
             </Svg>
           </View>
         ) : (
@@ -277,27 +363,31 @@ const Gil = () => {
             <View style={styles.halfContainer}>
               <Image source={currentImage} style={styles.map} />
               <Svg height={windowHeight} width={windowWidth / 2} style={StyleSheet.absoluteFill}>
-                {path.slice(0, Math.ceil(path.length / 2)).map((point, index) => {
-                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
-                  const nextPoint = path[index + 1] ? scaleCoordinates(path[index + 1], { width: windowWidth / 2, height: windowHeight }) : null;
+                <Circle
+                  cx={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth / 2, height: windowHeight }).x}
+                  cy={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth / 2, height: windowHeight }).y}
+                  r="5"
+                  fill="red"
+                />
+                {filterConnectedHallways(hallwaysOnFloor, path).map((hallway, index) => {
+                  const scaledPoint = scaleCoordinates(hallway, { width: windowWidth / 2, height: windowHeight });
                   return (
-                    nextPoint && (
-                      <Line
-                        key={`line-${index}`}
-                        x1={scaledPoint.x}
-                        y1={scaledPoint.y}
-                        x2={nextPoint.x}
-                        y2={nextPoint.y}
-                        stroke="red"
-                        strokeWidth="2"
-                      />
-                    )
+                    <React.Fragment key={`hallway-${index}`}>
+                      <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
+                      <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
+                        {`(${hallway.x}, ${hallway.y})`}
+                      </SvgText>
+                    </React.Fragment>
                   );
                 })}
-                {path.slice(0, Math.ceil(path.length / 2)).map((point, index) => {
-                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
-                  return <Circle key={`circle-${index}`} cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="red" />;
-                })}
+                {/* Connect hallways to rooms with green lines */}
+                {drawGreenLineToNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
+                {/* Connect hallways between start and goal with blue lines */}
+                {drawBlueLinesThroughHallways(
+                  findNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
+                  findNearestHallway(floors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor),
+                  hallwaysOnFloor
+                )}
               </Svg>
             </View>
           ) : (
@@ -307,27 +397,25 @@ const Gil = () => {
             <View style={styles.halfContainer}>
               <Image source={destinationImage} style={styles.map} />
               <Svg height={windowHeight} width={windowWidth / 2} style={StyleSheet.absoluteFill}>
-                {path.slice(Math.ceil(path.length / 2)).map((point, index) => {
-                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
-                  const nextPoint = path[index + 1] ? scaleCoordinates(path[index + 1], { width: windowWidth / 2, height: windowHeight }) : null;
+                <Circle
+                  cx={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth / 2, height: windowHeight }).x}
+                  cy={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth / 2, height: windowHeight }).y}
+                  r="5"
+                  fill="red"
+                />
+                {floors[goalFloor].hallway.map((hallway, index) => {
+                  const scaledPoint = scaleCoordinates(hallway, { width: windowWidth / 2, height: windowHeight });
                   return (
-                    nextPoint && (
-                      <Line
-                        key={`line-${index}`}
-                        x1={scaledPoint.x}
-                        y1={scaledPoint.y}
-                        x2={nextPoint.x}
-                        y2={nextPoint.y}
-                        stroke="red"
-                        strokeWidth="2"
-                      />
-                    )
+                    <React.Fragment key={`hallway-${index}`}>
+                      <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
+                      <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
+                        {`(${hallway.x}, ${hallway.y})`}
+                      </SvgText>
+                    </React.Fragment>
                   );
                 })}
-                {path.slice(Math.ceil(path.length / 2)).map((point, index) => {
-                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
-                  return <Circle key={`circle-${index}`} cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="red" />;
-                })}
+                {/* Connect hallways to rooms with green lines */}
+                {drawGreenLineToNearestHallway(floors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor)}
               </Svg>
             </View>
           ) : (
@@ -342,44 +430,33 @@ const Gil = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    padding: 10,
   },
   roomInput: {
-    padding: 5,
-    backgroundColor: 'white',
-    borderRadius: 5,
+    flex: 1,
     borderWidth: 1,
-    borderColor: 'gray',
-    marginHorizontal: 10,
-    width: 100,
-    textAlign: 'center',
+    borderColor: '#ccc',
+    borderRadius: 4,
+    padding: 8,
+    marginRight: 10,
   },
   swapButton: {
-    padding: 5,
-    backgroundColor: 'lightgray',
-    borderRadius: 5,
-    marginHorizontal: 10,
+    backgroundColor: '#007bff',
+    padding: 10,
+    borderRadius: 4,
   },
   swapButtonText: {
+    color: '#fff',
     fontSize: 18,
   },
   floorContainer: {
     flex: 1,
-    alignItems: 'center',
-  },
-  differentFloorsContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    height: '100%',
-  },
-  halfContainer: {
-    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   map: {
@@ -387,9 +464,19 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'contain',
   },
+  differentFloorsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  halfContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   errorText: {
-    fontSize: 18,
     color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 
