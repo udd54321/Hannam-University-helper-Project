@@ -29,14 +29,29 @@ const Gil = () => {
         return;
       }
 
-      const newPath = calculateAStarPath(start, goal, startFloor, goalFloor);
+      const newPath = calculateDijkstraPath(start, goal, startFloor, goalFloor);
       setPath(newPath);
     };
 
     calculatePath();
   }, [startRoom, goalRoom, startFloor, goalFloor]);
 
-  const calculateAStarPath = (start, goal, startFloor, goalFloor) => {
+  useEffect(() => {
+    const startImage = floors[startFloor]?.image;
+    const goalImage = floors[goalFloor]?.image;
+
+    if (startImage) {
+      setCurrentImage(startImage);
+    } else {
+      console.error(`Image not found for floor ${startFloor}`);
+    }
+
+    if (goalImage && startFloor !== goalFloor) {
+      setDestinationImage(goalImage);
+    }
+  }, [startFloor, goalFloor]);
+
+  const calculateDijkstraPath = (start, goal, startFloor, goalFloor) => {
     let path = [];
 
     if (startFloor === goalFloor) {
@@ -47,12 +62,7 @@ const Gil = () => {
       }
       setCurrentImage(image);
 
-      const hallway = floors[startFloor]?.hallway || [];
-      path = [
-        { x: start.x, y: start.y },
-        ...hallway,
-        { x: goal.x, y: goal.y },
-      ];
+      path = findShortestPath(start, goal, startFloor);
     } else {
       const startImage = floors[startFloor]?.image;
       const goalImage = floors[goalFloor]?.image;
@@ -79,20 +89,92 @@ const Gil = () => {
       setCurrentImage(startImage);
       setDestinationImage(goalImage);
 
-      const hallwayStart = floors[startFloor]?.hallway || [];
-      const hallwayGoal = floors[goalFloor]?.hallway || [];
+      const pathToStairs = findShortestPath(start, stairsStart, startFloor);
+      const pathFromStairs = findShortestPath(stairsGoal, goal, goalFloor);
 
       path = [
-        { x: start.x, y: start.y },
-        ...hallwayStart,
-        { x: stairsStart?.x || start.x, y: stairsStart?.y || start.y },
-        { x: stairsGoal?.x || goal.x, y: stairsGoal?.y || goal.y },
-        ...hallwayGoal,
-        { x: goal.x, y: goal.y },
+        ...pathToStairs,
+        { x: stairsStart.x, y: stairsStart.y },
+        { x: stairsGoal.x, y: stairsGoal.y },
+        ...pathFromStairs,
       ];
     }
 
     return path;
+  };
+
+  const findShortestPath = (start, goal, floor) => {
+    const graph = buildGraph(floor);
+    const distances = {};
+    const previous = {};
+    const queue = [];
+
+    const startKey = `${start.x},${start.y}`;
+    const goalKey = `${goal.x},${goal.y}`;
+
+    for (let node in graph) {
+      distances[node] = Infinity;
+      previous[node] = null;
+      queue.push(node);
+    }
+
+    distances[startKey] = 0;
+
+    while (queue.length > 0) {
+      queue.sort((a, b) => distances[a] - distances[b]);
+      const currentNode = queue.shift();
+
+      if (currentNode === goalKey) {
+        break;
+      }
+
+      for (let neighbor in graph[currentNode]) {
+        const alt = distances[currentNode] + graph[currentNode][neighbor];
+        if (alt < distances[neighbor]) {
+          distances[neighbor] = alt;
+          previous[neighbor] = currentNode;
+        }
+      }
+    }
+
+    const shortestPath = [];
+    let currentNode = goalKey;
+
+    while (currentNode) {
+      shortestPath.unshift(currentNode);
+      currentNode = previous[currentNode];
+    }
+
+    const pathWithCoordinates = shortestPath.map(node => {
+      const [x, y] = node.split(',').map(Number);
+      return { x, y };
+    });
+
+    return pathWithCoordinates;
+  };
+
+  const buildGraph = (floor) => {
+    const graph = {};
+
+    const rooms = floors[floor].rooms;
+    const hallways = floors[floor].hallway;
+    const staircases = floors[floor].staircases;
+
+    const allNodes = [...Object.values(rooms), ...hallways, ...Object.values(staircases)];
+
+    allNodes.forEach((node, index) => {
+      const key = `${node.x},${node.y}`;
+      graph[key] = {};
+      allNodes.forEach((otherNode, otherIndex) => {
+        if (index !== otherIndex) {
+          const otherKey = `${otherNode.x},${otherNode.y}`;
+          const distance = Math.hypot(node.x - otherNode.x, node.y - otherNode.y);
+          graph[key][otherKey] = distance;
+        }
+      });
+    });
+
+    return graph;
   };
 
   const handleSwapLocations = () => {
@@ -127,6 +209,16 @@ const Gil = () => {
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
 
+  const scaleCoordinates = (coordinate, imageDimensions) => {
+    if (!coordinate) {
+      return { x: 0, y: 0 };
+    }
+    const { width, height } = imageDimensions;
+    const xScale = width / 100;
+    const yScale = height / 100;
+    return { x: coordinate.x * xScale, y: coordinate.y * yScale };
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -153,22 +245,27 @@ const Gil = () => {
           <View style={styles.floorContainer}>
             <Image source={currentImage} style={styles.map} />
             <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
-              {path.map((point, index) => (
-                index < path.length - 1 && (
-                  <Line
-                    key={`line-${index}`}
-                    x1={path[index].x}
-                    y1={path[index].y}
-                    x2={path[index + 1].x}
-                    y2={path[index + 1].y}
-                    stroke="red"
-                    strokeWidth="2"
-                  />
-                )
-              ))}
-              {path.map((point, index) => (
-                <Circle key={`circle-${index}`} cx={point.x} cy={point.y} r="5" fill="red" />
-              ))}
+              {path.map((point, index) => {
+                const scaledPoint = scaleCoordinates(point, { width: windowWidth, height: windowHeight });
+                const nextPoint = path[index + 1] ? scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }) : null;
+                return (
+                  nextPoint && (
+                    <Line
+                      key={`line-${index}`}
+                      x1={scaledPoint.x}
+                      y1={scaledPoint.y}
+                      x2={nextPoint.x}
+                      y2={nextPoint.y}
+                      stroke="red"
+                      strokeWidth="2"
+                    />
+                  )
+                );
+              })}
+              {path.map((point, index) => {
+                const scaledPoint = scaleCoordinates(point, { width: windowWidth, height: windowHeight });
+                return <Circle key={`circle-${index}`} cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="red" />;
+              })}
             </Svg>
           </View>
         ) : (
@@ -180,22 +277,27 @@ const Gil = () => {
             <View style={styles.halfContainer}>
               <Image source={currentImage} style={styles.map} />
               <Svg height={windowHeight} width={windowWidth / 2} style={StyleSheet.absoluteFill}>
-                {path.slice(0, 2).map((point, index) => (
-                  index < 1 && (
-                    <Line
-                      key={`line-${index}`}
-                      x1={point.x}
-                      y1={point.y}
-                      x2={path[index + 1].x}
-                      y2={path[index + 1].y}
-                      stroke="red"
-                      strokeWidth="2"
-                    />
-                  )
-                ))}
-                {path.slice(0, 2).map((point, index) => (
-                  <Circle key={`circle-${index}`} cx={point.x} cy={point.y} r="5" fill="red" />
-                ))}
+                {path.slice(0, Math.ceil(path.length / 2)).map((point, index) => {
+                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
+                  const nextPoint = path[index + 1] ? scaleCoordinates(path[index + 1], { width: windowWidth / 2, height: windowHeight }) : null;
+                  return (
+                    nextPoint && (
+                      <Line
+                        key={`line-${index}`}
+                        x1={scaledPoint.x}
+                        y1={scaledPoint.y}
+                        x2={nextPoint.x}
+                        y2={nextPoint.y}
+                        stroke="red"
+                        strokeWidth="2"
+                      />
+                    )
+                  );
+                })}
+                {path.slice(0, Math.ceil(path.length / 2)).map((point, index) => {
+                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
+                  return <Circle key={`circle-${index}`} cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="red" />;
+                })}
               </Svg>
             </View>
           ) : (
@@ -205,22 +307,27 @@ const Gil = () => {
             <View style={styles.halfContainer}>
               <Image source={destinationImage} style={styles.map} />
               <Svg height={windowHeight} width={windowWidth / 2} style={StyleSheet.absoluteFill}>
-                {path.slice(2).map((point, index) => (
-                  index < path.slice(2).length - 1 && (
-                    <Line
-                      key={`line-${index}`}
-                      x1={point.x}
-                      y1={point.y}
-                      x2={path[index + 1].x}
-                      y2={path[index + 1].y}
-                      stroke="red"
-                      strokeWidth="2"
-                    />
-                  )
-                ))}
-                {path.slice(2).map((point, index) => (
-                  <Circle key={`circle-${index}`} cx={point.x} cy={point.y} r="5" fill="red" />
-                ))}
+                {path.slice(Math.ceil(path.length / 2)).map((point, index) => {
+                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
+                  const nextPoint = path[index + 1] ? scaleCoordinates(path[index + 1], { width: windowWidth / 2, height: windowHeight }) : null;
+                  return (
+                    nextPoint && (
+                      <Line
+                        key={`line-${index}`}
+                        x1={scaledPoint.x}
+                        y1={scaledPoint.y}
+                        x2={nextPoint.x}
+                        y2={nextPoint.y}
+                        stroke="red"
+                        strokeWidth="2"
+                      />
+                    )
+                  );
+                })}
+                {path.slice(Math.ceil(path.length / 2)).map((point, index) => {
+                  const scaledPoint = scaleCoordinates(point, { width: windowWidth / 2, height: windowHeight });
+                  return <Circle key={`circle-${index}`} cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="red" />;
+                })}
               </Svg>
             </View>
           ) : (
@@ -242,10 +349,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-  },
-  roomText: {
-    fontSize: 18,
-    marginHorizontal: 10,
   },
   roomInput: {
     padding: 5,
