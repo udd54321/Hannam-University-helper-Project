@@ -362,18 +362,18 @@ const InputModal = ({
                 style={[styles.colorPreview, {backgroundColor: selectedColor}]}
               />
             </View>
-          </ScrollView>
-          <Dialog.Actions>
-            {idNum && (
-              <Button onPress={onDelete} color="red">
-                삭제
+            <Dialog.Actions>
+              {idNum && (
+                <Button onPress={onDelete} color="red">
+                  삭제
+                </Button>
+              )}
+              <Button onPress={handleClose}>취소</Button>
+              <Button onPress={handleSubmit(idNum ? onEdit : onSubmit)}>
+                입력
               </Button>
-            )}
-            <Button onPress={handleClose}>취소</Button>
-            <Button onPress={handleSubmit(idNum ? onEdit : onSubmit)}>
-              입력
-            </Button>
-          </Dialog.Actions>
+            </Dialog.Actions>
+          </ScrollView>
         </Dialog.Content>
       </Dialog>
     </Portal>
