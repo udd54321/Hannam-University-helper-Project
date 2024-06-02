@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,128 +9,56 @@ import {
   SafeAreaView,
   Switch,
 } from 'react-native';
-
-const subjects = [
-  {
-    id: '1',
-    subject: '모바일프로그래밍',
-    professor: '이극',
-    code: '24844',
-    location: '090519',
-    time: '수7,8',
-  },
-  {
-    id: '2',
-    subject: '모바일프로그래밍(실01)',
-    professor: '이극',
-    code: '22166',
-    location: '090210',
-    time: '금5,6',
-  },
-  {
-    id: '3',
-    subject: '모바일프로그래밍(실02)',
-    professor: '이극',
-    code: '22166',
-    location: '090210',
-    time: '금7,8',
-  },
-  {
-    id: '4',
-    subject: '시스템보안',
-    professor: '이극',
-    code: '24491',
-    location: '090520/090519',
-    time: '화6,7(090520) / 수9(090519)',
-  },
-  {
-    id: '5',
-    subject: '.net프로그래밍',
-    professor: '이만희',
-    code: '23300',
-    location: '090106',
-    time: '화7,8',
-  },
-  {
-    id: '6',
-    subject: '4차산업혁명과창업',
-    professor: '이한석',
-    code: '23751',
-    location: '110210',
-    time: '금4,5',
-  },
-  {
-    id: '7',
-    subject: '4차산업혁명과경영',
-    professor: '김장현',
-    code: '24598',
-    location: '050709',
-    time: '화7,8',
-  },
-  {
-    id: '8',
-    subject: '4차산업혁명과경영',
-    professor: '정충영',
-    code: '24598',
-    location: '050616',
-    time: '월2,3',
-  },
-  {
-    id: '9',
-    subject: '가상현실과미래사회',
-    professor: '권선영',
-    code: '25488',
-    location: '040223',
-    time: '월F/목A',
-  },
-  {
-    id: '10',
-    subject: '기록관리론',
-    professor: '김보일',
-    code: '21281',
-    location: '040223',
-    time: '화B/금B',
-  },
-  {
-    id: '11',
-    subject: '기업가정신',
-    professor: '권선영',
-    code: '25089',
-    location: '040223',
-    time: '화1',
-  },
-  {
-    id: '12',
-    subject: '정보자료구성론',
-    professor: '권선영',
-    code: '18054',
-    location: '040223',
-    time: '화D / 목D',
-  },
-];
+import subjectsData from '../../source/component/schedule.json'; // 스케줄 데이터 가져오기
 
 const ScheduleSearch = () => {
-  const [query, setQuery] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [filteredSubjects, setFilteredSubjects] = useState(subjects);
+  const [query, setQuery] = useState(''); // 검색어 상태
+  const [selectedCheckbox, setSelectedCheckbox] = useState(null); // 선택된 체크박스 상태
+  const [filteredSubjects, setFilteredSubjects] = useState([]); // 필터된 과목 상태
 
+  useEffect(() => {
+    handleSearch(); // 초기 렌더링 시 검색 필드가 비어 있을 때 전체 목록을 보여줍니다.
+  }, []);
+
+  // 검색 함수
   const handleSearch = () => {
-    const filtered = subjects.filter(
-      subject =>
-        !query ||
-        subject.subject.toLowerCase().includes(query.toLowerCase()) ||
-        !query ||
-        subject.professor.toLowerCase().includes(query.toLowerCase()) ||
-        !query ||
-        subject.code.toLowerCase().includes(query.toLowerCase()) ||
-        !query ||
-        subject.location.toLowerCase().includes(query.toLowerCase()),
-    );
-    setFilteredSubjects(filtered);
+    const filtered = subjectsData.filter(subject => {
+      if (query.length >= 2) {
+        // 검색어 길이가 2 이상이어야 합니다.
+        if (
+          selectedCheckbox === 'subject' &&
+          subject.subject.toLowerCase().includes(query.toLowerCase())
+        ) {
+          return true; // 과목명 검색
+        }
+        if (
+          selectedCheckbox === 'professor' &&
+          subject.professor.toLowerCase().includes(query.toLowerCase())
+        ) {
+          return true; // 교수명 검색
+        }
+        if (
+          selectedCheckbox === 'code' &&
+          subject.code.toLowerCase().includes(query.toLowerCase())
+        ) {
+          return true; // 과목코드 검색
+        }
+        if (
+          selectedCheckbox === 'location' &&
+          subject.location.toLowerCase().includes(query.toLowerCase())
+        ) {
+          return true; // 장소 검색
+        }
+      }
+      return false;
+    });
+
+    setFilteredSubjects(filtered.slice(0, 50)); // 최대 50개의 검색 결과를 보여줍니다.
   };
 
+  // 체크박스 변경 이벤트 핸들러
   const handleCheckboxChange = item => {
-    setSelectedItem(item);
+    setSelectedCheckbox(prevItem => (prevItem === item ? null : item));
   };
 
   return (
@@ -140,66 +68,63 @@ const ScheduleSearch = () => {
           <Text
             style={[
               styles.checkboxLabel,
-              selectedItem === 'subject' && styles.checkedLabel,
+              selectedCheckbox === 'subject' && styles.checkedLabel,
             ]}>
             과목명
           </Text>
           <Switch
-            value={selectedItem === 'subject'}
-            onValueChange={value =>
-              handleCheckboxChange(value ? 'subject' : null)
-            }
+            value={selectedCheckbox === 'subject'}
+            onValueChange={() => handleCheckboxChange('subject')}
           />
         </View>
         <View style={styles.checkboxItem}>
           <Text
             style={[
               styles.checkboxLabel,
-              selectedItem === 'professor' && styles.checkedLabel,
+              selectedCheckbox === 'professor' && styles.checkedLabel,
             ]}>
             교수명
           </Text>
           <Switch
-            value={selectedItem === 'professor'}
-            onValueChange={value =>
-              handleCheckboxChange(value ? 'professor' : null)
-            }
+            value={selectedCheckbox === 'professor'}
+            onValueChange={() => handleCheckboxChange('professor')}
           />
         </View>
         <View style={styles.checkboxItem}>
           <Text
             style={[
               styles.checkboxLabel,
-              selectedItem === 'code' && styles.checkedLabel,
+              selectedCheckbox === 'code' && styles.checkedLabel,
             ]}>
             과목코드
           </Text>
           <Switch
-            value={selectedItem === 'code'}
-            onValueChange={value => handleCheckboxChange(value ? 'code' : null)}
+            value={selectedCheckbox === 'code'}
+            onValueChange={() => handleCheckboxChange('code')}
           />
         </View>
         <View style={styles.checkboxItem}>
           <Text
             style={[
               styles.checkboxLabel,
-              selectedItem === 'location' && styles.checkedLabel,
+              selectedCheckbox === 'location' && styles.checkedLabel,
             ]}>
             장소
           </Text>
           <Switch
-            value={selectedItem === 'location'}
-            onValueChange={value =>
-              handleCheckboxChange(value ? 'location' : null)
-            }
+            value={selectedCheckbox === 'location'}
+            onValueChange={() => handleCheckboxChange('location')}
           />
         </View>
       </View>
       <TextInput
         style={styles.input}
-        placeholder="검색어를 입력하세요"
+        placeholder="검색어를 입력하세요 (두 글자 이상)"
         value={query}
-        onChangeText={setQuery}
+        onChangeText={text => {
+          setQuery(text);
+          handleSearch();
+        }}
       />
       <Button title="검색" onPress={handleSearch} />
       <FlatList
@@ -228,15 +153,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    justifyContent: 'space-between', // 각 항목을 좌우로 고르
-    paddingHorizontal: 20, // 각 항목의 좌우 패딩을 추가하여 간격 조정
+    justifyContent: 'flex-start', // 체크박스를 왼쪽 정렬
   },
   checkboxItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: 0.3, // 더 작은 체크박스 사이 간격
   },
   checkboxLabel: {
     fontSize: 16,
+    marginHorizontal: 0.3, // 더 작은 체크박스 레이블의 좌우 여백
   },
   checkedLabel: {
     color: 'red',

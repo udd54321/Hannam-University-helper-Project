@@ -24,6 +24,7 @@ const Gps = () => {
   const [location, setLocation] = useState(null);
   const [startLocation, setStartLocation] = useState(null);
   const [destination, setDestination] = useState(null);
+  const [waypoints, setWaypoints] = useState([]); // 경유지 상태 추가
   const [zoomLevel, setZoomLevel] = useState(0);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [selectedCoordinate, setSelectedCoordinate] = useState(null);
@@ -131,6 +132,12 @@ const Gps = () => {
       setStartLocation(location);
       setDestination(selectedCoordinate);
     }
+    setWaypoints([]); // 새로운 목적지를 설정할 때 경유지를 초기화
+    setDialogVisible(false);
+  };
+
+  const handleSetWaypoint = () => {
+    setWaypoints([...waypoints, selectedCoordinate]);
     setDialogVisible(false);
   };
 
@@ -173,6 +180,8 @@ const Gps = () => {
               <MapViewDirections
                 origin={startLocation}
                 destination={destination}
+                waypoints={waypoints}
+                optimizeWaypoints={true}
                 apikey={'AIzaSyDvetUWD0etDt4XMkUcCY1EXwyIpyvDUyA'}
                 strokeWidth={5} // 기본 strokeWidth를 0으로 설정하여 MapViewDirections 자체의 경로 표시 비활성화
                 strokeColor="blue" // 기본 strokeColor를 투명으로 설정하여 MapViewDirections 자체의 경로 표시 비활성화
@@ -196,11 +205,6 @@ const Gps = () => {
             <TouchableOpacity style={styles.button} onPress={zoomOut}>
               <Text style={styles.buttonText}>-</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={moveToCurrentLocation}>
-              <Text style={styles.buttonText}>현재 위치</Text>
-            </TouchableOpacity>
           </View>
         </View>
         <Dialog.Container visible={dialogVisible}>
@@ -211,6 +215,7 @@ const Gps = () => {
           </Dialog.Description>
           <Dialog.Button label="출발지 설정" onPress={handleSetStartLocation} />
           <Dialog.Button label="목적지 설정" onPress={handleSetDestination} />
+          <Dialog.Button label="경유지 추가" onPress={handleSetWaypoint} />
           <Dialog.Button label="취소" onPress={handleDialogCancel} />
         </Dialog.Container>
       </SafeAreaView>

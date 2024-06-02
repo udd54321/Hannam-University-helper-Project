@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,38 +9,36 @@ import {
   Dimensions,
 } from 'react-native';
 
-import floors from './building04Floor'
-import Bottombar2 from '../../component/bottomBar2'; //하단 버튼 바
+import floors from './building04Floor';
+import Bottombar2 from '../../component/bottomBar'; //하단 버튼 바
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const FirstFloorScreen = ({navigation}) => {
- 
-
   const [currentImage] = useState(floors['1F'].image);
 
-  const showInfoAlert = (room) => {
+  const showInfoAlert = room => {
     let additionalText = '';
     if (room === '040101') {
       additionalText = '\n\n-';
     } else if (room === '020102') {
       additionalText = '\n';
-    }else if (room === '020103') {
+    } else if (room === '020103') {
       additionalText = '\n';
-    }else if (room === '020104') {
+    } else if (room === '020104') {
       additionalText = '\n';
-    }else if (room === '020105') {
+    } else if (room === '020105') {
       additionalText = '\n';
-    }else if (room === '020106') {
+    } else if (room === '020106') {
       additionalText = '\n';
-    }else if (room === '020108') {
+    } else if (room === '020108') {
       additionalText = '\n';
-    }else if (room === '020109') {
+    } else if (room === '020109') {
       additionalText = '\n';
-    }else if (room === '020110') {
+    } else if (room === '020110') {
       additionalText = '\n';
-    }else if (room === '020113') {
+    } else if (room === '020113') {
       additionalText = '\n';
     }
 
@@ -48,7 +46,11 @@ const FirstFloorScreen = ({navigation}) => {
       {
         text: '길 안내를 시작하시겠습니까?',
         onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '1F', goalFloor: '1F' }); // startFloor와 goalFloor 전달
+          navigation.navigate('Gil', {
+            roomId: room,
+            startFloor: '1F',
+            goalFloor: '1F',
+          }); // startFloor와 goalFloor 전달
         },
       },
       {
@@ -62,16 +64,22 @@ const FirstFloorScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['1F'].rooms).map((roomId) => {
+      {Object.keys(floors['1F'].rooms).map(roomId => {
         const room = floors['1F'].rooms[roomId];
-        const isRotated = ['040103-A', '040106', '040108','040108-A'].includes(roomId);
+        const isRotated = ['040103-A', '040106', '040108', '040108-A'].includes(
+          roomId,
+        );
         return (
           <TouchableOpacity
             key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
-          >
-            <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
+            style={[styles.button, {top: `${room.y}%`, left: `${room.x}%`}]}
+            onPress={() => showInfoAlert(roomId)}>
+            <Text
+              style={[
+                styles.buttonText,
+                {fontSize: 8},
+                isRotated && styles.rotatedText,
+              ]}>
               {roomId}
             </Text>
           </TouchableOpacity>
@@ -79,17 +87,15 @@ const FirstFloorScreen = ({navigation}) => {
       })}
 
       <Bottombar2 />
-
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-
     width: windowWidth,
     height: windowHeight,
-    
+
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1, // 이미지의 비율을 유지
     resizeMode: 'contain',
   },
-  
+
   button: {
     position: 'absolute',
   },
@@ -109,9 +115,8 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
   rotatedText: {
-    transform: [{ rotate: '90deg' }],
+    transform: [{rotate: '90deg'}],
   },
 });
 
 export default FirstFloorScreen;
-
