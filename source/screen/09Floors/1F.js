@@ -65,7 +65,8 @@ const ThirdFloorScreen = () => {
                 '090121',
                 '090122',
                 '090124',
-                '090125'
+                '090125',
+                'start'
               ].includes(roomId);
               return (
                 <TouchableOpacity

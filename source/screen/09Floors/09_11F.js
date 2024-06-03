@@ -1,76 +1,90 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   Text,
   Image,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Dimensions,
 } from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import floors from './engineeringFloor';  // engineeringFloor.js 파일 참조
-import Bottombar from '../../component/bottomBar'; //하단 버튼 바
+import floors from './engineeringFloor';
+import ClassInfoBottomBar from '../../component/ClassInfoBottomBar';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const EleventhFloorScreen = () => {
+const ThirdFloorScreen = () => {
   const navigation = useNavigation();
   const [currentImage] = useState(floors['11F'].image);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [startRoom, setStartRoom] = useState(null);
 
-  const showInfoAlert = room => {
-    let additionalText = '';
-    if (room === '091116') {
-      additionalText = '\n3시-ㅇㅇ교수님의 ㅇㅇ수업\n5시-ㄹㄹ교수님의 ㄴㄴ강의';
-    } else if (room === '091115') {
-      additionalText = '\n기타 정보';
-    }
+  const showInfoAlert = (room) => {
+    setSelectedRoom(room);
+    setStartRoom(room);
+  };
 
-    Alert.alert('알림', `${room} 강의실입니다. ${additionalText}`, [
-      {
-        text: '길 안내를 시작하시겠습니까?',
-        onPress: () => {
-          navigation.navigate('Gil', { roomId: room, startFloor: '11F', goalFloor: '11F' }); // startFloor와 goalFloor 전달
-        },
-      },
-      {
-        text: '아니오',
-        onPress: () => console.log('아니오 버튼이 눌렸습니다.'),
-        style: 'cancel',
-      },
-    ]);
+  const setStartPointer = (room) => {
+    navigation.navigate('Gil', { roomId: room, startFloor: '11F', goalFloor: '11F' }); // startFloor와 goalFloor 전달
+  };
+
+  const setArrivalPointer = (room) => {
+    navigation.navigate('Gil', { roomId: room, startFloor: '11F', goalFloor: '11F' });
   };
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={styles.outerContainer}
-        contentContainerStyle={styles.innerContainer}
-      >
-      <ScrollView
-        style={styles.outerContainer}
-        contentContainerStyle={styles.innerContainer}
-        horizontal = {true}
-      >
-      <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['11F'].rooms).map(roomId => {
-        const room = floors['11F'].rooms[roomId];
-        return (
-          <TouchableOpacity
-            key={roomId}
-            style={[styles.button, { top: `${room.y}%`, left: `${room.x}%` }]}
-            onPress={() => showInfoAlert(roomId)}
+        <ScrollView
+          style={styles.outerContainer}
+          contentContainerStyle={styles.innerContainer}
+        >
+          <ScrollView
+            style={styles.outerContainer}
+            contentContainerStyle={styles.innerContainer}
+            horizontal={true}
           >
-            <Text style={[styles.buttonText, { fontSize: 8 }]}>{roomId}</Text>
-          </TouchableOpacity>
-        );
-      })}
-      </ScrollView>
-      </ScrollView>
-      <Bottombar />
+            <Image style={styles.headerImage} source={currentImage} />
+            {Object.keys(floors['11F'].rooms).map((roomId) => {
+              const room = floors['11F'].rooms[roomId];
+              const isRotated = [
+                    '091115',
+                    '091114',
+                    '091111',
+                    '091110',
+                    '091109',
+                    '091108',
+                    '091107',
+                    '091106',
+                    '091105',
+                    '091104',
+                    '091103',
+                    '091102',
+                    '091101'
+
+              ].includes(roomId);
+              return (
+                <TouchableOpacity
+                  key={roomId}
+                  style={[styles.button, { top: `${room.y - 1}%`, left: `${room.x}%` }]} // Move slightly higher
+                  onPress={() => showInfoAlert(roomId)}
+                >
+                  <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
+                    {roomId}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </ScrollView>
+        <ClassInfoBottomBar
+          selectedRoom={selectedRoom}
+          startRoom={startRoom}
+          setStartPointer={setStartPointer}
+          setArrivalPointer={setArrivalPointer}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -94,7 +108,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     marginBottom: 200,
   },
-  
   button: {
     position: 'absolute',
   },
@@ -107,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EleventhFloorScreen;
+export default ThirdFloorScreen;

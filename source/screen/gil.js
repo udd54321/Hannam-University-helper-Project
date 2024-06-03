@@ -478,8 +478,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   dualFloorsContainer: {
-    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flex: 1,
   },
 });
