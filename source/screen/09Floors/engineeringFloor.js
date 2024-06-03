@@ -1,4 +1,44 @@
 const floors = {
+  'B1': {
+    image: require('../../image/09_B1층.png'),
+   rooms: {
+         '090001': { x: 7, y: 60, target: ['S2'] },
+         '090002': { x: 22, y: 53, target: ['S1'] },
+         '090003': { x: 27, y: 69, target: ['S1'] },
+         '090003-1': { x: 43, y: 69, target: ['S2'] },
+         '090004': { x: 49, y: 46, target: ['S2'] },
+         '090005': { x: 63, y: 46, target: ['S3'] },
+         '090006': { x: 75, y: 46, target: ['S3'] },
+         '090007': { x: 82, y: 46, target: ['S3'] },
+         '090008': { x: 90, y: 30, target: ['S3'] },
+         '090008-A': { x: 82, y: 17, target: ['S3'] },
+         '090010': { x: 65, y: 17, target: ['S3'] },
+         '090011': { x: 58, y: 17, target: ['S3'] },
+         '090012': { x: 37, y: 17, target: ['S2'] },
+         '090012-A': { x: 49, y: 17, target: ['S3'] },
+        
+       },
+        hallway: [
+             { x: 16, y: 60, connections: [1], rooms: ['090001'], staircases: ['S1']},
+             { x: 35, y: 60, connections: [0, 2], rooms: ['090003','090002'], staircases: ['S1']},
+             { x: 40, y: 60, connections: [1, 3,4], rooms: [], staircases: ['S2']},
+             { x: 45, y: 60, connections: [2], rooms: ['090003-1','090004'], staircases: ['S2']},
+             { x: 40, y: 30, connections: [2, 5], rooms: ['090012'], staircases: ['S2']},
+             { x: 50, y: 30, connections: [4,6], rooms: ['090012-A'], staircases: ['S3']},
+             { x: 59, y: 30, connections: [5, 7], rooms: ['090011','090005'], staircases: ['S3']},
+             { x: 64, y: 30, connections: [6, 8], rooms: ['090010'], staircases: ['S3']},
+             { x: 73, y: 30, connections: [9,11], rooms: ['090006'], staircases: ['S3']},
+             { x:78, y: 30, connections: [10,12], rooms: [], staircases: ['S3']},
+             { x: 83, y: 30, connections: [11], rooms: ['090007','090008','090008-A'], staircases: ['S3']},
+  
+           ],
+
+    staircases: {
+      'S1': { x: 17, y:33 },
+      'S2': { x: 45, y:60 },
+      'S3': { x: 78, y:20 },
+    },
+  },
   '1F': {
     image: require('../../image/공대1층.png'),
    rooms: {
