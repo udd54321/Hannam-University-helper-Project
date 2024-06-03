@@ -121,7 +121,7 @@ const FloorButton = ({floor, details, navigation}) => {
           <Text style={styles.numberText}>{floor}</Text>
         </View>
         <View style={styles.floorInfo}>
-          <Text numberOfLines={2} style={styles.infoText}>{details}</Text>
+          <Text numberOfLines={1} style={styles.infoText}>{details}</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity 

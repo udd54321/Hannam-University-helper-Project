@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -77,26 +78,26 @@ const Building04Main = ({navigation}) => {
             contentContainerStyle={styles.innerContainer}>
             <FloorButton 
               floor="1F"
-              details="학과사무실(기계공학과, 토목환경공학전공), 프린스홀, 강의실, 전공실험실(토목환경공학전공)"
+              details="문과 대학 1층"
               navigation={navigation} 
             />
             <FloorButton
               floor="2F"
-              details="학과사무실(컴퓨터공학과), 강의실, 전공실험실(기계공학과, 멀티미디어공학과, 컴퓨터공학과, 토목환경공학전공)"
+              details="문과 대학 2층"
               navigation={navigation}
             />
             <FloorButton 
               floor="3F" 
-              details="공과대학(학장실, 부속실), 학과사무실(전기전자공학과), 강의실, 공용PC실, 전공실험실(전기전자공학과, 컴퓨터공학과, 토목환경공학전공)" 
+              details="문과 대학 3층" 
               navigation={navigation} 
             />
             <FloorButton 
               floor="4F" 
-              details="학과사무실(산업경영공학과, 정보통신공학과), 강의실, 전공실험실(산업경영공학과, 정보통신공학과)" 
+              details="문과 대학 4층" 
               navigation={navigation} 
             /><FloorButton 
               floor="5F" 
-              details="학과사무실(산업경영공학과, 정보통신공학과), 강의실, 전공실험실(산업경영공학과, 정보통신공학과)" 
+              details="문과 대학 5층" 
               navigation={navigation} 
           />
           </ScrollView>
@@ -105,6 +106,15 @@ const Building04Main = ({navigation}) => {
       </SafeAreaView>
     </SafeAreaProvider>
   );
+};
+
+const showInfoAlert = ({details}) => {
+  Alert.alert('세부 내용', `${details}`, [
+    {
+      text: '닫기',
+      style: 'cancel',
+    },
+  ]);
 };
 
 const FloorButton = ({floor, details, navigation}) => {
@@ -120,11 +130,12 @@ const FloorButton = ({floor, details, navigation}) => {
           <Text style={styles.numberText}>{floor}</Text>
         </View>
         <View style={styles.floorInfo}>
-          <Text numberOfLines={2} style={styles.infoText}>{details}</Text>
+          <Text numberOfLines={1} style={styles.infoText}>{details}</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity 
         style = {styles.floorMoreInfo}
+        onPress = {() => showInfoAlert({details})}
       >
         <Image
           style={styles.floorMoreInfoImage}
@@ -141,11 +152,12 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
+    backgroundColor: '#ffffff',
   },
   outerContainer: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginBottom: 40,
+    marginBottom: 200,
   },
   innerContainer: {
     flexDirection: 'column',
