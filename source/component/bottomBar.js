@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.09,
     position: 'absolute',
     flexDirection: 'row',
-    bottom: 50,
+    bottom: 30,
   },
   bottomButton: {
     flex: 1,
@@ -127,9 +127,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bottomImage: {
-    flex: 1,
     resizeMode: 'contain',
-    width: '100%',
-    height: 'auto',
+    width: windowWidth * 0.2,
+    height: windowHeight * 0.05,
   },
 });
