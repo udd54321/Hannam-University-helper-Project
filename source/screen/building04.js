@@ -11,7 +11,6 @@ import {
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
 
 import Bottombar from '../component/bottomBar'; //하단 버튼 바
 
@@ -29,7 +28,6 @@ const Stack = createStackNavigator();
 
 const Building04 = () => {
     return (
-      <NavigationContainer independent={true}>
         <Stack.Navigator>
           <Stack.Screen
             name="Building04Main"
@@ -66,7 +64,6 @@ const Building04 = () => {
             options={{ title: '길 안내' }}
           />
         </Stack.Navigator>
-      </NavigationContainer>
     );
   };
 
