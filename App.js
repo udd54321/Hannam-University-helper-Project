@@ -91,35 +91,35 @@ const App = () => {
               }}
             />
             <Stack.Screen
-              name="College of Engineering"
+              name="building09"
               component={Building09}
               options={{
                 headerTitle: () => <HeaderTitle text="공과대학" />,
               }}
             />
             <Stack.Screen
-              name="56th Anniversary Memorial Hall"
+              name="building56"
               component={Building56}
               options={{
                 headerTitle: () => <HeaderTitle text="56주년 기념관" />,
               }}
             />
             <Stack.Screen
-              name="02"
+              name="building02"
               component={Building02}
               options={{
                 headerTitle: () => <HeaderTitle text="탈메이지 기념관" />,
               }}
             />
             <Stack.Screen
-              name="06"
+              name="building06"
               component={Building06}
               options={{
                 headerTitle: () => <HeaderTitle text="계의돈 기념관" />,
               }}
             />
             <Stack.Screen
-              name="04"
+              name="building04"
               component={Building04}
               options={{
                 headerTitle: () => <HeaderTitle text="문과 대학" />,

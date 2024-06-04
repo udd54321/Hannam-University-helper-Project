@@ -11,6 +11,7 @@ import {
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
+import buildings from './campusBuilding';
 import Bottombar from '../component/bottomBar'; //하단 버튼 바
 
 const windowWidth = Dimensions.get('window').width;
@@ -34,11 +35,7 @@ const Home = ({navigation}) => {
       navigation.navigate('Schedulepage');
     }
   };
-  const pressButton09 = () => navigation.navigate('College of Engineering');
-  const pressButton56 = () =>navigation.navigate('56th Anniversary Memorial Hall');
-  const pressButton02 = () =>navigation.navigate('02');
-  const pressButton06 = () =>navigation.navigate('06');
-  const pressButton04 = () =>navigation.navigate('04');
+
   React.useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -60,59 +57,43 @@ const Home = ({navigation}) => {
     });
   });
 
+  const pressBuilding = ({buildingNumber}) => {
+    const buildingName = 'building' + buildingNumber;
+    return navigation.navigate(buildingName);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={style.container}>
         <GestureHandlerRootView>
           <ScrollView
             style={style.outerContainer}
-            contentContainerStyle={style.innerContainer}>
-            <TouchableOpacity style={style.building} onPress={pressButton09}>
-              <Image
-                style={style.buildingImage}
-                source={require('../image/building09.jpg')}
-              />
-              <Text numberOfLines={2} style={style.buildingText}>
-                공과대학
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={style.building} onPress={pressButton56}>
-              <Image
-                style={style.buildingImage}
-                source={require('../image/building56.jpg')}
-              />
-              <Text numberOfLines={2} style={style.buildingText}>
-                56주년 기념관
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.building} onPress={pressButton02}>
-              <Image
-                style={style.buildingImage}
-                source={require('../image/building56.jpg')}
-              />
-              <Text numberOfLines={2} style={style.buildingText}>
-                탈메이지 기념관
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.building} onPress={pressButton06}>
-              <Image
-                style={style.buildingImage}
-                source={require('../image/building56.jpg')}
-              />
-              <Text numberOfLines={2} style={style.buildingText}>
-                계의돈 기념관
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.building} onPress={pressButton04}>
-              <Image
-                style={style.buildingImage}
-                source={require('../image/building56.jpg')}
-              />
-              <Text numberOfLines={2} style={style.buildingText}>
-                문과 대학
-              </Text>
-            </TouchableOpacity>
+            contentContainerStyle={style.innerContainer}
+          >
+              <ScrollView
+                style={style.outerContainerHorizontal}
+                contentContainerStyle={style.innerContainerHorizontal}
+                horizontal={true}
+              >
+                <Image
+                  style={style.campusImage}
+                  source={require('../image/campusmap.jpg')}
+                />
+                {Object.keys(buildings['buildingsInfo'].number).map((building) => {
+                const buildingPosition = buildings['buildingsInfo'].number[building];
+                return (
+                  <TouchableOpacity
+                    key={building}
+                    style={[style.buildingButton, { top: `${buildingPosition.y - 1}%`, left: `${buildingPosition.x}%` }]} // Move slightly higher
+                    onPress={() => {pressBuilding({buildingNumber: buildingPosition.number})}}
+                  >
+                    <Text style={style.buildingText}>
+                      {buildingPosition.number}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
           </ScrollView>
           <Bottombar />
         </GestureHandlerRootView>
@@ -150,26 +131,28 @@ const style = StyleSheet.create({
     marginBottom: 200,
   },
   innerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
-    gap: 40,
   },
-  building: {
-    width: windowWidth * 0.25,
-    height: windowHeight * 0.25,
-  },
-  buildingImage: {
+  outerContainerHorizontal: {
     flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  innerContainerHorizontal: {
+  },
+  campusImage: {
+    width: windowWidth * 3,
+    height: windowHeight,
     resizeMode: 'stretch',
-    width: '100%',
-    height: '100%',
+  },
+  buildingButton: {
+    width: windowWidth * 0.15,
+    height: windowHeight * 0.075,
+    position: 'absolute',
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buildingText: {
-    fontSize: windowHeight * 0.25 * 0.2 * 0.25,
+    fontSize: 30,
     color: '#000000',
-    width: '100%',
-    height: '20%',
-    textAlign: 'center',
   },
 });
