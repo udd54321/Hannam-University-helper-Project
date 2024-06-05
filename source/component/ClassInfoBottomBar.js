@@ -133,7 +133,7 @@ const ClassInfoBottomBar = ({ selectedRoom, startRoom, setStartPointer, setArriv
 
                   <TouchableOpacity
                     style={styles.actionButton}
-                    onPress={() => setArrivalPointer('start')}
+                    onPress={() => setArrivalPointer(selectedRoom)}
                   >
                     <Text style={styles.buttonText}>Set as Arrival</Text>
                   </TouchableOpacity>
