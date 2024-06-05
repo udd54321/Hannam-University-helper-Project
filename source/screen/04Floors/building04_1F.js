@@ -1,93 +1,89 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-  View,
+  ScrollView,
   Text,
   Image,
   TouchableOpacity,
   StyleSheet,
-  Alert,
   Dimensions,
 } from 'react-native';
-
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import floors from './building04Floor';
-import Bottombar2 from '../../component/bottomBar'; //하단 버튼 바
+import ClassInfoBottomBar from '../../component/ClassInfoBottomBar';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const FirstFloorScreen = ({navigation}) => {
+const FirstFloorScreen = () => {
+  const navigation = useNavigation();
   const [currentImage] = useState(floors['1F'].image);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [startRoom, setStartRoom] = useState(null);
 
-  const showInfoAlert = room => {
-    let additionalText = '';
-    if (room === '040101') {
-      additionalText = '\n\n-';
-    } else if (room === '020102') {
-      additionalText = '\n';
-    } else if (room === '020103') {
-      additionalText = '\n';
-    } else if (room === '020104') {
-      additionalText = '\n';
-    } else if (room === '020105') {
-      additionalText = '\n';
-    } else if (room === '020106') {
-      additionalText = '\n';
-    } else if (room === '020108') {
-      additionalText = '\n';
-    } else if (room === '020109') {
-      additionalText = '\n';
-    } else if (room === '020110') {
-      additionalText = '\n';
-    } else if (room === '020113') {
-      additionalText = '\n';
-    }
+  const showInfoAlert = (room) => {
+    setSelectedRoom(room);
+    setStartRoom(room);
+  };
 
-    Alert.alert('알림', `${room}  ${additionalText}`, [
-      {
-        text: '길 안내를 시작하시겠습니까?',
-        onPress: () => {
-          navigation.navigate('Gil', {
-            roomId: room,
-            startFloor: '1F',
-            goalFloor: '1F',
-          }); // startFloor와 goalFloor 전달
-        },
-      },
-      {
-        text: '아니오',
-        onPress: () => console.log('아니오 버튼이 눌렸습니다.'),
-        style: 'cancel',
-      },
-    ]);
+  const setStartPointer = (room) => {
+    navigation.navigate('Gil', { roomId: room, startFloor: '1F', goalFloor: '1F' }); // startFloor와 goalFloor 전달
+  };
+
+  const setArrivalPointer = (room) => {
+    navigation.navigate('Gil', { roomId: room, startFloor: '1F', goalFloor: '1F' });
   };
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.headerImage} source={currentImage} />
-      {Object.keys(floors['1F'].rooms).map(roomId => {
-        const room = floors['1F'].rooms[roomId];
-        const isRotated = ['040103-A', '040106', '040108', '040108-A'].includes(
-          roomId,
-        );
-        return (
-          <TouchableOpacity
-            key={roomId}
-            style={[styles.button, {top: `${room.y}%`, left: `${room.x}%`}]}
-            onPress={() => showInfoAlert(roomId)}>
-            <Text
-              style={[
-                styles.buttonText,
-                {fontSize: 8},
-                isRotated && styles.rotatedText,
-              ]}>
-              {roomId}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-
-      <Bottombar2 />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <ScrollView
+          style={styles.outerContainer}
+          contentContainerStyle={styles.innerContainer}
+        >
+          <ScrollView
+            style={styles.outerContainer}
+            contentContainerStyle={styles.innerContainer}
+            horizontal={true}
+          >
+            <Image style={styles.headerImage} source={currentImage} />
+            {Object.keys(floors['1F'].rooms).map((roomId) => {
+              const room = floors['1F'].rooms[roomId];
+              const isRotated = [
+                '040101',
+                '040102',
+                '040103',
+                '040103-A',
+                '040104',
+                '040105',
+                '040106',
+                '040107',
+                '040108',
+                '040108-A',
+                'start'
+              ].includes(roomId);
+              return (
+                <TouchableOpacity
+                  key={roomId}
+                  style={[styles.button, { top: `${room.y - 1}%`, left: `${room.x}%` }]} // Move slightly higher
+                  onPress={() => showInfoAlert(roomId)}
+                >
+                  <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
+                    {roomId}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </ScrollView>
+        <ClassInfoBottomBar
+          selectedRoom={selectedRoom}
+          startRoom={startRoom}
+          setStartPointer={setStartPointer}
+          setArrivalPointer={setArrivalPointer}
+        />
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
@@ -95,18 +91,20 @@ const styles = StyleSheet.create({
   container: {
     width: windowWidth,
     height: windowHeight,
-
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  outerContainer: {
+    flex: 1,
+  },
+  innerContainer: {
+    flexDirection: 'column',
   },
   headerImage: {
-    marginTop: -300,
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1, // 이미지의 비율을 유지
-    resizeMode: 'contain',
+    width: windowWidth * 1.5,
+    height: windowHeight * 1.5,
+    resizeMode: 'stretch',
+    aspectRatio: 1,
+    marginBottom: 200,
   },
-
   button: {
     position: 'absolute',
   },
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
     color: 'blue',
   },
   rotatedText: {
-    transform: [{rotate: '90deg'}],
+    transform: [{ rotate: '90deg' }],
   },
 });
 
