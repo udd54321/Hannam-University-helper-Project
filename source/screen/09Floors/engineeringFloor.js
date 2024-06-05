@@ -107,7 +107,7 @@ const floors = {
       '090220': { x: 63.5, y: 11, target: ['S092FS3'] },
       '090221': { x: 53, y: 11, target: ['S092FS3'] },
       '090223': { x: 43, y: 11, target: ['S092FS2'] },
-      '0': { x: 47, y: 23, target: ['S092FS2'] },
+
 
 
       'S092FS1': { x: 17, y: 33, target: [] },
@@ -115,16 +115,17 @@ const floors = {
       'S092FS3': { x: 81, y: 15, target: [] },
     },
     hallway: [
-      { x: 9, y: 62, connections: [1], rooms: ['090202-A'] },
-      { x: 15, y: 62, connections: [0, 2], rooms: ['090201','090202'] },
-      { x: 21, y: 62, connections: [1, 3, 4], rooms: ['090201-A'] },
-      { x: 21, y: 41, connections: [2, 5, 6], rooms: [] },
-      { x: 17, y: 41, connections: [4], rooms: ['S092FS1'] },
-      { x: 26, y: 41, connections: [4, 7], rooms: ['090203', '090206'] },
-      { x: 31, y: 41, connections: [6, 8], rooms: ['090204'] },
-      { x: 37.5, y: 41, connections: [7, 9], rooms: ['S092FS2'] },
-      { x: 41, y: 41, connections: [8, 10, 11], rooms: [] },
-      { x: 51, y: 41, connections: [9], rooms: ['090205'] },
+      { x: 9, y: 64, connections: [1], rooms: ['090202-A'] },
+      { x: 15, y: 64, connections: [0, 2], rooms: ['090201','090202'] },
+      { x: 21, y: 64, connections: [1, 3, 4], rooms: ['090201-A'] },
+      { x: 31, y: 64, connections: [2], rooms: ['090201-A'] },
+      { x: 21, y: 43, connections: [2, 5, 6], rooms: [] },
+      { x: 17, y: 43, connections: [5], rooms: ['S092FS1'] },
+      { x: 26, y: 43, connections: [5, 7], rooms: ['090203', '090206'] },
+      { x: 31, y: 43, connections: [6, 8], rooms: ['090204'] },
+      { x: 37.5, y: 43, connections: [7, 9], rooms: ['S092FS2'] },
+      { x: 41, y: 43, connections: [8, 10, 11], rooms: [] },
+      { x: 51, y: 43, connections: [9], rooms: ['090205'] },
       { x: 41, y: 23, connections: [9, 12], rooms: [] },
       { x: 43, y: 23, connections: [11, 13], rooms: ['090223'] },
       { x: 47, y: 23, connections: [12, 14], rooms: ['090209'] },
@@ -593,5 +594,4 @@ const floors = {
   },
   // 다른 층 추가
 };
-
 export default floors;
