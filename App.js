@@ -17,6 +17,7 @@ import Building56 from './source/screen/building56'; // Building 56
 import Building02 from './source/screen/building02'; // Building 02
 import Building06 from './source/screen/building06'; // Building 06
 import Building04 from './source/screen/building04'; // Building 04
+import Building05 from './source/screen/building05'; // Building 04
 import TestScreen from './source/screen/test'; // Test screen
 
 const Stack = createNativeStackNavigator();
@@ -101,7 +102,7 @@ const App = () => {
               name="building56"
               component={Building56}
               options={{
-                headerTitle: () => <HeaderTitle text="56주년 기념관" />,
+                headerTitle: () => <HeaderTitle text="56주년 기념관" />,  
               }}
             />
             <Stack.Screen
@@ -123,6 +124,13 @@ const App = () => {
               component={Building04}
               options={{
                 headerTitle: () => <HeaderTitle text="문과 대학" />,
+              }}
+            />
+            <Stack.Screen
+              name="building05"
+              component={Building05}
+              options={{
+                headerTitle: () => <HeaderTitle text="경상 대학" />,
               }}
             />
             <Stack.Screen

@@ -20,7 +20,6 @@ const floors = {
       '09B1S2': { x: 45, y: 60 , target : []},
       '09B1S3': { x: 78, y: 20 , target : []},
 
-
     },
     hallway: [
       { x: 16, y: 60, connections: [1], rooms: ['090001'] },
@@ -60,6 +59,11 @@ const floors = {
       '091FS1': { x: 17, y: 33, target: [] },
       '091FS2': { x: 37, y: 33, target: [] },
       '091FS3': { x: 81, y: 15, target: [] },
+
+      
+      '09Entrance': { x: 44, y: 60 , target : []},
+      
+      '09Entrance2': { x: 81, y: 42 , target : []},
     },
     hallway: [
       { x: 17, y: 41, connections: [1], rooms: ['090101', '091FS1'] },
