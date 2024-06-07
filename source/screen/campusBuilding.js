@@ -8,8 +8,8 @@ const buildings = {
       '계의돈 기념관': {x: 51, y: 15, number: '06', width: 8, height: 7, buttonHeight: 70},
       '문과대학': {x: 65, y: 38, number: '04', width: 7, height: 7, buttonHeight: 70},
       '경상대학': {x: 60.5, y: 50, number: '05', width: 8, height: 8, buttonHeight: 70},
-      '인사례교양동': {x: 55, y: 37, number: '11', width: 1, height: 1, buttonHeight: 1},
-      '사범대학': {x: 32, y: 37, number: '03', width: 1, height: 1, buttonHeight: 1},
+      '인사례교양동': {x: 52, y: 39, number: '11', width: 10, height: 5, buttonHeight: 70},
+      '사범대학': {x: 31, y: 35, number: '03', width: 4, height: 10, buttonHeight: 70},
 
       // 다른 건물 추가
     }
