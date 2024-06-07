@@ -17,7 +17,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const ThirdFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['1F'].image);
+  const [currentImage] = useState(floors['09_1F'].image);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [startRoom, setStartRoom] = useState(null);
 
@@ -27,12 +27,14 @@ const ThirdFloorScreen = () => {
   };
 
   const setStartPointer = (room) => {
-    navigation.navigate('Gil', { roomId: room, startFloor: '1F', goalFloor: '1F' }); // startFloor와 goalFloor 전달
+    navigation.navigate('Gil', { roomId: room, startFloor: '09_1F', goalFloor: '09_' });
   };
 
   const setArrivalPointer = (room) => {
-    navigation.navigate('Gil', { roomId: room, startFloor: '1F', goalFloor: '1F' });
+    navigation.navigate('Gil', { roomId: room, startFloor: '09_1F', goalFloor: '09_1F' });
   };
+
+  const excludedRooms = ['091FS1', '091FS2', '091FS3', 'Entrance'];
 
   return (
     <SafeAreaProvider>
@@ -47,39 +49,40 @@ const ThirdFloorScreen = () => {
             horizontal={true}
           >
             <Image style={styles.headerImage} source={currentImage} />
-            {Object.keys(floors['1F'].rooms).map((roomId) => {
-              const room = floors['1F'].rooms[roomId];
-              const isRotated = [
-                '090101',
-                '090102',
-                '090103',
-                '090104',
-                '090105',
-                '090106',
-                '090111',
-                '090112',
-                '090113',
-                '090114',
-                '090119',
-                '090120',
-                '090121',
-                '090122',
-                '090124',
-                '090125',
-                'start'
-              ].includes(roomId);
-              return (
-                <TouchableOpacity
-                  key={roomId}
-                  style={[styles.button, { top: `${room.y - 1}%`, left: `${room.x}%` }]} // Move slightly higher
-                  onPress={() => showInfoAlert(roomId)}
-                >
-                  <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
-                    {roomId}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+            {Object.keys(floors['09_1F'].rooms)
+              .filter((roomId) => !excludedRooms.includes(roomId)) // 제외할 방 필터링
+              .map((roomId) => {
+                const room = floors['09_1F'].rooms[roomId];
+                const isRotated = [
+                  '090101',
+                  '090102',
+                  '090103',
+                  '090104',
+                  '090105',
+                  '090106',
+                  '090111',
+                  '090112',
+                  '090113',
+                  '090114',
+                  '090119',
+                  '090120',
+                  '090121',
+                  '090122',
+                  '090124',
+                  '090125',
+                ].includes(roomId);
+                return (
+                  <TouchableOpacity
+                    key={roomId}
+                    style={[styles.button, { top: `${room.y - 1}%`, left: `${room.x}%` }]} // Move slightly higher
+                    onPress={() => showInfoAlert(roomId)}
+                  >
+                    <Text style={[styles.buttonText, { fontSize: 8 }, isRotated && styles.rotatedText]}>
+                      {roomId}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
           </ScrollView>
         </ScrollView>
         <ClassInfoBottomBar

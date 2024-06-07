@@ -1,4 +1,4 @@
-const floors = {
+const building04Floors = {
     '1F': {
       image: require('../../image/04-1층.png'),
       rooms: {
@@ -329,4 +329,4 @@ const floors = {
   
 
   
-  export default floors;
+  export default building04Floors;

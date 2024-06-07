@@ -17,7 +17,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const ThirdFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['11F'].image);
+  const [currentImage] = useState(floors['09_11F'].image);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [startRoom, setStartRoom] = useState(null);
 
@@ -27,13 +27,13 @@ const ThirdFloorScreen = () => {
   };
 
   const setStartPointer = (room) => {
-    navigation.navigate('Gil', { roomId: room, startFloor: '11F', goalFloor: '11F' }); // startFloor와 goalFloor 전달
+    navigation.navigate('Gil', { roomId: room, startFloor: '09_11F', goalFloor: '09_11F' }); // startFloor와 goalFloor 전달
   };
 
   const setArrivalPointer = (room) => {
-    navigation.navigate('Gil', { roomId: room, startFloor: '11F', goalFloor: '11F' });
+    navigation.navigate('Gil', { roomId: room, startFloor: '09_11F', goalFloor: '09_11F' });
   };
-
+const excludedRooms = ['0911FS1', '0911FS2', '0911FS3'];
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -47,8 +47,10 @@ const ThirdFloorScreen = () => {
             horizontal={true}
           >
             <Image style={styles.headerImage} source={currentImage} />
-            {Object.keys(floors['11F'].rooms).map((roomId) => {
-              const room = floors['11F'].rooms[roomId];
+            {Object.keys(floors['09_11F'].rooms)
+                           .filter((roomId) => !excludedRooms.includes(roomId)) // 제외할 방 필터링
+                           .map((roomId) => {
+              const room = floors['09_11F'].rooms[roomId];
               const isRotated = [
                     '091115',
                     '091114',

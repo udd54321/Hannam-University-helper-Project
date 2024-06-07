@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, TextInput, Alert, Button } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Svg, { Line, Circle, Text as SvgText } from 'react-native-svg';
-import floors from './09Floors/engineeringFloor';
+import combinedFloors from './combinedFloors';
+//import combinedFloors from './09Floors/engineeringFloor'
 
 const Gil = () => {
   const route = useRoute();
@@ -26,8 +27,8 @@ const Gil = () => {
 
   useEffect(() => {
     const calculatePath = () => {
-      const start = floors[startFloor]?.rooms[startRoom];
-      const goal = floors[goalFloor]?.rooms[goalRoom];
+      const start = combinedFloors[startFloor]?.rooms[startRoom];
+      const goal = combinedFloors[goalFloor]?.rooms[goalRoom];
 
       if (!start || !goal) {
         Alert.alert('Error', 'Invalid start or goal room.');
@@ -39,8 +40,8 @@ const Gil = () => {
   }, [startRoom, goalRoom, startFloor, goalFloor]);
 
   useEffect(() => {
-    const startImage = floors[startFloor]?.image;
-    const goalImage = floors[goalFloor]?.image;
+    const startImage = combinedFloors[startFloor]?.image;
+    const goalImage = combinedFloors[goalFloor]?.image;
 
     if (startImage) {
       setCurrentImage(startImage);
@@ -49,15 +50,14 @@ const Gil = () => {
     }
 
     if (goalImage && startFloor !== goalFloor) {
-      //setDestinationImage(goalImage);
       setShowChangeFloorButton(true);
     }
 
-    if (floors[startFloor]) {
-      setHallwaysOnFloor(floors[startFloor].hallway);
+    if (combinedFloors[startFloor]) {
+      setHallwaysOnFloor(combinedFloors[startFloor].hallway);
     }
-    if (floors[goalFloor]) {
-      setHallwaysOnFloor(floors[goalFloor].hallway);
+    if (combinedFloors[goalFloor]) {
+      setHallwaysOnFloor(combinedFloors[goalFloor].hallway);
     }
   }, [startFloor, goalFloor]);
 
@@ -65,21 +65,21 @@ const Gil = () => {
     const newToggleState = (toggleState + 1) % 2;
     setToggleState(newToggleState);
 
-    var goalTmp = floors[startFloor]?.rooms[startRoom].tmp;
+    var goalTmp = combinedFloors[startFloor]?.rooms[startRoom].tmp;
     if (startFloor < 6 && goalFloor > 5) { goalTmp = 0 }
 
     if (newToggleState === 0) {
-      setCurrentImage(floors[startFloor]?.image);
-      setHallwaysOnFloor(floors[goalFloor]?.hallway);
+      setCurrentImage(combinedFloors[startFloor]?.image);
+      setHallwaysOnFloor(combinedFloors[goalFloor]?.hallway);
       setFloorChangeElements(
         <>
           <Circle
-            cx={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
-            cy={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
+            cx={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
+            cy={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
             r="5"
             fill="red"
           />
-          {renderRedDotsForTargets(floors[startFloor]?.rooms[startRoom], startFloor)}
+          {renderRedDotsForTargets(combinedFloors[startFloor]?.rooms[startRoom], startFloor)}
           {filterConnectedHallways(hallwaysOnFloor, path).map((hallway, index) => {
             const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
             return (
@@ -91,29 +91,29 @@ const Gil = () => {
               </React.Fragment>
             );
           })}
-          {drawGreenLineToNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
-          {drawGreenLineToNearestHallway(floors[startFloor]?.rooms[floors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor)}
+          {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
+          {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[combinedFloors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor)}
           {drawBlueLinesThroughHallways(
-            findNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
-            findNearestHallway(floors[startFloor]?.rooms[floors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor),
+            findNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
+            findNearestHallway(combinedFloors[startFloor]?.rooms[combinedFloors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor),
             hallwaysOnFloor,
             startFloor
           )}
         </>
       );
     } else if (newToggleState === 1) {
-      setCurrentImage(floors[goalFloor]?.image);
-      setHallwaysOnFloor(floors[startFloor]?.hallway);
+      setCurrentImage(combinedFloors[goalFloor]?.image);
+      setHallwaysOnFloor(combinedFloors[startFloor]?.hallway);
       setFloorChangeElements(
         <>
           <Circle
-            cx={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
-            cy={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
+            cx={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
+            cy={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
             r="5"
             fill="red"
           />
-          {renderRedDotsForTargets(floors[goalFloor]?.rooms[goalRoom], goalFloor)}
-          {filterConnectedHallways(floors[startFloor]?.hallway, path).map((hallway, index) => {
+          {renderRedDotsForTargets(combinedFloors[goalFloor]?.rooms[goalRoom], goalFloor)}
+          {filterConnectedHallways(combinedFloors[startFloor]?.hallway, path).map((hallway, index) => {
             const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
             return (
               <React.Fragment key={`hallway-${index}`}>
@@ -125,13 +125,13 @@ const Gil = () => {
             );
           })}
           {drawBlueLinesThroughHallways(
-            findNearestHallway2(floors[goalFloor]?.rooms[goalRoom], floors[goalFloor]?.hallway),
-            findNearestHallway2(floors[goalFloor]?.rooms[floors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], floors[goalFloor]?.hallway),
-            floors[goalFloor]?.hallway,
+            findNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], combinedFloors[goalFloor]?.hallway),
+            findNearestHallway(combinedFloors[goalFloor]?.rooms[combinedFloors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], combinedFloors[goalFloor]?.hallway),
+            combinedFloors[goalFloor]?.hallway,
             goalFloor
           )}
-          {drawGreenLineToNearestHallway(floors[goalFloor]?.rooms[goalRoom], floors[goalFloor]?.hallway)}
-          {drawGreenLineToNearestHallway(floors[goalFloor]?.rooms[floors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], floors[goalFloor]?.hallway)}
+          {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], combinedFloors[goalFloor]?.hallway)}
+          {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[combinedFloors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], combinedFloors[goalFloor]?.hallway)}
         </>
       );
     }
@@ -193,14 +193,14 @@ const Gil = () => {
   };
 
   const buildGraphWithHallways = (start, goal, floor) => {
-    if (!floors[floor]) {
+    if (!combinedFloors[floor]) {
       console.error(`Floor ${floor} data not found`);
       return {};
     }
 
     const graph = {};
-    const rooms = floors[floor].rooms;
-    const hallways = floors[floor].hallway;
+    const rooms = combinedFloors[floor].rooms;
+    const hallways = combinedFloors[floor].hallway;
 
     const allNodes = [
       ...Object.values(rooms),
@@ -236,7 +236,7 @@ const Gil = () => {
   };
 
   const handleStartLocationChange = (newRoom) => {
-    const foundRoom = Object.keys(floors).find(floor => floors[floor].rooms[newRoom]);
+    const foundRoom = Object.keys(combinedFloors).find(floor => combinedFloors[floor].rooms[newRoom]);
     if (foundRoom) {
       setStartRoom(newRoom);
       setStartFloor(foundRoom);
@@ -246,7 +246,7 @@ const Gil = () => {
   };
 
   const handleGoalLocationChange = (newRoom) => {
-    const foundRoom = Object.keys(floors).find(floor => floors[floor].rooms[newRoom]);
+    const foundRoom = Object.keys(combinedFloors).find(floor => combinedFloors[floor].rooms[newRoom]);
     if (foundRoom) {
       setGoalRoom(newRoom);
       setGoalFloor(foundRoom);
@@ -273,29 +273,10 @@ const Gil = () => {
     let nearestHallway = null;
 
     hallways.forEach(hallway => {
-      if (hallway) {
-        const distance = Math.hypot(point.x - hallway.x, point.y - hallway.y);
-        if (distance < minDistance) {
-          minDistance = distance;
-          nearestHallway = hallway;
-        }
-      }
-    });
-
-    return nearestHallway;
-  };
-
-  const findNearestHallway2 = (point, hallways) => {
-    let minDistance = Infinity;
-    let nearestHallway = null;
-
-    hallways.forEach(hallway => {
-      if (hallway) {
-        const distance = Math.hypot(point.x - hallway.x, point.y - hallway.y);
-        if (distance < minDistance) {
-          minDistance = distance;
-          nearestHallway = hallway;
-        }
+      const distance = Math.hypot(point.x - hallway.x, point.y - hallway.y);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearestHallway = hallway;
       }
     });
 
@@ -362,9 +343,9 @@ const Gil = () => {
 
   const renderRedDotsForTargets = (room, floor) => {
     if (room.target.length > 0) {
-      var goalTmp = floors[startFloor]?.rooms[startRoom].tmp;
+      var goalTmp = combinedFloors[startFloor]?.rooms[startRoom].tmp;
       if (goalFloor < 6 && goalFloor > 5) { goalTmp = 0 }
-      const firstTarget = floors[floor].rooms[room.target[goalTmp]];
+      const firstTarget = combinedFloors[floor].rooms[room.target[goalTmp]];
       return (
         <Circle
           key={`target-dot-0`}
@@ -405,14 +386,14 @@ const Gil = () => {
             <Image source={currentImage} style={styles.map} />
             <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
               <Circle
-                cx={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
-                cy={scaleCoordinates(floors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
+                cx={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
+                cy={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
                 r="5"
                 fill="red"
               />
               <Circle
-                cx={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
-                cy={scaleCoordinates(floors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
+                cx={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
+                cy={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
                 r="5"
                 fill="red"
               />
@@ -427,11 +408,11 @@ const Gil = () => {
                   </React.Fragment>
                 );
               })}
-              {drawGreenLineToNearestHallway(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
-              {drawGreenLineToNearestHallway(floors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor)}
+              {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
+              {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor)}
               {drawBlueLinesThroughHallways2(
-                findNearestHallway2(floors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
-                findNearestHallway2(floors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor),
+                findNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
+                findNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], hallwaysOnFloor),
                 hallwaysOnFloor
               )}
             </Svg>
@@ -451,7 +432,7 @@ const Gil = () => {
           )}
           {showChangeFloorButton && (
             <View style={styles.buttonContainer}>
-              <Button title="층 변경" onPress={handleFloorChange} />
+              <Button title="Change Floor" onPress={handleFloorChange} />
             </View>
           )}
         </View>

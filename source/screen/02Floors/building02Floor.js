@@ -1,5 +1,5 @@
-const floors = {
-    '1F': {
+const building02Floor = {
+    '02_1F': {
       image: require('../../image/02-1층.png'),
       rooms: {
         '020101': { x: 8, y: 50 , target: ['021FS1','021FS2'],tmp:[0]},
@@ -37,7 +37,7 @@ const floors = {
          ],
 
     },
-    '2F': {
+    '02_2F': {
       image: require('../../image/02-2층.png'),
       rooms: {
        // '020201': { x: 4, y: 30.5 },
@@ -70,7 +70,7 @@ const floors = {
          ],
 
     },
-    '3F': {
+    '02_3F': {
       image: require('../../image/02-3층.png'),
       rooms: {
         '020301': { x: 5, y: 49 ,target: ['023FS1', '023FS2'],tmp:[0]},
@@ -107,7 +107,7 @@ const floors = {
            { x: 96, y: 38, connections: [12], rooms: ['023FS2'],},
          ],
     },
-    '4F': {
+    '02_4F': {
       image: require('../../image/02-4층.png'),
       rooms: {
         '020401': { x: 6, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
@@ -140,4 +140,4 @@ const floors = {
     // 다른 층 추가
   };
   
-  export default floors;
+  export default building02Floor;

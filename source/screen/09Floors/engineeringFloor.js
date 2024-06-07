@@ -1,5 +1,5 @@
-const floors = {
-  'B1': {
+const engineeringFloor = {
+  '09_B1': {
     image: require('../../image/09_B1층.png'),
     rooms: {
       '090001': { x: 7, y: 60, target: ['09B1S1','09B1S2','09B1S3'],tmp:[0] },
@@ -36,7 +36,7 @@ const floors = {
 
     ],
   },
-  '1F': {
+  '09_1F': {
     image: require('../../image/공대1층.png'),
     rooms: {
       '090101': { x: 15, y: 70, target: ['091FS1','091FS2','091FS3'] ,tmp:[0] },
@@ -61,9 +61,9 @@ const floors = {
       '091FS3': { x: 81, y: 15, target: [] },
 
       
-      '09Entrance': { x: 44, y: 60 , target : []},
-      
-      '09Entrance2': { x: 81, y: 42 , target : []},
+      //'09Entrance': { x: 44, y: 60 , target : []},
+      //
+      //'09Entrance2': { x: 81, y: 42 , target : []},
     },
     hallway: [
       { x: 17, y: 41, connections: [1], rooms: ['090101', '091FS1'] },
@@ -88,7 +88,7 @@ const floors = {
     ],
 
   },
-  '2F': {
+  '09_2F': {
     image: require('../../image/공대2층.png'),
     rooms: {
       '090201': { x: 14, y: 72, target: ['092FS1','092FS2','092FS3'] ,tmp:[0] },
@@ -146,7 +146,7 @@ const floors = {
 
 
   },
-  '3F': {
+  '09_3F': {
     image: require('../../image/공대3층.png'),
     rooms: {
       '090301': { x: 6, y: 70, target: ['093FS1','093FS2','093FS3'] ,tmp:[0]},
@@ -205,7 +205,7 @@ const floors = {
       // Add more hallway coordinates as needed
     ],
   },
-  '4F': {
+  '09_4F': {
     image: require('../../image/공대4층.png'),
     rooms: {
       '090401': { x: 6, y: 70, target: ['094FS1','094FS2','094FS3'] ,tmp:[0]},
@@ -266,7 +266,7 @@ const floors = {
       // Add more hallway coordinates as needed
     ],
   },
-  '5F': {
+  '09_5F': {
     image: require('../../image/공대5층.png'),
     rooms: {
       '090501': { x: 6, y: 72, target: ['095FS1','095FS2','095FS3'] ,tmp:[0]},
@@ -332,7 +332,7 @@ const floors = {
       { x: 89, y: 24, connections: [25], rooms: ['090520','090519'] },
     ],
   },
-  '6F': {
+  '09_6F': {
     image: require('../../image/공대6층.png'),
     rooms: {
       '090601': { x: 6, y: 67, target: ['096FS1','096FS2'],tmp:[0]},
@@ -359,8 +359,6 @@ const floors = {
 
       '096FS1': { x: 33, y: 13, target : []},
       '096FS2': { x: 66, y: 13, target : []},
-
-      '02': { x: 11, y: 5, target : []},
     },
     hallway: [
       { x: 7, y: 55, connections: [1], rooms: ['090604', '090601'] },
@@ -387,7 +385,7 @@ const floors = {
       // Add more hallway coordinates as needed
     ],
   },
-  '7F': {
+  '09_7F': {
     image: require('../../image/공대7층.png'),
     rooms: {
       '090716': { x: 28.9, y: 21.5, target: ['097FS1','097FS2'] ,tmp:[0]},
@@ -428,7 +426,7 @@ const floors = {
       // Add more hallway coordinates as needed
     ],
   },
-  '8F': {
+  '09_8F': {
     image: require('../../image/공대8층.png'),
     rooms: {
       '090816': { x: 19, y: 25, target: ['098FS1','098FS2'] ,tmp:[0] },
@@ -471,7 +469,7 @@ const floors = {
     ],
 
   },
-  '9F': {
+  '09_9F': {
     image: require('../../image/공대9층.png'),
     rooms: {
       '090915': { x: 23, y: 31, target: ['099FS1','099FS2'] ,tmp:[0]},
@@ -509,7 +507,7 @@ const floors = {
       // Add more hallway coordinates as needed
     ],
   },
-  '10F': {
+  '09_10F': {
     image: require('../../image/공대10층.png'),
     rooms: {
       '091015': { x: 23, y: 25, target: ['0910FS1','0910FS2'] ,tmp:[0]},
@@ -528,8 +526,6 @@ const floors = {
 
       '0910FS1': { x: 10, y: 29, target : []},
       '0910FS2': { x: 57, y: 29, target : []},
-
-      '0S2': { x: 11, y: 46, target : []},
     },
     hallway: [
       { x: 10, y: 45, connections: [1], rooms: ['091001', '0910FS1'] },
@@ -546,7 +542,7 @@ const floors = {
       // Add more hllway coordinates as needed
     ],
   },
-  '11F': {
+  '09_11F': {
     image: require('../../image/공대11층.png'),
     rooms: {
       '091115': { x: 23, y: 22, target: ['0911FS1','0911FS2'] ,tmp:[1]},
@@ -583,7 +579,7 @@ const floors = {
     staircases: {
     },
   },
-  '12F': {
+  '09_12F': {
     image: require('../../image/공대12층.png'),
     rooms: {
       '091201': { x: 52, y: 56.5, target: ['0912FS1','0912FS2']  ,tmp:[0]},
@@ -597,4 +593,4 @@ const floors = {
   },
   // 다른 층 추가
 };
-export default floors;
+export default engineeringFloor;
