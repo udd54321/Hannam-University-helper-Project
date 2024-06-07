@@ -48,7 +48,7 @@ const excludedRooms = ['024FS1', '024FS2'];
             horizontal={true}
           >
             <Image style={styles.headerImage} source={currentImage} />
-            {Object.keys(floors['09_4F'].rooms)
+            {Object.keys(floors['02_4F'].rooms)
                            .filter((roomId) => !excludedRooms.includes(roomId)) // 제외할 방 필터링
                            .map((roomId) => {
               const room = floors['02_4F'].rooms[roomId];

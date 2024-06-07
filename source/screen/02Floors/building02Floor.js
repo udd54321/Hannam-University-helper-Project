@@ -91,7 +91,7 @@ const building02Floor = {
         '023FS2': { x: 96, y:41  ,target: []},
       },
       hallway: [
-           { x: 5, y: 37, connections: [1], rooms: ['020301'],},
+           { x: 5, y: 38, connections: [1], rooms: ['020301'],},
            { x: 14, y: 38, connections: [0, 2], rooms: ['020302'],},
            { x: 18, y: 38, connections: [1,3], rooms: ['020303'],},
            { x: 23, y: 38, connections: [2,4], rooms: ['020304'],},
@@ -110,14 +110,14 @@ const building02Floor = {
     '02_4F': {
       image: require('../../image/02-4층.png'),
       rooms: {
-        '020401': { x: 6, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
-        '020402': { x: 19, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
-        '020403': { x: 28, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
-        '020404': { x: 35, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
-        '020405': { x: 45, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
-        '020406': { x: 57, y: 53 ,target: ['024FS1','024FS1'],tmp:[0]},
-        '020407': { x: 70, y: 53 ,target: ['024FS1','024FS1'],tmp:[1]},
-        '020408': { x: 84, y: 53 ,target: ['024FS1','024FS1'],tmp:[1]},
+        '020401': { x: 6, y: 53 ,target: ['024FS1','024FS2'],tmp:[0]},
+        '020402': { x: 19, y: 53 ,target: ['024FS1','024FS2'],tmp:[0]},
+        '020403': { x: 28, y: 53 ,target: ['024FS1','024FS2'],tmp:[0]},
+        '020404': { x: 35, y: 53 ,target: ['024FS1','024FS2'],tmp:[0]},
+        '020405': { x: 45, y: 53 ,target: ['024FS1','024FS2'],tmp:[0]},
+        '020406': { x: 57, y: 53 ,target: ['024FS1','024FS2'],tmp:[0]},
+        '020407': { x: 70, y: 53 ,target: ['024FS1','024FS2'],tmp:[1]},
+        '020408': { x: 84, y: 53 ,target: ['024FS1','024FS2'],tmp:[1]},
 
 
         '024FS1': { x: 44, y:37, target: [] },
