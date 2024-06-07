@@ -104,7 +104,12 @@ const Home = ({navigation}) => {
                       ]}
                       source={require('../image/buildingButton.png')}
                     />
-                    <Text style={style.buildingText}>
+                    <Text style={[
+                      style.buildingText,
+                      {
+                        fontSize: buildingPosition.textSize,
+                      }
+                      ]}>
                       {buildingPosition.number}
                     </Text>
                   </TouchableOpacity>
@@ -171,7 +176,6 @@ const style = StyleSheet.create({
     aspectRatio: 1,
   },
   buildingText: {
-    fontSize: 30,
     color: '#000000',
     position: 'absolute',
   },
