@@ -1,4 +1,6 @@
-import React, {useState, useRef, useMemo, useCallback} from 'react';
+
+import React, { useState, useRef, useMemo, useCallback } from 'react';
+
 import {
   View,
   Image,
@@ -7,9 +9,11 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
 } from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {NavigationContainer} from '@react-navigation/native';
+
 
 import Gps from '../screen/gps'; // 내비게이션
 import Notice from '../screen/notice'; // 공지 사항
@@ -36,7 +40,10 @@ const Bottombar = () => {
     }
   };
 
+
   const handleSheetChanges = useCallback(index => {
+
+  
     setIsBottomSheetOpen(index !== 0);
   }, []);
 
@@ -53,7 +60,22 @@ const Bottombar = () => {
           <View style={styles.bottomSheetOverlay} />
         </TouchableWithoutFeedback>
       )}
-     
+
+      <View style={styles.bottomSheetWrapper}>
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={0}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          statusBarTranslucent
+          enableContentPanningGesture={!isBottomSheetOpen} // 바텀시트 내부 터치 이벤트 비활성화
+        >
+          <View style={styles.contentContainer}>
+            {renderContent()}
+          </View>
+        </BottomSheet>
+      </View>
+
       <View style={styles.bottomBar}>
         <TouchableOpacity style={styles.bottomButton} onPress={pressHome}>
           <Image
@@ -63,7 +85,9 @@ const Bottombar = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.bottomButton}
+
           onPress={() => setSelectedView('a')}>
+
           <Image
             style={styles.bottomImage}
             source={require('../image/button4.jpg')}
@@ -71,7 +95,9 @@ const Bottombar = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.bottomButton}
+
           onPress={() => setSelectedView('b')}>
+
           <Image
             style={styles.bottomImage}
             source={require('../image/button5.jpg')}
@@ -90,6 +116,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     position: 'absolute',
   },
+
   
   contentContainer: {
     flex: 1,
@@ -99,6 +126,7 @@ const styles = StyleSheet.create({
   bottomSheetOverlay: {
     ...StyleSheet.absoluteFillObject,
     height: windowHeight,
+
   },
   bottomBar: {
     backgroundColor: '#ffffff',
@@ -106,7 +134,9 @@ const styles = StyleSheet.create({
     height: windowHeight * 0.09,
     position: 'absolute',
     flexDirection: 'row',
+
     bottom: 30,
+
   },
   bottomButton: {
     flex: 1,

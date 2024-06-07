@@ -1,4 +1,6 @@
+
 import React, {useState, useEffect, useRef} from 'react';
+
 import {
   View,
   StyleSheet,
@@ -7,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
   Text,
+
   Alert,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
@@ -15,8 +18,10 @@ import Geolocation from '@react-native-community/geolocation';
 import MapViewDirections from 'react-native-maps-directions';
 import Dialog from 'react-native-dialog';
 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
 
 const AVERAGE_WALKING_SPEED_KMH = 5; // km/h
 
@@ -32,6 +37,7 @@ const Gps = () => {
   const [routeCoordinates, setRouteCoordinates] = useState([]); // 경로 좌표 상태 추가
   const mapRef = useRef(null);
   const previousRegion = useRef(null);
+
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -53,7 +59,9 @@ const Gps = () => {
       }
       Geolocation.watchPosition(
         position => {
+
           const {latitude, longitude} = position.coords;
+
           setLocation({
             latitude,
             longitude,
@@ -64,7 +72,9 @@ const Gps = () => {
         error => {
           console.log(error.code, error.message);
         },
+
         {enableHighAccuracy: true, distanceFilter: 0, interval: 5000},
+
       );
     };
 
@@ -74,6 +84,7 @@ const Gps = () => {
       Geolocation.clearWatch();
     };
   }, []);
+
 
   const zoomIn = () => {
     if (zoomLevel < 7 && location) {
@@ -107,9 +118,11 @@ const Gps = () => {
         longitudeDelta: newLongitudeDelta,
       });
 
+
       setZoomLevel(newZoomLevel);
     }
   };
+
 
   const handleMapPress = e => {
     setSelectedCoordinate(e.nativeEvent.coordinate);
@@ -160,6 +173,7 @@ const Gps = () => {
     }
   };
 
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -168,11 +182,14 @@ const Gps = () => {
             ref={mapRef}
             provider={PROVIDER_GOOGLE}
             style={styles.map}
+
             initialRegion={location}
+
             zoomEnabled={true}
             showsCompass={true}
             showsUserLocation={true}
             showsMyLocationButton={true}
+
             userLocationUpdateInterval={10000}
             onPress={handleMapPress} // 지도 클릭 시 다이얼로그 표시
           >
@@ -190,15 +207,18 @@ const Gps = () => {
                 onError={errorMessage => {
                   console.log('GOT AN ERROR', errorMessage);
                 }}
+
               />
             )}
           </MapView>
           <View style={styles.zoomButtons}>
+
             {walkingTime && (
               <View style={styles.walkingTimeContainer}>
                 <Text style={styles.walkingTimeText}>{walkingTime} 분</Text>
               </View>
             )}
+
             <TouchableOpacity style={styles.button} onPress={zoomIn}>
               <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
@@ -242,6 +262,7 @@ const styles = StyleSheet.create({
     bottom: 50,
     right: 10,
     flexDirection: 'column',
+
     alignItems: 'center', // 버튼과 시간 텍스트 정렬
   },
   walkingTimeContainer: {
@@ -256,6 +277,7 @@ const styles = StyleSheet.create({
   walkingTimeText: {
     fontSize: 16,
     fontWeight: 'bold',
+
   },
   button: {
     backgroundColor: 'white',
@@ -270,4 +292,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+
 });
+
