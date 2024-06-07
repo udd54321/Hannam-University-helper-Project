@@ -17,7 +17,7 @@ const building02Floor = {
         '021FS1': { x: 44, y:37, target: [] },
         '021FS2': { x: 99, y:43, target: [] },
 
-        '02Entrance': { x: 44, y:59, target: [] },
+        '02Entrance': { x: 44, y:59, target: ['021FS1', '021FS2'], tmp : [0] },
       },
       hallway: [
            { x: 2, y: 40, connections: [1], rooms: ['020101'], },

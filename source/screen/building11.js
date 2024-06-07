@@ -10,13 +10,19 @@ import {
   Alert,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+
 import {createStackNavigator} from '@react-navigation/stack';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import Bottombar11 from '../component/bottomBar11'; // 하단 버튼 바
 
-import FirstFloorScreen from './09Floors/1F';
-import SecondFloorScreen from './09Floors/2F';
+
+
+
+import FirstFloorScreen from './11Floors/building11_1F';
+import SecondFloorScreen from './11Floors/building11_2F';
+import ThirdFloorScreen from './11Floors/building11_3F';
+
 import GilScreen from './gil'; // Import the Gil screen
 
 const windowWidth = Dimensions.get('window').width;
@@ -25,31 +31,38 @@ const windowHeight = Dimensions.get('window').height;
 const Stack = createStackNavigator();
 
 const Building11 = () => {
-  return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Building11Main"
-          component={Building11Main}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="1FScreen"
-          component={FirstFloorScreen}
-          options={{title: '1층'}}
-        />
-        <Stack.Screen
-          name="2FScreen"
-          component={SecondFloorScreen}
-          options={{title: '2층'}}
-        />
-        <Stack.Screen
-          name="Gil"
-          component={GilScreen}
-          options={{ title: '길 안내' }}
-        />
-      </Stack.Navigator>
-  );
-};
+
+    return (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Building11Main"
+            component={Building11Main}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="1FScreen"
+            component={FirstFloorScreen}
+            options={{title: '1층'}}
+          />
+          <Stack.Screen
+            name="2FScreen"
+            component={SecondFloorScreen}
+            options={{title: '2층'}}
+          />
+          <Stack.Screen
+            name="3FScreen"
+            component={ThirdFloorScreen}
+            options={{title: '3층'}}
+          />
+          <Stack.Screen
+            name="Gil"
+            component={GilScreen}
+            options={{ title: '길 안내' }}
+          />
+        </Stack.Navigator>
+    );
+  };
+
 
 const Building11Main = ({navigation}) => {
   return (
@@ -61,16 +74,21 @@ const Building11Main = ({navigation}) => {
             contentContainerStyle={styles.innerContainer}>
             <FloorButton 
               floor="1F"
-              details="11-1"
+              details="인사례 교양동1층"
               navigation={navigation} 
             />
-            <FloorButton 
+            <FloorButton
               floor="2F"
-              details="11-2"
+              details="인사례 교양동2층"
+              navigation={navigation}
+            />
+            <FloorButton 
+              floor="3F" 
+              details="인사례 교양동3층" 
               navigation={navigation} 
             />
           </ScrollView>
-          <Bottombar11 />
+        <Bottombar11 />
         </GestureHandlerRootView>
 
       </SafeAreaView>
@@ -116,6 +134,7 @@ const FloorButton = ({floor, details, navigation}) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     width: windowWidth,
@@ -150,21 +169,21 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   floorNumber: {
-    flex: 1.5,
+    flex: 2,
     height: '75%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#deb887',
   },
   floorInfo: {
-    flex: 8.5,
+    flex: 8,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: '#ffffff',
   },
   numberText: {
-    fontSize: 26,
+    fontSize: 21,
     fontWeight: 'bold',
     color: '#a52a2a',
     textAlign: 'center',
@@ -185,4 +204,6 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default Building11;
+

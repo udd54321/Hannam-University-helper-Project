@@ -10,13 +10,22 @@ import {
   Alert,
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+
 import {createStackNavigator} from '@react-navigation/stack';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import Bottombar03 from '../component/bottomBar03'; // 하단 버튼 바
 
-import FirstFloorScreen from './09Floors/1F';
-import SecondFloorScreen from './09Floors/2F';
+
+
+
+
+
+import FirstFloorScreen from './03Floors/building03_1F';
+import SecondFloorScreen from './03Floors/building03_2F';
+import ThirdFloorScreen from './03Floors/building03_3F';
+import FourthFloorScreen from './03Floors/building03_4F';
+
 import GilScreen from './gil'; // Import the Gil screen
 
 const windowWidth = Dimensions.get('window').width;
@@ -25,31 +34,42 @@ const windowHeight = Dimensions.get('window').height;
 const Stack = createStackNavigator();
 
 const Building03 = () => {
-  return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Building03Main"
-          component={Building03Main}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="1FScreen"
-          component={FirstFloorScreen}
-          options={{title: '1층'}}
-        />
-        <Stack.Screen
-          name="2FScreen"
-          component={SecondFloorScreen}
-          options={{title: '2층'}}
-        />
-        <Stack.Screen
-          name="Gil"
-          component={GilScreen}
-          options={{ title: '길 안내' }}
-        />
-      </Stack.Navigator>
-  );
-};
+
+    return (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Building03Main"
+            component={Building03Main}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="1FScreen"
+            component={FirstFloorScreen}
+            options={{title: '1층'}}
+          />
+          <Stack.Screen
+            name="2FScreen"
+            component={SecondFloorScreen}
+            options={{title: '2층'}}
+          />
+          <Stack.Screen
+            name="3FScreen"
+            component={ThirdFloorScreen}
+            options={{title: '3층'}}
+          />
+          <Stack.Screen
+            name="4FScreen"
+            component={FourthFloorScreen}
+            options={{title: '4층'}}
+          />
+          <Stack.Screen
+            name="Gil"
+            component={GilScreen}
+            options={{ title: '길 안내' }}
+          />
+        </Stack.Navigator>
+    );
+  };
 
 const Building03Main = ({navigation}) => {
   return (
@@ -61,18 +81,27 @@ const Building03Main = ({navigation}) => {
             contentContainerStyle={styles.innerContainer}>
             <FloorButton 
               floor="1F"
-              details="사범대학-1"
+              details="사범대1층"
+              navigation={navigation} 
+            />
+            <FloorButton
+              floor="2F"
+              details="사범대2층"
+              navigation={navigation}
+            />
+            <FloorButton 
+              floor="3F" 
+              details="사범대3층" 
               navigation={navigation} 
             />
             <FloorButton 
-              floor="2F"
-              details="사범대학-2"
+              floor="4F" 
+              details="사범대4층" 
               navigation={navigation} 
             />
           </ScrollView>
-          <Bottombar03 />
+        <Bottombar03/>
         </GestureHandlerRootView>
-
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -116,6 +145,7 @@ const FloorButton = ({floor, details, navigation}) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     width: windowWidth,
@@ -150,21 +180,22 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   floorNumber: {
-    flex: 1.5,
+
+    flex: 2,
     height: '75%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#deb887',
   },
   floorInfo: {
-    flex: 8.5,
+    flex: 8,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: '#ffffff',
   },
   numberText: {
-    fontSize: 26,
+    fontSize: 21,
     fontWeight: 'bold',
     color: '#a52a2a',
     textAlign: 'center',
@@ -186,3 +217,4 @@ const styles = StyleSheet.create({
 });
 
 export default Building03;
+
