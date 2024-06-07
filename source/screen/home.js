@@ -13,6 +13,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import buildings from './campusBuilding';
 import Bottombar from '../component/bottomBar'; //하단 버튼 바
+//UIcons by <a href="https://www.flaticon.com/uicons">Flaticon</a> 하단 버튼 이미지 출처 <- 지우기 x
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -84,9 +85,25 @@ const Home = ({navigation}) => {
                 return (
                   <TouchableOpacity
                     key={building}
-                    style={[style.buildingButton, { top: `${buildingPosition.y - 1}%`, left: `${buildingPosition.x}%` }]} // Move slightly higher
+                    style={[
+                      style.buildingButton, 
+                      { 
+                        top: `${buildingPosition.y - 1}%`, 
+                        left: `${buildingPosition.x}%`, 
+                        width: `${buildingPosition.width}%`,
+                        height: `${buildingPosition.height}%`,
+                      }]} // Move slightly higher
                     onPress={() => {pressBuilding({buildingNumber: buildingPosition.number})}}
                   >
+                    <Image
+                      style={[
+                        style.buildingButtonImage, 
+                        {
+                          height: buildingPosition.buttonHeight,
+                        }
+                      ]}
+                      source={require('../image/buildingButton.png')}
+                    />
                     <Text style={style.buildingText}>
                       {buildingPosition.number}
                     </Text>
@@ -147,12 +164,15 @@ const style = StyleSheet.create({
     width: windowWidth * 0.15,
     height: windowHeight * 0.075,
     position: 'absolute',
-    backgroundColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buildingButtonImage: {
+    aspectRatio: 1,
   },
   buildingText: {
     fontSize: 30,
     color: '#000000',
+    position: 'absolute',
   },
 });
