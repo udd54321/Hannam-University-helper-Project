@@ -1,20 +1,29 @@
-import React from 'react';
-import {DataTable, Text} from 'react-native-paper';
-import {useRecoilValue} from 'recoil';
-import {timeTableState} from '../store/store';
+// source/screen/Timetable/TimeTableRow.js
 
-const TimeTableRow = ({timeNum, Edit}) => {
+
+import React from 'react';
+import { DataTable, Text } from 'react-native-paper';
+import { useRecoilValue } from 'recoil';
+import { timeTableState } from '../store/store';
+
+const TimeTableRow = ({ timeNum, Edit }) => {
   const timeTableData = useRecoilValue(timeTableState);
 
   const days = ['mon', 'tue', 'wed', 'thu', 'fri'];
 
   const renderCellContent = (day, timeNum) => {
-    const lectures = timeTableData[day].filter(
+    const dayLectures = timeTableData[day];
+    if (!dayLectures) {
+      // timeTableData[day]가 undefined인 경우 빈 배열을 반환합니다.
+      return <DataTable.Cell key={day} style={{ padding: 0 }} />;
+    }
+
+    const lectures = dayLectures.filter(
       lecture => lecture.start <= timeNum && lecture.end > timeNum,
     );
 
     if (lectures.length === 0) {
-      return null;
+      return <DataTable.Cell key={day} style={{ padding: 0 }} />;
     }
 
     const lecture = lectures[0]; // 첫 번째 겹치는 강의만 표시
@@ -36,7 +45,7 @@ const TimeTableRow = ({timeNum, Edit}) => {
           borderLeftWidth: 1,
           borderRightWidth: 1,
         }}>
-        {isFirstHour && <Text style={{color: '#fff'}}>{lecture.name}</Text>}
+        {isFirstHour && <Text style={{ color: '#fff' }}>{lecture.name}</Text>}
       </DataTable.Cell>
     );
   };
@@ -44,9 +53,9 @@ const TimeTableRow = ({timeNum, Edit}) => {
   return (
     <>
       {days.map(day => (
-        <DataTable.Cell key={day} style={{padding: 0}}>
+        <React.Fragment key={day}>
           {renderCellContent(day, timeNum)}
-        </DataTable.Cell>
+        </React.Fragment>
       ))}
     </>
   );

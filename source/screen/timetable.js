@@ -1,3 +1,5 @@
+// source/screen/timetable.js
+
 import React, {useCallback, useState, useEffect} from 'react';
 import {
   ScrollView,
@@ -136,3 +138,4 @@ const styles = StyleSheet.create({
 });
 
 export default Schedulepage;
+
