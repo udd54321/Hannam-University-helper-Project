@@ -22,10 +22,6 @@ const building05Floor = {
 
         '05Entrance': { x: 73, y:66, target: [] },
         '05Entrance2': { x: 30, y:52, target: [] },
-
-
-    
-
        // '0': { x: 4, y:33, target: [] },
       },
       hallway: [

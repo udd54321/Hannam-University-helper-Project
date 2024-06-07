@@ -33,6 +33,7 @@ const SecondFloorScreen = () => {
   const setArrivalPointer = (room) => {
     navigation.navigate('Gil', { roomId: room, startFloor: '02_2F', goalFloor: '02_2F' });
   };
+const excludedRooms = ['022FS1', '022FS2'];
 
   return (
     <SafeAreaProvider>
@@ -47,7 +48,9 @@ const SecondFloorScreen = () => {
             horizontal={true}
           >
             <Image style={styles.headerImage} source={currentImage} />
-            {Object.keys(floors['02_2F'].rooms).map((roomId) => {
+            {Object.keys(floors['02_2F'].rooms)
+                           .filter((roomId) => !excludedRooms.includes(roomId)) // 제외할 방 필터링
+                           .map((roomId) => {
               const room = floors['02_2F'].rooms[roomId];
               const isRotated = [
                 '020202',
