@@ -61,7 +61,7 @@ const engineeringFloor = {
       '091FS3': { x: 81, y: 15, target: [] },
 
       
-      //'09Entrance': { x: 44, y: 60 , target : []},
+      '09Entrance': { x: 44, y: 60 , target : ['091FS1','091FS2','091FS3'] ,tmp:[0] },
       //
       //'09Entrance2': { x: 81, y: 42 , target : []},
     },

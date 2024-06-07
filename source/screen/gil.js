@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, TextInput,
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Svg, { Line, Circle, Text as SvgText } from 'react-native-svg';
 import combinedFloors from './combinedFloors';
+import { Polygon } from 'react-native-svg';
+
 //import combinedFloors from './09Floors/engineeringFloor'
 
 const Gil = () => {
@@ -62,80 +64,90 @@ const Gil = () => {
   }, [startFloor, goalFloor]);
 
   const handleFloorChange = () => {
-    const newToggleState = (toggleState + 1) % 2;
-    setToggleState(newToggleState);
+      const newToggleState = (toggleState + 1) % 2;
+      setToggleState(newToggleState);
 
-    var goalTmp = combinedFloors[startFloor]?.rooms[startRoom].tmp;
-    if (startFloor < 6 && goalFloor > 5) { goalTmp = 0 }
+      var goalTmp = combinedFloors[startFloor]?.rooms[startRoom].tmp;
+      if (startFloor < 6 && goalFloor > 5) { goalTmp = 0 }
 
-    if (newToggleState === 0) {
-      setCurrentImage(combinedFloors[startFloor]?.image);
-      setHallwaysOnFloor(combinedFloors[goalFloor]?.hallway);
-      setFloorChangeElements(
-        <>
-          <Circle
-            cx={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
-            cy={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
-            r="5"
-            fill="red"
-          />
-          {renderRedDotsForTargets(combinedFloors[startFloor]?.rooms[startRoom], startFloor)}
-          {filterConnectedHallways(hallwaysOnFloor, path).map((hallway, index) => {
-            const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
-            return (
-              <React.Fragment key={`hallway-${index}`}>
-                <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
-                <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
-                  {`(${hallway.x}, ${hallway.y})`}
-                </SvgText>
-              </React.Fragment>
-            );
-          })}
-          {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
-          {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[combinedFloors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor)}
-          {drawBlueLinesThroughHallways(
-            findNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
-            findNearestHallway(combinedFloors[startFloor]?.rooms[combinedFloors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor),
-            hallwaysOnFloor,
-            startFloor
-          )}
-        </>
-      );
-    } else if (newToggleState === 1) {
-      setCurrentImage(combinedFloors[goalFloor]?.image);
-      setHallwaysOnFloor(combinedFloors[startFloor]?.hallway);
-      setFloorChangeElements(
-        <>
-          <Circle
-            cx={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
-            cy={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
-            r="5"
-            fill="red"
-          />
-          {renderRedDotsForTargets(combinedFloors[goalFloor]?.rooms[goalRoom], goalFloor)}
-          {filterConnectedHallways(combinedFloors[startFloor]?.hallway, path).map((hallway, index) => {
-            const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
-            return (
-              <React.Fragment key={`hallway-${index}`}>
-                <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
-                <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
-                  {`(${hallway.x}, ${hallway.y})`}
-                </SvgText>
-              </React.Fragment>
-            );
-          })}
-          {drawBlueLinesThroughHallways(
-            findNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], combinedFloors[goalFloor]?.hallway),
-            findNearestHallway(combinedFloors[goalFloor]?.rooms[combinedFloors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], combinedFloors[goalFloor]?.hallway),
-            combinedFloors[goalFloor]?.hallway,
-            goalFloor
-          )}
-          {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], combinedFloors[goalFloor]?.hallway)}
-          {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[combinedFloors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], combinedFloors[goalFloor]?.hallway)}
-        </>
-      );
-    }
+      if (newToggleState === 0) {
+          setCurrentImage(combinedFloors[startFloor]?.image);
+          setHallwaysOnFloor(combinedFloors[goalFloor]?.hallway);
+          setFloorChangeElements(
+              <>
+                  <Image
+                      source={require('../image/departure.png')}
+                      style={{
+                          position: 'absolute',
+                          left: scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x - 10,
+                          top: scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y - 10,
+                          width: 20,
+                          height: 20
+                      }}
+                  />
+                  {renderRedDotsForTargets(combinedFloors[startFloor]?.rooms[startRoom], startFloor)}
+                  {filterConnectedHallways(hallwaysOnFloor, path).map((hallway, index) => {
+                      const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
+                      return (
+                          <React.Fragment key={`hallway-${index}`}>
+                              <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
+                              <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
+                                  {`(${hallway.x}, ${hallway.y})`}
+                              </SvgText>
+                          </React.Fragment>
+                      );
+                  })}
+                  {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor)}
+                  {drawGreenLineToNearestHallway(combinedFloors[startFloor]?.rooms[combinedFloors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor)}
+                  {drawBlueLinesThroughHallways(
+                      findNearestHallway(combinedFloors[startFloor]?.rooms[startRoom], hallwaysOnFloor),
+                      findNearestHallway(combinedFloors[startFloor]?.rooms[combinedFloors[startFloor]?.rooms[startRoom]?.target[goalTmp]], hallwaysOnFloor),
+                      hallwaysOnFloor,
+                      startFloor
+                  )}
+              </>
+          );
+      } else if (newToggleState === 1) {
+          setCurrentImage(combinedFloors[goalFloor]?.image);
+          setHallwaysOnFloor(combinedFloors[startFloor]?.hallway);
+          setFloorChangeElements(
+              <>
+                  <Image
+                      source={require('../image/arrival.png')}
+                      style={{
+                          position: 'absolute',
+                          left: scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x - 10,
+                          top: scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y - 10,
+                          width: 20,
+                          height: 20
+                      }}
+                  />
+                  {renderRedDotsForTargets(combinedFloors[goalFloor]?.rooms[goalRoom], goalFloor)}
+                  {filterConnectedHallways(combinedFloors[startFloor]?.hallway, path).map((hallway, index) => {
+                      const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
+                      return (
+                          <React.Fragment key={`hallway-${index}`}>
+                              <Circle cx={scaledPoint.x} cy={scaledPoint.y} r="5" fill="blue" />
+                              <SvgText x={scaledPoint.x} y={scaledPoint.y - 5} fontSize="10" fill="black">
+                                  {`(${hallway.x}, ${hallway.y})`}
+                              </SvgText>
+                          </React.Fragment>
+                      );
+                  })}
+                  {drawBlueLinesThroughHallways(
+                      findNearestHallway(combinedFloors[goalFloor]?.rooms[combinedFloors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], combinedFloors[goalFloor]?.hallway),
+                      findNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], combinedFloors[goalFloor]?.hallway),
+                      combinedFloors[goalFloor]?.hallway,
+                      goalFloor
+                  )}
+                  {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[goalRoom], combinedFloors[goalFloor]?.hallway)}
+                  {drawGreenLineToNearestHallway(combinedFloors[goalFloor]?.rooms[combinedFloors[goalFloor]?.rooms[goalRoom]?.target[goalTmp]], combinedFloors[goalFloor]?.hallway)}
+              </>
+          );
+      }
   };
+
+
 
   const findShortestPathWithHallways = (start, goal, floor) => {
     const graph = buildGraphWithHallways(start, goal, floor);
@@ -301,39 +313,73 @@ const Gil = () => {
   };
 
   const drawBlueLinesThroughHallways = (startHallway, goalHallway, hallways, currentFloor) => {
-    const path = findShortestPathWithHallways(startHallway, goalHallway, currentFloor);
-    return path.map((node, index) => {
-      if (index === path.length - 1) return null;
-      return (
-        <Line
-          key={`blue-line-${index}`}
-          x1={scaleCoordinates(node, { width: windowWidth, height: windowHeight }).x}
-          y1={scaleCoordinates(node, { width: windowWidth, height: windowHeight }).y}
-          x2={scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }).x}
-          y2={scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }).y}
-          stroke="blue"
-          strokeWidth="2"
-        />
-      );
-    });
+      const path = findShortestPathWithHallways(startHallway, goalHallway, currentFloor);
+      return path.map((node, index) => {
+          if (index === path.length - 1) return null;
+
+          const startPoint = scaleCoordinates(node, { width: windowWidth, height: windowHeight });
+          const endPoint = scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight });
+
+          // Calculate angle for arrow rotation
+          const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x) * 180 / Math.PI;
+
+          // Calculate arrowhead points
+          const arrowSize = 10;
+          const arrowPoint1 = { x: endPoint.x - arrowSize * Math.cos((angle - 30) * Math.PI / 180), y: endPoint.y - arrowSize * Math.sin((angle - 30) * Math.PI / 180) };
+          const arrowPoint2 = { x: endPoint.x - arrowSize * Math.cos((angle + 30) * Math.PI / 180), y: endPoint.y - arrowSize * Math.sin((angle + 30) * Math.PI / 180) };
+
+          return (
+              <React.Fragment key={`path-segment-${index}`}>
+                  <Line
+                      x1={startPoint.x}
+                      y1={startPoint.y}
+                      x2={endPoint.x}
+                      y2={endPoint.y}
+                      stroke="blue"
+                      strokeWidth="2"
+                  />
+                  <Polygon
+                      points={`${endPoint.x},${endPoint.y} ${arrowPoint1.x},${arrowPoint1.y} ${arrowPoint2.x},${arrowPoint2.y}`}
+                      fill="blue"
+                  />
+              </React.Fragment>
+          );
+      });
   };
 
   const drawBlueLinesThroughHallways2 = (startHallway, goalHallway, hallways) => {
-    const path = findShortestPathWithHallways(startHallway, goalHallway, startFloor);
-    return path.map((node, index) => {
-      if (index === path.length - 1) return null;
-      return (
-        <Line
-          key={`blue-line-${index}`}
-          x1={scaleCoordinates(node, { width: windowWidth, height: windowHeight }).x}
-          y1={scaleCoordinates(node, { width: windowWidth, height: windowHeight }).y}
-          x2={scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }).x}
-          y2={scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight }).y}
-          stroke="blue"
-          strokeWidth="2"
-        />
-      );
-    });
+      const path = findShortestPathWithHallways(startHallway, goalHallway, startFloor);
+      return path.map((node, index) => {
+          if (index === path.length - 1) return null;
+
+          const startPoint = scaleCoordinates(node, { width: windowWidth, height: windowHeight });
+          const endPoint = scaleCoordinates(path[index + 1], { width: windowWidth, height: windowHeight });
+
+          // Calculate angle for arrow rotation
+          const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x) * 180 / Math.PI;
+
+          // Calculate arrowhead points
+          const arrowSize = 10;
+          const arrowPoint1 = { x: endPoint.x - arrowSize * Math.cos((angle - 30) * Math.PI / 180), y: endPoint.y - arrowSize * Math.sin((angle - 30) * Math.PI / 180) };
+          const arrowPoint2 = { x: endPoint.x - arrowSize * Math.cos((angle + 30) * Math.PI / 180), y: endPoint.y - arrowSize * Math.sin((angle + 30) * Math.PI / 180) };
+
+          return (
+              <React.Fragment key={`path-segment-${index}`}>
+                  <Line
+                      x1={startPoint.x}
+                      y1={startPoint.y}
+                      x2={endPoint.x}
+                      y2={endPoint.y}
+                      stroke="blue"
+                      strokeWidth="2"
+                  />
+                  <Polygon
+                      points={`${endPoint.x},${endPoint.y} ${arrowPoint1.x},${arrowPoint1.y} ${arrowPoint2.x},${arrowPoint2.y}`}
+                      fill="blue"
+                  />
+              </React.Fragment>
+          );
+      });
   };
 
   const filterConnectedHallways = (hallways, path) => {
@@ -385,17 +431,25 @@ const Gil = () => {
           <View style={styles.floorContainer}>
             <Image source={currentImage} style={styles.map} />
             <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
-              <Circle
-                cx={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x}
-                cy={scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y}
-                r="5"
-                fill="red"
+              <Image
+                source={require('../image/departure.png')}
+                style={{
+                  position: 'absolute',
+                  left: scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).x - 10,
+                  top: scaleCoordinates(combinedFloors[startFloor]?.rooms[startRoom], { width: windowWidth, height: windowHeight }).y - 10,
+                  width: 20,
+                  height: 20
+                }}
               />
-              <Circle
-                cx={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x}
-                cy={scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y}
-                r="5"
-                fill="red"
+              <Image
+                source={require('../image/arrival.png')}
+                style={{
+                  position: 'absolute',
+                  left: scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).x - 10,
+                  top: scaleCoordinates(combinedFloors[goalFloor]?.rooms[goalRoom], { width: windowWidth, height: windowHeight }).y - 10,
+                  width: 20,
+                  height: 20
+                }}
               />
               {filterConnectedHallways(hallwaysOnFloor, path).map((hallway, index) => {
                 const scaledPoint = scaleCoordinates(hallway, { width: windowWidth, height: windowHeight });
@@ -421,22 +475,24 @@ const Gil = () => {
           <Text>Loading floor image...</Text>
         )
       ) : (
-        <View style={styles.dualFloorsContainer}>
-          {currentImage && (
-            <View style={styles.floorContainer}>
-              <Image source={currentImage} style={styles.map} />
-              <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
-                {floorChangeElements}
-              </Svg>
+            <View style={styles.dualFloorsContainer}>
+              {currentImage && (
+                <View style={styles.floorContainer}>
+                  <Image source={currentImage} style={styles.map} />
+                  <Svg height={windowHeight} width={windowWidth} style={StyleSheet.absoluteFill}>
+                    {floorChangeElements}
+                  </Svg>
+                </View>
+              )}
+              {showChangeFloorButton && (
+                <View style={styles.buttonContainer}>
+                  <Button title="Change Floor" onPress={handleFloorChange} />
+                </View>
+              )}
             </View>
-          )}
-          {showChangeFloorButton && (
-            <View style={styles.buttonContainer}>
-              <Button title="Change Floor" onPress={handleFloorChange} />
-            </View>
-          )}
-        </View>
-      )}
+          )
+}
+
     </View>
   );
 };
