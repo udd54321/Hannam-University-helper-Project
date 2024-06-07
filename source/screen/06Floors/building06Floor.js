@@ -2,7 +2,7 @@ const building06Floor = {
     '06_1F': {
       image: require('../../image/06-1층.png'),
       rooms: {
-        '060101': { x: 6, y: 33 , target: ['061FS1', '061FS2'],tmp:[0]},
+        '060101': { x: 6, y: 33 ,  target: ['061FS1', '061FS2'],tmp:[0]},
         '060103': { x: 12, y: 33 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060104': { x: 16, y: 33 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060105': { x: 19, y: 33 , target: ['061FS1', '061FS2'],tmp:[0]},
@@ -16,20 +16,20 @@ const building06Floor = {
         '060114': { x: 95, y: 55 , target: ['061FS1', '061FS2'],tmp:[1]},
         '060115': { x: 95, y: 60 , target: ['061FS1', '061FS2'],tmp:[1]},
         '060119': { x: 63, y: 58 , target: ['061FS1', '061FS2'],tmp:[1]},
-        '060120': { x: 57, y: 49 , target: ['061FS1', '061FS2'],tmp:[1]},
+        '060120': { x: 57, y: 49 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060121': { x: 57, y: 40 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060122': { x: 57, y: 31 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060123': { x: 73, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060124': { x: 69, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060125': { x: 63, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060126': { x: 57, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
-        '060127': { x: 51, y: 18, target: ['061FS1', '061FS2'] ,tmp:[0]},
+        '060127': { x: 51, y: 18,  target: ['061FS1', '061FS2'] ,tmp:[0]},
         '060128': { x: 43, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060131': { x: 21, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060132': { x: 15, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
         '060133': { x: 12, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
-        '060134': { x: 9, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
-        '060135': { x: 3, y: 18 , target: ['061FS1', '061FS2'],tmp:[0]},
+        '060134': { x: 9, y: 18 ,  target: ['061FS1', '061FS2'],tmp:[0]},
+        '060135': { x: 3, y: 18 ,  target: ['061FS1', '061FS2'],tmp:[0]},
 
         '061FS2': { x: 80, y:62 , target: []},
         '061FS1': { x: 32, y:22 , target: []},
@@ -38,30 +38,30 @@ const building06Floor = {
         '06Entrance': { x: 32, y:40 , target:  ['061FS1', '061FS2'],tmp:[0]},
         '06Entrance2': { x: 80, y:76 , target:  ['061FS1', '061FS2'],tmp:[1]},
 
-        '06E2': { x: 73, y:26 , target:  ['061FS1', '061FS2'],tmp:[1]},
+   
 
       },
       hallway: [
-        { x: 5, y: 26, connections: [1], rooms: ['060134','060101']},
-        { x: 10, y: 26, connections: [0, 2], rooms: ['060134']},
-        { x: 13, y: 26, connections: [1,3], rooms: ['060133','060103']},
-        { x: 17, y: 26, connections: [2,4], rooms: ['060132','060104']},
-        { x: 20, y: 26, connections: [3,5], rooms: ['060105']},
-        { x: 23, y: 26, connections: [4,6], rooms: ['060106','060131']},
+        { x: 5, y: 26,  connections: [1], rooms: ['060101','060135']},//0
+        { x: 10, y: 26, connections: [0, 2], rooms: ['060134']},//1
+        { x: 13, y: 26, connections: [1,3], rooms: ['060103','060133',]},//2
+        { x: 17, y: 26, connections: [2,4], rooms: ['060104','060132',]},//3
+        { x: 20, y: 26, connections: [3,5], rooms: ['060105']},//4
+        { x: 23, y: 26, connections: [4,6], rooms: ['060106','060131']},//5
         { x: 32, y: 26, connections: [5,7,13], rooms: ['061FS1']},//6
         { x: 32, y: 35, connections: [6], rooms: []},//13
-        { x: 44, y: 26, connections: [6,8], rooms: ['060128','060107']},//7
+        { x: 44, y: 26, connections: [6,8], rooms: ['060107','060128',]},//7
         { x: 52, y: 26, connections: [7,9,14], rooms: ['060127']},//8
-        { x: 58, y: 26, connections: [8,10], rooms: ['060126']},
-        { x: 64, y: 26, connections: [9,11], rooms: ['060125']},
-        { x: 69, y: 26, connections: [10,12], rooms: ['060124']},
-        { x:73, y: 26, connections: [11], rooms: ['060123']},
-        { x: 52, y: 31, connections: [8,15], rooms: ['060122']},
-        { x: 52, y: 37, connections: [14,16], rooms: ['060121']},
-        { x: 52, y: 48, connections: [15,17], rooms: ['060120']},
+        { x: 58, y: 26, connections: [8,10], rooms: ['060126']},//9
+        { x: 64, y: 26, connections: [9,11], rooms: ['060125']},//10
+        { x: 69, y: 26, connections: [10,12], rooms: ['060124']},//11
+        { x: 73, y: 26, connections: [11], rooms: ['060123']},//12
+        { x: 52, y: 32, connections: [8,15], rooms: ['060122']},//14
+        { x: 52, y: 37, connections: [14,16], rooms: ['060121']},//15
+        { x: 52, y: 48, connections: [15,17], rooms: ['060120']},//16
         { x: 52, y: 66, connections: [16,18], rooms: ['060109']},
         { x: 57, y: 66, connections: [17,19], rooms: ['060110']},
-        { x:62, y: 66, connections: [18,20], rooms: ['060119','060111']},
+        { x: 62, y: 66, connections: [18,20], rooms: ['060111','060119']},
         { x: 66, y: 66, connections: [19,21], rooms: ['060112']},
         { x: 70, y: 66, connections: [20,22], rooms: ['060113']},
         { x: 80, y: 66, connections: [21,23,24], rooms: ['061FS2']},
