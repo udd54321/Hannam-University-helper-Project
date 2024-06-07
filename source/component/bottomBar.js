@@ -53,18 +53,7 @@ const Bottombar = () => {
           <View style={styles.bottomSheetOverlay} />
         </TouchableWithoutFeedback>
       )}
-      <View style={styles.bottomSheetWrapper}>
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          statusBarTranslucent
-          enableContentPanningGesture={!isBottomSheetOpen} // 바텀시트 내부 터치 이벤트 비활성화
-        >
-          <View style={styles.contentContainer}>{renderContent()}</View>
-        </BottomSheet>
-      </View>
+     
       <View style={styles.bottomBar}>
         <TouchableOpacity style={styles.bottomButton} onPress={pressHome}>
           <Image
@@ -101,13 +90,11 @@ const styles = StyleSheet.create({
     width: windowWidth,
     position: 'absolute',
   },
-  bottomSheetWrapper: {
-    flex: 1,
-  },
+  
   contentContainer: {
     flex: 1,
     padding: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)', // 회색 계열 배경 추가
+    
   },
   bottomSheetOverlay: {
     ...StyleSheet.absoluteFillObject,

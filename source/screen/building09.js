@@ -13,7 +13,7 @@ import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import Bottombar from '../component/bottomBar'; // 하단 버튼 바
+import Bottombar09 from '../component/bottomBar09'; // 하단 버튼 바
 
 import B1Screen from './09Floors/building09_B1';
 import FirstFloorScreen from './09Floors/1F';
@@ -191,7 +191,7 @@ const Building09Main = ({navigation}) => {
               navigation={navigation} 
             />
           </ScrollView>
-          <Bottombar />
+          <Bottombar09 />
         </GestureHandlerRootView>
 
       </SafeAreaView>

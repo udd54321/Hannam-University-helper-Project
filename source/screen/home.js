@@ -145,7 +145,7 @@ const style = StyleSheet.create({
   outerContainer: {
     flex: 1,
     backgroundColor: '#ffffff',
-    marginBottom: 200,
+    marginBottom: 120,
   },
   innerContainer: {
   },

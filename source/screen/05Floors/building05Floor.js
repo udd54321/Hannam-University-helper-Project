@@ -20,8 +20,6 @@ const building05Floor = {
         '051FS2': { x: 33, y:18, target: [] },
         '051FS3': { x: 72, y:30, target: [] },
 
-        '0': { x: 30, y:35, target: [] },
-
         '05Entrance': { x: 73, y:66, target: ['021FS1','051FS2', '051FS3'],tmp:[1] },
         '05Entrance2': { x: 30, y:52, target: ['021FS1','051FS2', '051FS3'],tmp:[2] },
       },

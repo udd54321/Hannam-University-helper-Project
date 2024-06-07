@@ -11,6 +11,7 @@ const combinedFloors = {
     ...building04Floors,
     ...building05Floors,
     ...building06Floors,
+    
 };
 
 //Alert.alert('Combined Floors', JSON.stringify(combinedFloors));
