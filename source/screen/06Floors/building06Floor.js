@@ -1,5 +1,5 @@
 const building06Floor = {
-    '1F': {
+    '06_1F': {
       image: require('../../image/06-1층.png'),
       rooms: {
         '060101': { x: 6, y: 35 , target: ['061FS1', '061FS2'],tmp:[0]},
@@ -68,7 +68,7 @@ const building06Floor = {
       ],
 
     },
-    '2F': {
+    '06_2F': {
       image: require('../../image/06-2층.png'),
       rooms: {
         '060201': { x: 6, y: 35 , target: ['062FS1','062FS2'],tmp:[0]},
@@ -131,7 +131,7 @@ const building06Floor = {
       ],
 
     },
-    '3F': {
+    '06_3F': {
       image: require('../../image/06-3층.png'),
       rooms: {
         '060301': { x: 16, y: 15, target: ['063FS1','063FS2'],tmp:[0]},
@@ -204,7 +204,7 @@ const building06Floor = {
       ],
 
     },
-    '4F': {
+    '06_4F': {
       image: require('../../image/06-4층.png'),
       rooms: {
         '060402': { x: 20, y: 12, target: ['064FS1','064FS2'],tmp:[0]},

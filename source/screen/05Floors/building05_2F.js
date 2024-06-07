@@ -17,7 +17,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const SecondFloorScreen = () => {
   const navigation = useNavigation();
-  const [currentImage] = useState(floors['2F'].image);
+  const [currentImage] = useState(floors['05_2F'].image);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [startRoom, setStartRoom] = useState(null);
 
@@ -27,11 +27,11 @@ const SecondFloorScreen = () => {
   };
 
   const setStartPointer = (room) => {
-    navigation.navigate('Gil', { roomId: room, startFloor: '2F', goalFloor: '2F' }); // startFloor와 goalFloor 전달
+    navigation.navigate('Gil', { roomId: room, startFloor: '05_2F', goalFloor: '05_2F' }); // startFloor와 goalFloor 전달
   };
 
   const setArrivalPointer = (room) => {
-    navigation.navigate('Gil', { roomId: room, startFloor: '2F', goalFloor: '2F' });
+    navigation.navigate('Gil', { roomId: room, startFloor: '05_2F', goalFloor: '05_2F' });
   };
 
   return (
@@ -47,8 +47,8 @@ const SecondFloorScreen = () => {
             horizontal={true}
           >
             <Image style={styles.headerImage} source={currentImage} />
-            {Object.keys(floors['2F'].rooms).map((roomId) => {
-              const room = floors['2F'].rooms[roomId];
+            {Object.keys(floors['05_2F'].rooms).map((roomId) => {
+              const room = floors['05_2F'].rooms[roomId];
               const isRotated = [
                 '050201',
                 '050202',

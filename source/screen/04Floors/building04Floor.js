@@ -1,5 +1,5 @@
 const building04Floors = {
-    '1F': {
+    '04_1F': {
       image: require('../../image/04-1층.png'),
       rooms: {
         '040101': { x: 13, y: 20 , target: ['043FS1','041FS2', '041FS3'],tmp:[1]},
@@ -39,7 +39,7 @@ const building04Floors = {
          ],
 
     },
-    '2F': {
+    '04_2F': {
       image: require('../../image/04-2층.png'),
       rooms: {
         '040201': { x: 92, y: 17 , target: [ '042FS1','042FS2','042FS3','042FS4','042FS5'],tmp:[4]},
@@ -115,7 +115,7 @@ const building04Floors = {
 
 
     },
-    '3F': {
+    '04_3F': {
       image: require('../../image/04-3층.png'),
       rooms: {
         '040301': { x: 90, y: 15 , target: ['043FS1','043FS2','043FS3','043FS4'],tmp:[3]},
@@ -205,7 +205,7 @@ const building04Floors = {
 
 
     },
-    '4F': {
+    '04_4F': {
       image: require('../../image/04-4층.png'),
       rooms: {
         '040401': { x: 88, y: 17 , target: ['044FS1','044FS2','044FS3','044FS4'],tmp:[3]},
@@ -270,7 +270,7 @@ const building04Floors = {
          ],
 
     },
-    '5F': {
+    '04_5F': {
       image: require('../../image/04-5층.png'),
       rooms: {
         '040501': { x: 88, y: 15 , target: ['045FS4']},

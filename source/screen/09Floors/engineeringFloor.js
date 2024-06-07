@@ -114,9 +114,9 @@ const engineeringFloor = {
 
 
 
-      'S092FS1': { x: 17, y: 33, target: [] },
-      'S092FS2': { x: 37, y: 33, target: [] },
-      'S092FS3': { x: 81, y: 15, target: [] },
+      '092FS1': { x: 17, y: 33, target: [] },
+      '092FS2': { x: 37, y: 33, target: [] },
+      '092FS3': { x: 81, y: 15, target: [] },
     },
     hallway: [
       { x: 9, y: 64, connections: [1], rooms: ['090202-A'] },
