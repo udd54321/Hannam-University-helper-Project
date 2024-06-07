@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {NavigationContainer} from '@react-navigation/native';
 
-import Gps05 from '../screen/gps05'; // 내비게이션
+import Gps061 from '../screen/gps061'; // 내비게이션
 import Notice from '../screen/notice'; // 공지 사항
 
 const windowWidth = Dimensions.get('window').width;
@@ -22,14 +22,14 @@ const Bottombar = () => {
   const pressHome = () => navigation.navigate('Homepage');
   const [selectedView, setSelectedView] = useState('a');
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['60%', '90%'], []);
+  const snapPoints = useMemo(() => [ '60%', '90%'], []);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const renderContent = () => {
     return (
       <View style={styles.sheetContent}>
         <View style={styles.mapContainer}>
-          {selectedView === 'a' ? <Gps05 /> : <Notice />}
+          {selectedView === 'a' ? <Gps061 /> : <Notice />}
         </View>
         <Image 
           style={styles.headerImage}

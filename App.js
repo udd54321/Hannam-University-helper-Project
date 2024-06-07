@@ -17,7 +17,13 @@ import Building56 from './source/screen/building56'; // Building 56
 import Building02 from './source/screen/building02'; // Building 02
 import Building06 from './source/screen/building06'; // Building 06
 import Building04 from './source/screen/building04'; // Building 04
-import Building05 from './source/screen/building05'; // Building 04
+import Building05 from './source/screen/building05';
+import Building08 from './source/screen/building08'; // Building 08
+import Building10 from './source/screen/building10';
+import Building11 from './source/screen/building11';
+import Building03 from './source/screen/building03';
+import Building061 from './source/screen/building061';
+import Building01 from './source/screen/building01';
 import TestScreen from './source/screen/test'; // Test screen
 
 const Stack = createNativeStackNavigator();
@@ -133,6 +139,49 @@ const App = () => {
                 headerTitle: () => <HeaderTitle text="경상 대학" />,
               }}
             />
+             <Stack.Screen
+              name="building08"
+              component={Building08}
+              options={{
+                headerTitle: () => <HeaderTitle text="학생회관" />,
+              }}
+            />
+            <Stack.Screen
+              name="building11"
+              component={Building11}
+              options={{
+                headerTitle: () => <HeaderTitle text="인사례 교양동" />,
+              }}
+            />
+            <Stack.Screen
+              name="building10"
+              component={Building10}
+              options={{
+                headerTitle: () => <HeaderTitle text="중앙 도서관" />,
+              }}
+            />
+            <Stack.Screen
+              name="building03"
+              component={Building03}
+              options={{
+                headerTitle: () => <HeaderTitle text="사범 대학" />,
+              }}
+            />
+            <Stack.Screen
+              name="building061"
+              component={Building061}
+              options={{
+                headerTitle: () => <HeaderTitle text="성지관" />,
+              }}
+            />
+              <Stack.Screen
+              name="building01"
+              component={Building01}
+              options={{
+                headerTitle: () => <HeaderTitle text="인돈기념관" />,
+              }}
+            />
+            
             <Stack.Screen
               name="TestScreen"
               component={TestScreen}
