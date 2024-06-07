@@ -11,10 +11,10 @@ const buildings = {
       '경상대학': {x: 60.5, y: 50, number: '05', width: 8, height: 8, buttonHeight: 70, textSize: 20},
       '인사례교양동': {x: 52, y: 39, number: '11', width: 10, height: 5, buttonHeight: 50, textSize: 15},
       '사범대학': {x: 31, y: 35, number: '03', width: 4, height: 10, buttonHeight: 60, textSize: 17.5},
-      '중앙도서관': {x:50, y:64, number: '10'},
-      '학생회관': {x: 20, y: 34,number: '08'},
-      '성지관': { x: 60,y: 18, number: '061'},
-      '인돈기념관': {x:44, y: 28,number: '01'},
+      '중앙도서관': {x:50, y:64, number: '10',width: 4, height: 10, buttonHeight: 60, textSize: 17.5},
+      '학생회관': {x: 20, y: 34,number: '08',width: 4, height: 10, buttonHeight: 60, textSize: 17.5},
+      '성지관': { x: 60,y: 18, number: '061',width: 4, height: 10, buttonHeight: 60, textSize: 17.5},
+      '인돈기념관': {x:44, y: 28,number: '01',width: 4, height: 10, buttonHeight: 60, textSize: 17.5},
 
       // 다른 건물 추가
     }
